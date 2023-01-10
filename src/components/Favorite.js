@@ -70,7 +70,9 @@ function Favorite({ favoriteState, FavoriteName, dispatch, audioState }) {
                       <img src={value.thumbnail} alt="" />
                     </figure>
                     <div className="data-title">{value.title}</div>
-                    <figcaption>{value.singer}</figcaption>
+                    {value.singer !== undefined ? (
+                      <figcaption>{value.singer}</figcaption>
+                    ) : null}
                     <input type="checkbox" id="CheckBtn" />
                     <label htmlFor="CheckBtn" className="check">
                       <ul>
