@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
+import { useSelector } from "react-redux";
 import { PlayStateAction } from "../reducer/reducer";
 import Audio from "./audio";
-function Player({ list, playerRef, audioState, dispatch }) {
+function Player({ playerRef, audioState, dispatch }) {
+  const list = useSelector((state) => state.playlist);
   const [track, settrack] = useState([]);
   const [thumbnail, setThumb] = useState("/img/defaultImg.png");
   const [title, setTitle] = useState("기본정보가 없습니다");
@@ -14,7 +16,7 @@ function Player({ list, playerRef, audioState, dispatch }) {
 
   window.onkeyup = function (event) {
     if (event.keyCode === 32) {
-      PlayStateAction();
+      dispatch(PlayStateAction())
     }
   };
 
@@ -53,10 +55,12 @@ function Player({ list, playerRef, audioState, dispatch }) {
       document.querySelector(".player").classList.add("show");
       document.querySelector(".movie_box").classList.add("show");
       document.querySelector(".player_wrap").style.minHeight = 380;
+       document.querySelector(".player_wrap").style.overflow = "hidden"
     } else {
       document.querySelector(".player").classList.remove("show");
       document.querySelector(".movie_box").classList.add("show");
       document.querySelector(".player_wrap").style.minHeight = 455;
+       document.querySelector(".player_wrap").style.overflow = "visible"
     }
   }
 
@@ -113,6 +117,7 @@ function Player({ list, playerRef, audioState, dispatch }) {
     }`;
   }
 
+
   return (
     <div className="play">
       <div className="player_wrap">
@@ -136,7 +141,7 @@ function Player({ list, playerRef, audioState, dispatch }) {
           onProgress={handleProgress}
           width="100%"
           className={"player"}
-          height="370px"
+          height="343px"
           controls={true}
           style={{ opacity: "0" }}
           config={{
@@ -158,7 +163,7 @@ function Player({ list, playerRef, audioState, dispatch }) {
         ></input>
         <label htmlFor="movie_check">뮤비보기</label>
       </div>
-      <Audio
+     <Audio
         dispatch={dispatch}
         volume={volume}
         audioState={audioState}
@@ -170,8 +175,7 @@ function Player({ list, playerRef, audioState, dispatch }) {
         seekbar={seekbar}
         duration={duration}
         handleSeekbar={handleSeekbar}
-        playerRef={playerRef}
-      />
+        playerRef={playerRef} />
     </div>
   );
 }

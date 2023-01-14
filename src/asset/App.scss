@@ -248,7 +248,7 @@ $fold: "all and (max-width:280px)";
     }
 
     p {
-      font-size: 30px;
+      font-size: 25px;
       margin-bottom: 20px;
       font-weight: 700;
       letter-spacing: -1.5px;
@@ -368,7 +368,7 @@ $fold: "all and (max-width:280px)";
       }
 
       p {
-        font-size: 28px;
+        font-size: 25px;
         margin-bottom: 22px;
         width: 100%;
         font-weight: 700;
@@ -817,4 +817,13 @@ footer {
 
 iframe {
   display: none;
+}
+
+
+.movie-toggle {
+  margin-top: 25px;
+}
+
+#widget2{
+  display: block;
 }

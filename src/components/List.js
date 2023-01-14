@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { FavoriteAdd } from "../reducer/reducer";
 
-function List({ list, dispatch, FavoriteName, favoriteState }) {
+function List({  dispatch, FavoriteName, favoriteState }) {
+  const list = useSelector((state) => state.playlist);
   function favoriteHandler(e, index) {
     if (e.target.checked) {
       document.querySelector(`label[for=${e.target.id}]`).classList.add("on");

@@ -10,7 +10,6 @@ import Favorite from "./components/Favorite";
 import Player from "./components/Player";
 
 function App() {
-  const list = useSelector((state) => state.playlist);
   const favoriteState = useSelector((state) => state.favoriteData);
   const audioState = useSelector((state) => state.playState);
   const dispatch = useDispatch();
@@ -29,21 +28,18 @@ function App() {
         />
         <section className="album_wrap">
           <Player
-            list={list}
             playerRef={playerRef}
             dispatch={dispatch}
             audioState={audioState}
           />
           <AddForm dispatch={dispatch} audioState={audioState} />
           <List
-            list={list}
             dispatch={dispatch}
             favoriteState={favoriteState}
             FavoriteName={FavoriteName}
           />
         </section>
       </div>
-      <footer>제작 : Jioo-developer</footer>
     </div>
   );
 }
