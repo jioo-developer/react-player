@@ -24,7 +24,7 @@ function List({  dispatch, FavoriteName, favoriteState }) {
   return (
     <div className="album_list">
       <p className="playlist">플레이리스트</p>
-      <ul className="list">
+      <ul className="list lists">
         {list.length !== 0
           ? list.map((value, index) => {
               return (

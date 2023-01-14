@@ -14,19 +14,27 @@ export const ListAdd = (data) => ({
   data,
 });
 
+//앨범에 트랙 추가 함수 
+
 export const FavoriteAdd = (data) => ({
   type: FAVORITE,
   data,
 });
+
+//즐겨찾기 추가 함수
 
 export const removeFavorite = (data) => ({
   type: Remove,
   data,
 });
 
+// 즐겨찾기 삭제 함수
+
 export const PlayStateAction = () => ({
   type: playState,
 });
+
+// 재생/일시중지 함수
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {

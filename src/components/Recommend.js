@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { batch } from "react-redux";
-import { getData, getThumb } from "../recomend_data";
+import { recomend_data } from "../recomend_data";
 import { ListAdd, PlayStateAction } from "../reducer/reducer";
+
 function Recommend({ dispatch }) {
+
   const [album_data, setAlbum] = useState([]);
+
   function recommendPlay() {
-    getData().then((res) => {
-      batch(() => {
-        dispatch(ListAdd(res));
+    batch(() => {
+        dispatch(ListAdd(recomend_data));
         dispatch(PlayStateAction());
       });
-    });
-    setTimeout(() => {
-      document.querySelector(".playlist").classList.add("padding-on");
-    }, 500);
+        document.querySelector(".playlist").classList.add("padding-on");
   }
 
   useEffect(() => {
-    getThumb().then((result) => {
-      setAlbum(result);
-    });
+    setAlbum(recomend_data);
   }, []);
   return (
     <section className="Recommend">

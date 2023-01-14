@@ -1,4 +1,4 @@
-const data = [
+const recomend_data = [
   {
     id: 0,
     url: "https://www.youtube.com/watch?v=TaJgaZOUaac",
@@ -56,14 +56,5 @@ const data = [
     thumbnail: "https://i.ytimg.com/vi/rp3w7rZBxBo/hqdefault.jpg",
   },
 ];
-const render = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
-export const getData = async () => {
-  await render(500);
-  return data;
-};
-
-export const getThumb = async () => {
-  await render();
-  return data;
-};
+export {recomend_data}
