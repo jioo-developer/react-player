@@ -34,27 +34,17 @@ function Audio({
       <div className="control_tower">
         <div className="control_wrap">
           <button className="loop control" title="반복재생">
-            {loop === false ? (
               <img
                 src="/img/all_inclusive_black_24dp.svg"
                 alt="반복재생"
-                style={{ opacity: 0.5 }}
+                style={loop === false ? {opacity:0.5} : {opacity:1}}
                 onClick={() => {
                   loopAction(!loop);
-                  document.querySelector(".loop").style.opacity = "1";
+                  loop === false 
+	                ? document.querySelector(".loop").style.opacity = "1"
+	                : document.querySelector(".loop").style.opacity = "0.5"
                 }}
               />
-            ) : (
-              <img
-                src="/img/all_inclusive_black_24dp.svg"
-                alt="반복재생"
-                style={{ opacity: 1 }}
-                onClick={() => {
-                  loopAction(!loop);
-                  document.querySelector(".loop").style.opacity = "0.5";
-                }}
-              />
-            )}
           </button>
           <button className="volum control volum_down" title="볼륨다운">
             <img
@@ -73,6 +63,11 @@ function Audio({
                 volumControl(e);
               }}
             />
+          </button>
+          <button
+            className="next control"
+          >
+            <img src="/img/skip_next_black_24dp.svg" alt="" className="rotate" title="이 기능은 현재 지원하고 있지 않습니다." />
           </button>
           <button
             className="next control"
