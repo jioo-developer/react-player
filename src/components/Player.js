@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactPlayer from "react-player";
 import { useSelector } from "react-redux";
 import { PlayStateAction } from "../reducer/reducer";
 import Audio from "./audio";
 
-function Player({ playerRef, audioState, dispatch }) {
+function Player({ dispatch }) {
   const list = useSelector((state) => state.playlist);
   // 플레이리스트 state list
   const [track, settrack] = useState([]);
@@ -21,6 +21,12 @@ function Player({ playerRef, audioState, dispatch }) {
   // 재생되는 개체 풀 타임
   const [seekbar, setSeekbar] = useState(0);
   // 100% 중 몇프로 진행 됐는지
+
+  const audioState = useSelector((state) => state.playState);
+  // 재생 / 일시정지
+
+  const playerRef = useRef();
+
 
 // 스페이스 누르면 일시정지 되게 하는 함수
   window.onkeyup = function (event) {
@@ -102,14 +108,22 @@ function Player({ playerRef, audioState, dispatch }) {
 
   // 곡 검색에서 추가를 눌러 list가 형성 될 때 리스트의 url을 track 에 추가해주는 함수
 
+  // 곡의 분/초에 관한 함수 
+
   function handleProgress(progress) {
     setPlayed(Math.floor(progress.playedSeconds));
+    //현재 시점을 state로 전송
     setSeekbar(progress.played.toFixed(3));
+    // 현재 진행바 시점을 전송
   }
+
+    // 곡의 분/초에 관한 함수 
 
   function handleDuration(duration) {
     setDuration(duration - 1);
   }
+
+  // 곡의 풀타임 시간에 관한 함수
 
   function getVolume(volume) {
     setVolume(volume);
@@ -121,6 +135,7 @@ function Player({ playerRef, audioState, dispatch }) {
   function handleSeekbar(seekbar) {
     setSeekbar(seekbar);
   }
+  // 진행바에 특정 구간을 클릭시 그 값으로 시점이 이동되게 하는 함수
 
   function date(duration) {
     let hour = Math.floor(duration / 3600);
@@ -138,6 +153,8 @@ function Player({ playerRef, audioState, dispatch }) {
       second < 10 ? `0${Math.ceil(second)}` : Math.ceil(second)
     }`;
   }
+
+  // api에 나온 시점을 분 초 로 계산하는 함수
 
 
   return (

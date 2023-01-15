@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { batch } from "react-redux";
+import { batch, useSelector } from "react-redux";
 import {
   FavoriteAdd,
   ListAdd,
@@ -7,11 +7,21 @@ import {
   removeFavorite,
 } from "../reducer/reducer";
 
-function Favorite({ favoriteState, FavoriteName, dispatch, audioState }) {
-  const [list, setList] = useState([]);
-  const [done, setDone] = useState(false);
-  const parseFavorite = JSON.parse(localStorage.getItem(FavoriteName));
+function Favorite({ FavoriteName, dispatch }) {
 
+  const [list, setList] = useState([]);
+  // 즐겨찾기 리스트
+  const [done, setDone] = useState(false);
+  // 즐겨찾기 삭제 검수 state 
+
+  const audioState = useSelector((state) => state.playState);
+  // 재생/일시정지 state
+
+  const favoriteState = useSelector((state) => state.favoriteData);
+  // 즐겨찾기 상태 state
+
+  const parseFavorite = JSON.parse(localStorage.getItem(FavoriteName));
+  //즐겨찾기 리스트 불러오기 
   useEffect(() => {
     if (parseFavorite !== null) {
       const loadFavorite = new Promise(function (res) {
@@ -33,9 +43,13 @@ function Favorite({ favoriteState, FavoriteName, dispatch, audioState }) {
     }
   }, [favoriteState]);
 
-  function handler(apiData) {
+  // 즐겨찾기를 삭제한 후 즐겨찾기를 업데이트 하는 함수
+
+  // 즐겨찾기 삭제 함수
+
+  function handler(DeleteData) {
     setDone(true);
-    let defaultArray = [apiData];
+    let defaultArray = [DeleteData];
     let defaultPromise = new Promise(function (res) {
       const result = parseFavorite.filter(
         (item) =>
@@ -53,6 +67,8 @@ function Favorite({ favoriteState, FavoriteName, dispatch, audioState }) {
       dispatch(removeFavorite(res));
     });
   }
+
+  // 즐겨찾기 삭제 함수
 
   return (
     <>
