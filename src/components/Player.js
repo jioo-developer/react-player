@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import ReactPlayer from "react-player";
 import { useSelector } from "react-redux";
 import { PlayStateAction } from "../reducer/reducer";
@@ -7,8 +7,10 @@ import Audio from "./audio";
 function Player({ dispatch }) {
   const list = useSelector((state) => state.playlist);
   // 플레이리스트 state list
-  const [track, settrack] = useState([]);
-  // 트랙 default array
+
+  const track = useSelector((state)=> state.track)
+  //트랙
+  
   const [thumbnail, setThumb] = useState("/img/defaultImg.png");
   // 현재 썸네일 이미지
   const [title, setTitle] = useState("기본정보가 없습니다");
@@ -88,39 +90,30 @@ function Player({ dispatch }) {
 
   // 뮤비보기 누르면 활성화 되는 on / off
 
-  // 곡 검색에서 추가를 눌러 list가 형성 될 때 리스트의 url을 track 에 추가해주는 함수
-
-  useEffect(() => {
-    if (list.length !== 0) {
-      let arr = [];
-      const trackAction = new Promise(function (res) {
-        list.map((value, index) => {
-          return arr.push(value.url);
-        });
-        res(arr);
-      });
-
-      trackAction.then((result) => {
-        settrack(result);
-      });
-    }
-  }, [list]);
-
-  // 곡 검색에서 추가를 눌러 list가 형성 될 때 리스트의 url을 track 에 추가해주는 함수
-
   // 곡의 분/초에 관한 함수 
 
   function handleProgress(progress) {
-    setPlayed(Math.floor(progress.playedSeconds));
-    //현재 시점을 state로 전송
-    setSeekbar(progress.played.toFixed(3));
-    // 현재 진행바 시점을 전송
+    if(progress !== undefined) {
+      setPlayed(Math.floor(progress.playedSeconds));
+      //현재 시점을 state로 전송
+      setSeekbar(progress.played.toFixed(3));
+      // 현재 진행바 시점을 전송
+    } else {
+      const playerSecond = playerRef.current.getCurrentTime();
+      setPlayed(Math.floor(playerSecond))
+    }
   }
 
     // 곡의 분/초에 관한 함수 
 
   function handleDuration(duration) {
-    setDuration(duration - 1);
+    if(duration !== undefined) {
+      setDuration(duration - 1);
+    } else {
+      const playerDurate = playerRef.current.getDuration()
+      setDuration(playerDurate - 1);
+    }
+    
   }
 
   // 곡의 풀타임 시간에 관한 함수
@@ -182,7 +175,14 @@ function Player({ dispatch }) {
           loop={loop}
           url={track}
           volume={Number(`0.${volume}`)}
-          onStart={playSetting}
+          onStart={()=>{
+            playSetting()
+          }}
+          onPlay={()=>{
+            playSetting()
+            handleProgress()
+            handleDuration()
+          }}
           onDuration={handleDuration}
           onProgress={handleProgress}
           width="100%"

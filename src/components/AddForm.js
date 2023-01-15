@@ -39,8 +39,8 @@ function AddList({ dispatch, audioState }) {
             dispatch(PlayStateAction());
           }
         });
+        document.querySelector(".text_input").value = ""
       });
-    document.querySelector(".playlist").classList.add("padding-on");
   }
 
   return (

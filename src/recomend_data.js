@@ -1,19 +1,5 @@
 const recomend_data = [
   {
-    id: 0,
-    url: "https://www.youtube.com/watch?v=TaJgaZOUaac",
-    title: "Lover / Earth Angel",
-    singer: "Joey Stamper Mashup ",
-    thumbnail: "https://i.ytimg.com/vi/TaJgaZOUaac/hqdefault.jpg",
-  },
-  {
-    id: 1,
-    url: "https://www.youtube.com/watch?v=KUXG1mQkdmU",
-    title: "Perfect",
-    singer: "Jada Facer & Ricardo Hurtado",
-    thumbnail: "https://i.ytimg.com/vi/KUXG1mQkdmU/hqdefault.jpg",
-  },
-  {
     id: 2,
     url: "https://www.youtube.com/watch?v=Bwq3f5_kMfY",
     title: "Pass You By",

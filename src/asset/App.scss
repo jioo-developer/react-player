@@ -349,7 +349,7 @@ $fold: "all and (max-width:280px)";
     display: flex;
     margin-top: 35px;
     justify-content: space-between;
-    padding-bottom: 170px;
+    padding-bottom: 200px;
 
     @media #{$mobile} {
       flex-direction: column;
@@ -446,7 +446,7 @@ $fold: "all and (max-width:280px)";
     .playlist {
       font-size: 25px;
       font-weight: 700;
-      padding-bottom: 50px;
+      padding-bottom: 30px;
       border-bottom: 1px solid #ccc;
       box-sizing: border-box;
 
@@ -738,10 +738,6 @@ footer {
   background: #fff;
   border-radius: 5px;
   box-shadow: 5px 5px 5px rgba(119, 117, 117, 0.05);
-}
-
-.padding-on {
-  padding-bottom: 20px !important;
 }
 
 .movie_box {

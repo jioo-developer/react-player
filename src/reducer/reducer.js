@@ -2,16 +2,23 @@ const initialState = {
   playlist: [],
   favoriteData: [],
   playState: false,
+  track : []
 };
 
 const ADDLIST = "ADDLIST";
 const FAVORITE = "FAVORITE";
 const Remove = "Remove";
 const playState = "playState";
+const track = "track"
 
 export const ListAdd = (data) => ({
   type: ADDLIST,
   data,
+});
+
+export const trackUpdate = (data) => ({
+  type :track,
+  data
 });
 
 //앨범에 트랙 추가 함수 
@@ -43,6 +50,12 @@ export default function reducer(state = initialState, action) {
         ...state,
         playlist: state.playlist.concat(action.data),
       };
+
+    case track:
+      return {
+        ...state,
+        track : action.data
+      }
 
     case FAVORITE:
       return {

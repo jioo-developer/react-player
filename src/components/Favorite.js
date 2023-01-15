@@ -100,9 +100,6 @@ function Favorite({ FavoriteName, dispatch }) {
                                 dispatch(PlayStateAction());
                               }
                             });
-                            document
-                              .querySelector(".playlist")
-                              .classList.add("padding-on");
                           }}
                         >
                           재생

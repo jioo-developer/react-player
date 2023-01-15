@@ -12,7 +12,6 @@ function Recommend({ dispatch }) {
         dispatch(ListAdd(recomend_data));
         dispatch(PlayStateAction());
       });
-        document.querySelector(".playlist").classList.add("padding-on");
   }
 
   useEffect(() => {
