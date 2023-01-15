@@ -98,7 +98,7 @@ $fold: "all and (max-width:280px)";
       display: flex;
       width: 1050px;
       justify-content: space-between;
-      padding: 40px 0;
+      padding: 50px 0;
       position: relative;
       z-index: 10;
 
@@ -131,7 +131,6 @@ $fold: "all and (max-width:280px)";
         b {
           font-size: 31px;
           color: #fff;
-          margin-bottom: 30px;
 
           @media #{$device} {
             font-size: 20px;
@@ -150,7 +149,8 @@ $fold: "all and (max-width:280px)";
           display: flex;
           align-items: center;
           cursor: pointer;
-          width: 145px;
+          justify-content: space-between;
+          width: 165px;
 
           @media #{$mobile} {
             text-align: center;
@@ -159,7 +159,7 @@ $fold: "all and (max-width:280px)";
           }
 
           figure {
-            width: 15px;
+            width: 22px;
             margin-right: 12px;
 
             img {
@@ -171,6 +171,7 @@ $fold: "all and (max-width:280px)";
           figcaption {
             font-size: 16px;
             color: #fff;
+            width: 95%;
           }
         }
 
@@ -823,4 +824,26 @@ iframe {
 
 #widget1,#widget2,#widget3,#widget4,#widget5,#widget6,#widget7,#widget8,#widget9,#widget10{
   display: block;
+}
+
+.questions {
+  width: 28px;
+  height: 20px;
+  line-height: 18px;
+  border-radius: 50%;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  transform: scale(0.8);
+}
+
+.recomend_tip {
+  position: absolute;
+  bottom: 50px;
+  left: 70px;
+  color: #fff;
+  font-size: 14px;
 }

@@ -6,6 +6,7 @@ import { ListAdd, PlayStateAction } from "../reducer/reducer";
 function Recommend({ dispatch }) {
 
   const [album_data, setAlbum] = useState([]);
+  const [toolTip,setTooltip] = useState(false)
 
   function recommendPlay() {
     batch(() => {
@@ -30,13 +31,19 @@ function Recommend({ dispatch }) {
             <br />
             플레이리스트
           </b>
-          <div className="total_music" onClick={recommendPlay}>
+          <div className="total_music">
             <figure>
               <img src="/img/play-button.svg" alt="" />
             </figure>
-            <figcaption>추천곡 들어보기</figcaption>
+            <figcaption onClick={recommendPlay}>추천곡 들어보기</figcaption>
+            <span className="questions" onClick={()=>{
+              setTooltip(!toolTip)
+            }}>?</span>
           </div>
         </div>
+        {
+          toolTip ? <p className="recomend_tip">재생이 안된다면 외부에서 실행이 비공개된 곡 입니다.</p> :  null
+        }
         <div className="recommend_album">
           {album_data.length !== 0
             ? album_data.map(function (a, i) {
