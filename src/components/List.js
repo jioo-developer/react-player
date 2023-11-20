@@ -2,10 +2,9 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { FavoriteAdd } from "../reducer/reducer";
 
-function List({  dispatch, FavoriteName}) {
-
+function List({ dispatch, FavoriteName }) {
   const list = useSelector((state) => state.playlist);
-  // 현재 리스트 
+  // 현재 리스트
 
   const favoriteState = useSelector((state) => state.favoriteData);
   // 즐겨찾기 상태 state
@@ -19,6 +18,10 @@ function List({  dispatch, FavoriteName}) {
       document
         .querySelector(`label[for=${e.target.id}]`)
         .classList.remove("on");
+      const deleteFavorite = favoriteState.filter(
+        (item) => item !== list[index]
+      );
+      dispatch(FavoriteAdd(deleteFavorite));
     }
     // 다시 끌시 별 다시 꺼짐
   }
@@ -29,7 +32,7 @@ function List({  dispatch, FavoriteName}) {
     }
   }, [favoriteState]);
 
-  // favoriteHandler 함수가 작동완료 한 다음 
+  // favoriteHandler 함수가 작동완료 한 다음
   // favoriteState의 변화가 있을 시 그 변화를 로컬스토리지에 추가하는 함수
 
   return (

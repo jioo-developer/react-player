@@ -4,43 +4,46 @@ import { ListAdd, PlayStateAction } from "../reducer/reducer";
 
 function AddList({ dispatch, audioState }) {
   const urlRef = useRef();
+
+  async function addPlayList(e) {
+    e.preventDefault();
+    const url = urlRef.current.value; //58번째 줄
+    const createParser = youtube_parser(url);
+    const resultURL = `https://youtube.com/watch?v=${createParser}`;
+    try {
+      const response = await geturlData(resultURL);
+      const object = {
+        title: response.title,
+        url: response.url,
+        thumbnail: response.thumbnail_url,
+      };
+      batch(() => {
+        dispatch(ListAdd(object));
+        if (!audioState) dispatch(PlayStateAction());
+      });
+      document.querySelector(".text_input").value = "";
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   function youtube_parser(params) {
     let regExp = /^.*((youtu.be\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     let match = params.match(regExp);
-    return match[4].length === 11 ? match[4] : false;
+    if (match !== null && match[4].length === 11) {
+      return match[4];
+    }
   }
 
-  function addPlayList(e) {
-    e.preventDefault();
-    const UserInput = urlRef.current.value;
-    const resultURL = `https://youtube.com/watch?v=${youtube_parser(
-      UserInput
-    )}`;
-
-    fetch(
+  function geturlData(value) {
+    const response = fetch(
       "https://noembed.com/embed??" +
         new URLSearchParams({
           format: "json",
-          url: resultURL,
+          url: value,
         })
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((json) => {
-        let result = {
-          title: json.title,
-          url: json.url,
-          thumbnail: json.thumbnail_url,
-        };
-        batch(() => {
-          dispatch(ListAdd(result));
-          if (audioState !== true) {
-            dispatch(PlayStateAction());
-          }
-        });
-        document.querySelector(".text_input").value = ""
-      });
+    );
+    return response.then((res) => res.json());
   }
 
   return (
@@ -54,9 +57,7 @@ function AddList({ dispatch, audioState }) {
           name="url"
           ref={urlRef}
         ></input>
-        <button onClick={(e) => addPlayList(e)} style={{ cursor: "pointer" }}>
-          추가
-        </button>
+        <button onClick={(e) => addPlayList(e)}>추가</button>
       </form>
     </div>
   );

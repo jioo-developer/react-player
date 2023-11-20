@@ -1,4 +1,4 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import "./asset/reset.css";
 import "./asset/App.scss";
 import Recommend from "./components/Recommend";
@@ -14,21 +14,23 @@ function App() {
   const FavoriteName = "FavoriteName";
   // 트랙 default array
 
+  const audioState = useSelector((state) => state.playState);
+  // 재생/일시정지 state
+
   const list = useSelector((state) => state.playlist);
   // 플레이리스트 state list
 
   // 트랙 업데이트 함수 redux로 action 시킴
-    useEffect(() => {
+  useEffect(() => {
     if (list.length !== 0) {
       let arr = [];
-        list.forEach((value,index) => {
-          return arr.push(list[index].url);
-        });
-        dispatch(trackUpdate(arr))
-      
+      list.forEach((value, index) => {
+        return arr.push(list[index].url);
+      });
+      dispatch(trackUpdate(arr));
     }
   }, [list]);
- 
+
   // 트랙 업데이트 함수 redux로 action 시킴
   // recomend_data의 비공개 동영상은 재생이 안됨
 
@@ -39,16 +41,12 @@ function App() {
         <Favorite
           FavoriteName={FavoriteName}
           dispatch={dispatch}
+          audioState={audioState}
         />
         <section className="album_wrap">
-          <Player
-            dispatch={dispatch}
-          />
-          <AddForm dispatch={dispatch} />
-          <List
-            dispatch={dispatch}
-            FavoriteName={FavoriteName}
-          />
+          <Player dispatch={dispatch} />
+          <AddForm dispatch={dispatch} audioState={audioState} />
+          <List dispatch={dispatch} FavoriteName={FavoriteName} />
         </section>
       </div>
     </div>

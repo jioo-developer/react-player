@@ -8,20 +8,16 @@ import {
 } from "../reducer/reducer";
 
 function Favorite({ FavoriteName, dispatch }) {
-
   const [list, setList] = useState([]);
   // 즐겨찾기 리스트
   const [done, setDone] = useState(false);
-  // 즐겨찾기 삭제 검수 state 
-
-  const audioState = useSelector((state) => state.playState);
-  // 재생/일시정지 state
+  // 즐겨찾기 삭제 검수 state
 
   const favoriteState = useSelector((state) => state.favoriteData);
   // 즐겨찾기 상태 state
 
   const parseFavorite = JSON.parse(localStorage.getItem(FavoriteName));
-  //즐겨찾기 리스트 불러오기 
+  //즐겨찾기 리스트 불러오기
   useEffect(() => {
     if (parseFavorite !== null) {
       const loadFavorite = new Promise(function (res) {

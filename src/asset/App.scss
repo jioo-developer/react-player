@@ -171,7 +171,6 @@ $fold: "all and (max-width:280px)";
           figcaption {
             font-size: 16px;
             color: #fff;
-            width: 95%;
           }
         }
 
@@ -822,7 +821,16 @@ iframe {
   display: none;
 }
 
-#widget1,#widget2,#widget3,#widget4,#widget5,#widget6,#widget7,#widget8,#widget9,#widget10{
+#widget1,
+#widget2,
+#widget3,
+#widget4,
+#widget5,
+#widget6,
+#widget7,
+#widget8,
+#widget9,
+#widget10 {
   display: block;
 }
 
@@ -833,7 +841,7 @@ iframe {
   border-radius: 50%;
   border: 1px solid #fff;
   box-sizing: border-box;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   color: #fff;
@@ -850,4 +858,8 @@ iframe {
 
 .rotate {
   transform: rotate(180deg);
+}
+
+button {
+  cursor: pointer;
 }
