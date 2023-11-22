@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { FavoriteAdd } from "../reducer/reducer";
+import { FavoriteAdd, removeFavorite } from "../reducer/reducer";
 
 function List({ dispatch, FavoriteName }) {
   const list = useSelector((state) => state.playlist);
@@ -18,22 +18,15 @@ function List({ dispatch, FavoriteName }) {
       document
         .querySelector(`label[for=${e.target.id}]`)
         .classList.remove("on");
+
       const deleteFavorite = favoriteState.filter(
-        (item) => item !== list[index]
+        (item) => item.title !== list[index].title
       );
-      dispatch(FavoriteAdd(deleteFavorite));
+
+      dispatch(removeFavorite(deleteFavorite));
     }
     // 다시 끌시 별 다시 꺼짐
   }
-
-  useEffect(() => {
-    if (favoriteState.length !== 0) {
-      localStorage.setItem(FavoriteName, JSON.stringify(favoriteState));
-    }
-  }, [favoriteState]);
-
-  // favoriteHandler 함수가 작동완료 한 다음
-  // favoriteState의 변화가 있을 시 그 변화를 로컬스토리지에 추가하는 함수
 
   return (
     <div className="album_list">
@@ -48,9 +41,7 @@ function List({ dispatch, FavoriteName }) {
                     type="checkbox"
                     className="star"
                     id={`star${index}`}
-                    onClick={(e) => {
-                      favoriteHandler(e, index);
-                    }}
+                    onClick={(e) => favoriteHandler(e, index)}
                   />
                   <label className="star_label" htmlFor={`star${index}`} />
                 </li>

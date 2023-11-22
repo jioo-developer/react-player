@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
-import { batch } from "react-redux";
+import { batch, useSelector } from "react-redux";
 import { ListAdd, PlayStateAction } from "../reducer/reducer";
 
-function AddList({ dispatch, audioState }) {
+function AddList({ dispatch }) {
   const urlRef = useRef();
-
+  const audioState = useSelector((state) => state.playState);
+  // 재생/일시정지 state
   async function addPlayList(e) {
     e.preventDefault();
     const url = urlRef.current.value; //58번째 줄

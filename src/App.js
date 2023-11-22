@@ -14,9 +14,6 @@ function App() {
   const FavoriteName = "FavoriteName";
   // 트랙 default array
 
-  const audioState = useSelector((state) => state.playState);
-  // 재생/일시정지 state
-
   const list = useSelector((state) => state.playlist);
   // 플레이리스트 state list
 
@@ -38,14 +35,10 @@ function App() {
     <div className="App">
       <div className="wrap">
         <Recommend dispatch={dispatch} />
-        <Favorite
-          FavoriteName={FavoriteName}
-          dispatch={dispatch}
-          audioState={audioState}
-        />
+        <Favorite FavoriteName={FavoriteName} dispatch={dispatch} />
         <section className="album_wrap">
           <Player dispatch={dispatch} />
-          <AddForm dispatch={dispatch} audioState={audioState} />
+          <AddForm dispatch={dispatch} />
           <List dispatch={dispatch} FavoriteName={FavoriteName} />
         </section>
       </div>
