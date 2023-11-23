@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { batch, useSelector } from "react-redux";
 import {
   FavoriteAdd,
@@ -7,7 +7,7 @@ import {
   removeFavorite,
 } from "../reducer/reducer";
 
-function Favorite({ FavoriteName, dispatch }) {
+function Favorite({ FavoriteName, dispatch, audioState }) {
   const favoriteState = useSelector((state) => state.favoriteData);
   // 즐겨찾기 상태 state
 
@@ -40,7 +40,7 @@ function Favorite({ FavoriteName, dispatch }) {
 
   return (
     <>
-      {favoriteState.length !== 0 ? (
+      {favoriteState.length ? (
         <section className="Recently">
           <div className="recently_header">
             <p className="recently_title">자주 듣는 노래</p>
@@ -63,8 +63,7 @@ function Favorite({ FavoriteName, dispatch }) {
                         onClick={() => {
                           batch(() => {
                             dispatch(ListAdd(list[index]));
-                            if (audioState !== true)
-                              dispatch(PlayStateAction());
+                            if (!audioState) dispatch(PlayStateAction());
                           });
                         }}
                       >

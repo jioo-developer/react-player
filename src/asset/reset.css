@@ -31,9 +31,7 @@ a {
 header,
 section,
 footer {
-  float: left;
   width: 100%;
-  height: auto;
 }
 
 b {

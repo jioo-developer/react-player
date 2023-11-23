@@ -24,6 +24,9 @@ function Player({ dispatch }) {
   const [seekbar, setSeekbar] = useState(0);
   // 100% 중 몇프로 진행 됐는지
 
+  const [movieControl, setMovieControl] = useState(false);
+  //뮤비 토글 컨트롤러
+
   const audioState = useSelector((state) => state.playState);
   // 재생 / 일시정지
 
@@ -72,18 +75,6 @@ function Player({ dispatch }) {
   }
   // 현재 재생중인 노래의 썸네일과 타이틀 함수
 
-  // 뮤비보기 누르면 활성화 되는 on / off
-
-  function movieControl(e) {
-    if (e.target.checked) {
-      document.querySelector(".player").classList.add("show");
-    } else {
-      document.querySelector(".player").classList.remove("show");
-    }
-  }
-
-  // 뮤비보기 누르면 활성화 되는 on / off
-
   // 곡의 분/초에 관한 함수
 
   function handleProgress(progress) {
@@ -107,6 +98,10 @@ function Player({ dispatch }) {
       const playerDurate = playerRef.current.getDuration();
       setDuration(playerDurate - 1);
     }
+  }
+
+  function movieAction() {
+    setMovieControl((prev) => !prev);
   }
 
   // 곡의 풀타임 시간에 관한 함수
@@ -143,55 +138,53 @@ function Player({ dispatch }) {
   // api에 나온 시점을 분 초 로 계산하는 함수
 
   return (
-    <div className="play">
-      <div className="player_wrap">
+    <>
+      <div className="play">
         <div className="movie_box">
-          <div className="playing">
-            <figure className="playing-thumbnail">
-              <img src={thumbnail} alt="" />
-            </figure>
-            <figcaption>{title}</figcaption>
-          </div>
           <div className="movie-toggle">
-            <input
-              type="checkbox"
-              id="moive_check"
-              onClick={(e) => movieControl(e)}
-            ></input>
+            <input type="checkbox" id="moive_check" onClick={movieAction} />
             <label htmlFor="movie_check">뮤비보기</label>
           </div>
+          {!movieControl ? (
+            <div className="playing">
+              <figure className="playing-thumbnail">
+                <img src={thumbnail} alt="" />
+              </figure>
+              <figcaption>{title}</figcaption>
+            </div>
+          ) : (
+            <ReactPlayer
+              ref={playerRef}
+              playing={audioState}
+              loop={loop}
+              url={track}
+              volume={Number(`0.${volume}`)}
+              onStart={() => {
+                playSetting();
+              }}
+              onPlay={() => {
+                playSetting();
+                handleProgress();
+                handleDuration();
+              }}
+              onDuration={handleDuration}
+              onProgress={handleProgress}
+              width="100%"
+              className={"player"}
+              height="100%"
+              controls={true}
+              style={{ opacity: "0" }}
+              config={{
+                youtube: {
+                  playerVars: {
+                    rel: 0,
+                    modestbranding: 1,
+                  },
+                },
+              }}
+            />
+          )}
         </div>
-        <ReactPlayer
-          ref={playerRef}
-          playing={audioState}
-          loop={loop}
-          url={track}
-          volume={Number(`0.${volume}`)}
-          onStart={() => {
-            playSetting();
-          }}
-          onPlay={() => {
-            playSetting();
-            handleProgress();
-            handleDuration();
-          }}
-          onDuration={handleDuration}
-          onProgress={handleProgress}
-          width="100%"
-          className={"player"}
-          height="100%"
-          controls={true}
-          style={{ opacity: "0" }}
-          config={{
-            youtube: {
-              playerVars: {
-                rel: 0,
-                modestbranding: 1,
-              },
-            },
-          }}
-        />
-        <div className="done-container"></div>
       </div>
       <Audio
         dispatch={dispatch}
@@ -207,7 +200,7 @@ function Player({ dispatch }) {
         handleSeekbar={handleSeekbar}
         playerRef={playerRef}
       />
-    </div>
+    </>
   );
 }
 

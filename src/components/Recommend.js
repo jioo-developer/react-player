@@ -13,10 +13,6 @@ function Recommend({ dispatch }) {
 
   return (
     <section className="Recommend">
-      <div className="cover" />
-      <div className="container">
-        <img src="/img/background.jpg" alt="" />
-      </div>
       <div className="in_wrap">
         <div className="recommend_txt_wrap">
           <b>
@@ -48,6 +44,7 @@ function Recommend({ dispatch }) {
           })}
         </div>
       </div>
+      <div className="container" />
     </section>
   );
 }

@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { FavoriteAdd, removeFavorite } from "../reducer/reducer";
 
-function List({ dispatch, FavoriteName }) {
+function List({ dispatch }) {
   const list = useSelector((state) => state.playlist);
   // 현재 리스트
 
@@ -20,7 +20,10 @@ function List({ dispatch, FavoriteName }) {
         .classList.remove("on");
 
       const deleteFavorite = favoriteState.filter(
-        (item) => item.title !== list[index].title
+        (item) =>
+          item.title !== list[index].title &&
+          item.url !== list[index].url &&
+          item.thumbnail !== list[index].thumbnail
       );
 
       dispatch(removeFavorite(deleteFavorite));
@@ -32,7 +35,7 @@ function List({ dispatch, FavoriteName }) {
     <div className="album_list">
       <p className="playlist">플레이리스트</p>
       <ul className="list lists">
-        {list.length !== 0
+        {list.length
           ? list.map((value, index) => {
               return (
                 <li className="list" key={index}>

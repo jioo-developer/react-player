@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./asset/reset.css";
 import "./asset/App.scss";
 import Recommend from "./components/Recommend";
@@ -14,18 +14,22 @@ function App() {
   const FavoriteName = "FavoriteName";
   // 트랙 default array
 
-  const list = useSelector((state) => state.playlist);
-  // 플레이리스트 state list
+  const audioState = useSelector((state) => state.playState);
+  // 현재 재생상황 state
 
   return (
     <div className="App">
       <div className="wrap">
         <Recommend dispatch={dispatch} />
-        <Favorite FavoriteName={FavoriteName} dispatch={dispatch} />
+        <Favorite
+          FavoriteName={FavoriteName}
+          dispatch={dispatch}
+          audioState={audioState}
+        />
         <section className="album_wrap">
           <Player dispatch={dispatch} />
-          <AddForm dispatch={dispatch} />
-          <List dispatch={dispatch} FavoriteName={FavoriteName} />
+          <AddForm dispatch={dispatch} audioState={audioState} />
+          <List dispatch={dispatch} />
         </section>
       </div>
     </div>
