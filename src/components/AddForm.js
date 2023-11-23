@@ -33,6 +33,8 @@ function AddList({ dispatch }) {
     let match = params.match(regExp);
     if (match !== null && match[4].length === 11) {
       return match[4];
+    } else {
+      console.log("parsing error");
     }
   }
 

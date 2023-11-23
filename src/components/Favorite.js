@@ -63,9 +63,8 @@ function Favorite({ FavoriteName, dispatch }) {
                         onClick={() => {
                           batch(() => {
                             dispatch(ListAdd(list[index]));
-                            if (audioState !== true) {
+                            if (audioState !== true)
                               dispatch(PlayStateAction());
-                            }
                           });
                         }}
                       >
