@@ -8,9 +8,9 @@ function Player({ dispatch }) {
   const list = useSelector((state) => state.playlist);
   // 플레이리스트 state list
 
-  const track = useSelector((state)=> state.track)
+  const track = useSelector((state) => state.track);
   //트랙
-  
+
   const [thumbnail, setThumb] = useState("/img/defaultImg.png");
   // 현재 썸네일 이미지
   const [title, setTitle] = useState("기본정보가 없습니다");
@@ -29,52 +29,46 @@ function Player({ dispatch }) {
 
   const playerRef = useRef();
 
-
-// 스페이스 누르면 일시정지 되게 하는 함수
+  // 스페이스 누르면 일시정지 되게 하는 함수
   window.onkeyup = function (event) {
     if (event.keyCode === 32) {
-      dispatch(PlayStateAction())
+      dispatch(PlayStateAction());
     }
   };
   // 스페이스 누르면 일시정지 되게 하는 함수
 
   // 현재 재생중인 노래의 썸네일과 타이틀 함수
 
-
-// 리스트 중 현재 재생중인 노래 index 함수
+  // 리스트 중 현재 재생중인 노래 index 함수
 
   function playSetting() {
     const player = playerRef.current.getInternalPlayer();
     const Sequence = player.playerInfo.playlistIndex;
     const videoTitle = player.videoTitle;
     const listLength = Array.from(document.querySelectorAll(".lists li"));
-    listLength.map((value,index) => {
-      const notError = value 
-      //value 지우면 함수 작동이 안되기에 그냥 써놓는거 
+    listLength.map((value, index) => {
+      console.log(value);
+      //value 지우면 함수 작동이 안되기에 그냥 써놓는거
       if (Sequence === index) {
         return listLength[index].classList.add("index");
       } else {
         return listLength[index].classList.remove("index");
       }
     });
-    playGround(Sequence,videoTitle)
+    playGround(Sequence, videoTitle);
   }
 
   // 리스트 중 현재 재생중인 노래 index 함수
 
-   // 현재 재생중인 노래의 썸네일과 타이틀 함수
+  // 현재 재생중인 노래의 썸네일과 타이틀 함수
 
-  function playGround(Sequence,videoTitle) {
+  function playGround(Sequence, videoTitle) {
     let objects = {};
     objects.title = videoTitle;
     objects.thumbnail = list[Sequence].thumbnail;
-    const Search = new Promise(function (res) {
-      res(objects);
-    });
-    Search.then((result) => {
-      setTitle(result.title);
-      setThumb(result.thumbnail);
-    });
+
+    setTitle(objects.title);
+    setThumb(objects.thumbnail);
   }
   // 현재 재생중인 노래의 썸네일과 타이틀 함수
 
@@ -90,30 +84,29 @@ function Player({ dispatch }) {
 
   // 뮤비보기 누르면 활성화 되는 on / off
 
-  // 곡의 분/초에 관한 함수 
+  // 곡의 분/초에 관한 함수
 
   function handleProgress(progress) {
-    if(progress !== undefined) {
+    if (progress !== undefined) {
       setPlayed(Math.floor(progress.playedSeconds));
       //현재 시점을 state로 전송
       setSeekbar(progress.played.toFixed(3));
       // 현재 진행바 시점을 전송
     } else {
       const playerSecond = playerRef.current.getCurrentTime();
-      setPlayed(Math.floor(playerSecond))
+      setPlayed(Math.floor(playerSecond));
     }
   }
 
-    // 곡의 분/초에 관한 함수 
+  // 곡의 분/초에 관한 함수
 
   function handleDuration(duration) {
-    if(duration !== undefined) {
+    if (duration !== undefined) {
       setDuration(duration - 1);
     } else {
-      const playerDurate = playerRef.current.getDuration()
+      const playerDurate = playerRef.current.getDuration();
       setDuration(playerDurate - 1);
     }
-    
   }
 
   // 곡의 풀타임 시간에 관한 함수
@@ -149,7 +142,6 @@ function Player({ dispatch }) {
 
   // api에 나온 시점을 분 초 로 계산하는 함수
 
-
   return (
     <div className="play">
       <div className="player_wrap">
@@ -160,14 +152,14 @@ function Player({ dispatch }) {
             </figure>
             <figcaption>{title}</figcaption>
           </div>
-         <div className="movie-toggle">
-          <input
-            type="checkbox"
-            id="moive_check"
-            onClick={(e) => movieControl(e)}
-          ></input>
-          <label htmlFor="movie_check">뮤비보기</label>
-        </div>
+          <div className="movie-toggle">
+            <input
+              type="checkbox"
+              id="moive_check"
+              onClick={(e) => movieControl(e)}
+            ></input>
+            <label htmlFor="movie_check">뮤비보기</label>
+          </div>
         </div>
         <ReactPlayer
           ref={playerRef}
@@ -175,13 +167,13 @@ function Player({ dispatch }) {
           loop={loop}
           url={track}
           volume={Number(`0.${volume}`)}
-          onStart={()=>{
-            playSetting()
+          onStart={() => {
+            playSetting();
           }}
-          onPlay={()=>{
-            playSetting()
-            handleProgress()
-            handleDuration()
+          onPlay={() => {
+            playSetting();
+            handleProgress();
+            handleDuration();
           }}
           onDuration={handleDuration}
           onProgress={handleProgress}
@@ -201,7 +193,7 @@ function Player({ dispatch }) {
         />
         <div className="done-container"></div>
       </div>
-     <Audio
+      <Audio
         dispatch={dispatch}
         volume={volume}
         audioState={audioState}
@@ -213,7 +205,8 @@ function Player({ dispatch }) {
         seekbar={seekbar}
         duration={duration}
         handleSeekbar={handleSeekbar}
-        playerRef={playerRef} />
+        playerRef={playerRef}
+      />
     </div>
   );
 }

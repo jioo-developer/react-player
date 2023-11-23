@@ -34,46 +34,43 @@ function Audio({
       <div className="control_tower">
         <div className="control_wrap">
           <button className="loop control" title="반복재생">
-              <img
-                src="/img/all_inclusive_black_24dp.svg"
-                alt="반복재생"
-                style={loop === false ? {opacity:0.5} : {opacity:1}}
-                onClick={() => {
-                  loopAction(!loop);
-                  loop === false 
-	                ? document.querySelector(".loop").style.opacity = "1"
-	                : document.querySelector(".loop").style.opacity = "0.5"
-                }}
-              />
+            <img
+              src="/img/all_inclusive_black_24dp.svg"
+              alt="반복재생"
+              style={loop === false ? { opacity: 0.5 } : { opacity: 1 }}
+              onClick={() => {
+                loopAction(!loop);
+                loop === false
+                  ? (document.querySelector(".loop").style.opacity = "1")
+                  : (document.querySelector(".loop").style.opacity = "0.5");
+              }}
+            />
           </button>
           <button className="volum control volum_down" title="볼륨다운">
             <img
               src="/img/volume_down_black_24dp.svg"
               alt="볼륨내리기"
-              onClick={(e) => {
-                volumControl(e);
-              }}
+              onClick={(e) => volumControl(e)}
             />
           </button>
           <button className="volum control volum_up" title="볼륨업">
             <img
               src="/img/volume_up_black_24dp.svg"
               alt="볼륨올리기"
-              onClick={(e) => {
-                volumControl(e);
-              }}
+              onClick={(e) => volumControl(e)}
+            />
+          </button>
+          <button className="next control">
+            <img
+              src="/img/skip_next_black_24dp.svg"
+              alt=""
+              className="rotate"
+              title="이 기능은 현재 지원하고 있지 않습니다."
             />
           </button>
           <button
             className="next control"
-          >
-            <img src="/img/skip_next_black_24dp.svg" alt="" className="rotate" title="이 기능은 현재 지원하고 있지 않습니다." />
-          </button>
-          <button
-            className="next control"
-            onClick={() => {
-              playerRef.current.seekTo(999);
-            }}
+            onClick={() => playerRef.current.seekTo(999)}
           >
             <img src="/img/skip_next_black_24dp.svg" alt="" />
           </button>
@@ -82,9 +79,7 @@ function Audio({
               <img
                 src="/img/pause_black_24dp.svg"
                 alt="중지"
-                onClick={() => {
-                  dispatch(PlayStateAction());
-                }}
+                onClick={() => dispatch(PlayStateAction())}
               />
             </button>
           ) : (
@@ -92,9 +87,7 @@ function Audio({
               <img
                 src="/img/play_arrow_black_24dp.svg"
                 alt="재생"
-                onClick={() => {
-                  dispatch(PlayStateAction());
-                }}
+                onClick={() => dispatch(PlayStateAction())}
               />
             </button>
           )}
