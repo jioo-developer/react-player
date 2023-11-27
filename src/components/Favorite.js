@@ -62,14 +62,16 @@ function Favorite({ FavoriteName, dispatch, audioState }) {
                       <li
                         onClick={() => {
                           batch(() => {
-                            dispatch(ListAdd(list[index]));
+                            dispatch(ListAdd(favoriteState[index]));
                             if (!audioState) dispatch(PlayStateAction());
                           });
                         }}
                       >
                         재생
                       </li>
-                      <li onClick={() => handler(list[index])}>삭제</li>
+                      <li onClick={() => handler(favoriteState[index])}>
+                        삭제
+                      </li>
                     </ul>
                   </label>
                 </article>

@@ -1,16 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 import { useSelector } from "react-redux";
 import { PlayStateAction } from "../reducer/reducer";
 import Audio from "./audio";
 
-function Player({ dispatch }) {
-  const list = useSelector((state) => state.playlist);
-  // 플레이리스트 state list
-
-  const track = useSelector((state) => state.track);
-  //트랙
-
+function Player({ dispatch, audioState }) {
   const [thumbnail, setThumb] = useState("/img/defaultImg.png");
   // 현재 썸네일 이미지
   const [title, setTitle] = useState("기본정보가 없습니다");
@@ -27,10 +21,10 @@ function Player({ dispatch }) {
   const [movieControl, setMovieControl] = useState(false);
   //뮤비 토글 컨트롤러
 
-  const audioState = useSelector((state) => state.playState);
-  // 재생 / 일시정지
-
   const playerRef = useRef();
+
+  const track = useSelector((state) => state.track);
+  const list = useSelector((state) => state.playlist);
 
   // 스페이스 누르면 일시정지 되게 하는 함수
   window.onkeyup = function (event) {
@@ -40,8 +34,6 @@ function Player({ dispatch }) {
   };
   // 스페이스 누르면 일시정지 되게 하는 함수
 
-  // 현재 재생중인 노래의 썸네일과 타이틀 함수
-
   // 리스트 중 현재 재생중인 노래 index 함수
 
   function playSetting() {
@@ -50,7 +42,6 @@ function Player({ dispatch }) {
     const videoTitle = player.videoTitle;
     const listLength = Array.from(document.querySelectorAll(".lists li"));
     listLength.map((value, index) => {
-      console.log(value);
       //value 지우면 함수 작동이 안되기에 그냥 써놓는거
       if (Sequence === index) {
         return listLength[index].classList.add("index");
@@ -118,6 +109,10 @@ function Player({ dispatch }) {
   }
   // 진행바에 특정 구간을 클릭시 그 값으로 시점이 이동되게 하는 함수
 
+  function handleError(error) {
+    dispatch(PlayStateAction());
+  }
+
   function date(duration) {
     let hour = Math.floor(duration / 3600);
     let minutes = Math.floor((duration - hour * 3600) / 60);
@@ -134,6 +129,10 @@ function Player({ dispatch }) {
       second < 10 ? `0${Math.ceil(second)}` : Math.ceil(second)
     }`;
   }
+
+  useEffect(() => {
+    if (audioState) movieAction();
+  }, [audioState]);
 
   // api에 나온 시점을 분 초 로 계산하는 함수
 
@@ -168,12 +167,12 @@ function Player({ dispatch }) {
                 handleDuration();
               }}
               onDuration={handleDuration}
+              onError={handleError}
               onProgress={handleProgress}
               width="100%"
               className={"player"}
               height="100%"
-              controls={true}
-              style={{ opacity: "0" }}
+              controls={false}
               config={{
                 youtube: {
                   playerVars: {

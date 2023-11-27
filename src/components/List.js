@@ -1,11 +1,15 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { FavoriteAdd, removeFavorite } from "../reducer/reducer";
+import React, { useEffect } from "react";
+import { batch, useSelector } from "react-redux";
+import {
+  FavoriteAdd,
+  PlayStateAction,
+  removeFavorite,
+  trackUpdate,
+} from "../reducer/reducer";
 
-function List({ dispatch }) {
+function List({ dispatch, audioState }) {
   const list = useSelector((state) => state.playlist);
   // 현재 리스트
-
   const favoriteState = useSelector((state) => state.favoriteData);
   // 즐겨찾기 상태 state
 
@@ -30,6 +34,17 @@ function List({ dispatch }) {
     }
     // 다시 끌시 별 다시 꺼짐
   }
+
+  useEffect(() => {
+    if (list.length) {
+      const arr = [];
+      list.forEach((item) => arr.push(item.url));
+      batch(() => {
+        dispatch(trackUpdate(arr));
+        if (!audioState) dispatch(PlayStateAction());
+      });
+    }
+  }, [list]);
 
   return (
     <div className="album_list">

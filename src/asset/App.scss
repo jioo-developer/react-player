@@ -743,6 +743,7 @@ footer {
   flex-direction: column;
   width: 100%;
   min-height: 300px;
+  position: relative;
 
   .movie-toggle {
     order: 1;

@@ -1,8 +1,7 @@
 import React, { useRef } from "react";
-import { batch } from "react-redux";
-import { ListAdd, PlayStateAction } from "../reducer/reducer";
+import { ListAdd } from "../reducer/reducer";
 
-function AddList({ dispatch, audioState }) {
+function AddList({ dispatch }) {
   const urlRef = useRef();
   // 재생/일시정지 state
   async function addPlayList(e) {
@@ -19,10 +18,7 @@ function AddList({ dispatch, audioState }) {
             url: response.url,
             thumbnail: response.thumbnail_url,
           };
-          batch(() => {
-            dispatch(ListAdd(object));
-            if (!audioState) dispatch(PlayStateAction());
-          });
+          dispatch(ListAdd(object));
           document.querySelector(".text_input").value = "";
         } catch (error) {
           console.log(error);

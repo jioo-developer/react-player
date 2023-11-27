@@ -7,13 +7,11 @@ import AddForm from "./components/AddForm";
 import List from "./components/List";
 import Favorite from "./components/Favorite";
 import Player from "./components/Player";
-// import { trackUpdate } from "./reducer/reducer";
 
 function App() {
   const dispatch = useDispatch();
   const FavoriteName = "FavoriteName";
   // 트랙 default array
-
   const audioState = useSelector((state) => state.playState);
   // 현재 재생상황 state
 
@@ -27,9 +25,9 @@ function App() {
           audioState={audioState}
         />
         <section className="album_wrap">
-          <Player dispatch={dispatch} />
+          <Player dispatch={dispatch} audioState={audioState} />
           <AddForm dispatch={dispatch} audioState={audioState} />
-          <List dispatch={dispatch} />
+          <List dispatch={dispatch} audioState={audioState} />
         </section>
       </div>
     </div>
