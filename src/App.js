@@ -15,6 +15,9 @@ function App() {
   const audioState = useSelector((state) => state.playState);
   // 현재 재생상황 state
 
+  const favoriteState = useSelector((state) => state.favoriteData);
+  // 즐겨찾기 상태 state
+
   return (
     <div className="App">
       <div className="wrap">
@@ -24,7 +27,14 @@ function App() {
           dispatch={dispatch}
           audioState={audioState}
         />
-        <section className="album_wrap">
+        <section
+          className="album_wrap"
+          style={
+            favoriteState.length
+              ? { paddingBottom: 175 }
+              : { paddingBottom: 123 }
+          }
+        >
           <Player dispatch={dispatch} audioState={audioState} />
           <AddForm dispatch={dispatch} audioState={audioState} />
           <List dispatch={dispatch} audioState={audioState} />

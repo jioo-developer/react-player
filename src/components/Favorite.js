@@ -12,10 +12,11 @@ function Favorite({ FavoriteName, dispatch, audioState }) {
   // 즐겨찾기 상태 state
 
   const parseFavorite = JSON.parse(localStorage.getItem(FavoriteName));
+  console.log(parseFavorite);
   //즐겨찾기 리스트 불러오기
-  useEffect(() => {
-    if (parseFavorite !== null) dispatch(FavoriteAdd(parseFavorite));
-  }, []);
+  // useEffect(() => {
+  //   if (parseFavorite !== null) dispatch(FavoriteAdd(parseFavorite));
+  // }, []);
 
   // 즐겨찾기를 삭제한 후 즐겨찾기를 업데이트 하는 함수
 

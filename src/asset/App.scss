@@ -5,11 +5,15 @@ $fold: "all and (max-width:280px)";
 
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400;500;700&display=swap");
 
+.App {
+  position: relative;
+}
+
 .wrap {
   margin: 0 auto;
   width: 1340px;
   min-height: 100vh;
-  overflow: hidden;
+  padding-top: 15px;
 
   header {
     height: 50px;
@@ -50,8 +54,6 @@ $fold: "all and (max-width:280px)";
   .Recommend {
     display: flex;
     width: 100%;
-    border-radius: 3px;
-    margin-top: 47px;
     position: relative;
 
     @media #{$mobile} {
@@ -563,7 +565,9 @@ $fold: "all and (max-width:280px)";
     background: #000;
     height: 110px;
     order: 3;
-    margin-top: 50px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
 
   .now_play {
