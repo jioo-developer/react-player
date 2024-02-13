@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { createStore } from "redux";
 import { applyMiddleware } from "redux";
 import logger from "redux-logger";
-import reducer from "./reducer/reducer";
+import reducer from "./module/reducer";
 
 let store = createStore(reducer, applyMiddleware(logger));
 

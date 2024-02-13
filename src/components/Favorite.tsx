@@ -1,18 +1,14 @@
-import React, { useEffect } from "react";
-import { batch, useSelector } from "react-redux";
-import {
-  FavoriteAdd,
-  ListAdd,
-  PlayStateAction,
-  removeFavorite,
-} from "../reducer/reducer";
+import React from "react";
+import { batch } from "react-redux";
+import { useMyContext } from "../module/MyContext";
+import { ListAdd, PlayStateAction, removeFavorite } from "../module/reducer";
+function Favorite({ audioState, favoriteState }) {
+  const { dispatch } = useMyContext();
 
-function Favorite({ FavoriteName, dispatch, audioState }) {
-  const favoriteState = useSelector((state) => state.favoriteData);
   // 즐겨찾기 상태 state
-
-  const parseFavorite = JSON.parse(localStorage.getItem(FavoriteName));
-  console.log(parseFavorite);
+  const parseFavorite = JSON.parse(
+    localStorage.getItem("FavoriteName") || "{}"
+  );
   //즐겨찾기 리스트 불러오기
   // useEffect(() => {
   //   if (parseFavorite !== null) dispatch(FavoriteAdd(parseFavorite));
@@ -22,8 +18,8 @@ function Favorite({ FavoriteName, dispatch, audioState }) {
 
   // 즐겨찾기 삭제 함수
 
-  function handler(DeleteData) {
-    let defaultArray = [DeleteData];
+  function handler(DeleteData: favoriteType) {
+    const defaultArray = [DeleteData];
     const result = parseFavorite.filter(
       (item) =>
         !defaultArray.some(

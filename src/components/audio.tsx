@@ -1,8 +1,7 @@
 import React from "react";
-import { PlayStateAction } from "../reducer/reducer";
-
+import { PlayStateAction } from "../module/reducer";
+import { useMyContext } from "../module/MyContext";
 function Audio({
-  dispatch,
   volume,
   audioState,
   loop,
@@ -15,6 +14,7 @@ function Audio({
   handleSeekbar,
   playerRef,
 }) {
+  const { dispatch } = useMyContext();
   function volumControl(e) {
     if (volume > 0) {
       if (e.target.parentElement.classList.contains("volum_up")) {
@@ -41,8 +41,12 @@ function Audio({
               onClick={() => {
                 loopAction(!loop);
                 loop === false
-                  ? (document.querySelector(".loop").style.opacity = "1")
-                  : (document.querySelector(".loop").style.opacity = "0.5");
+                  ? ((
+                      document.querySelector(".loop") as HTMLInputElement
+                    ).style.opacity = "1")
+                  : ((
+                      document.querySelector(".loop") as HTMLInputElement
+                    ).style.opacity = "0.5");
               }}
             />
           </button>
@@ -94,7 +98,7 @@ function Audio({
         </div>
         <div className="time_wrap">
           <p className="load_time">
-            {date(played) === NaN ? "00 : 00" : date(played)}
+            {isNaN(date(played)) ? "00 : 00" : date(played)}
           </p>
           <input
             type="range"

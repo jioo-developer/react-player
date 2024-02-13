@@ -1,9 +1,10 @@
 import React from "react";
 import { batch } from "react-redux";
 import { recomend_data } from "../recomend_data";
-import { ListAdd, PlayStateAction } from "../reducer/reducer";
-
-function Recommend({ dispatch }) {
+import { ListAdd, PlayStateAction } from "../module/reducer";
+import { useMyContext } from "../module/MyContext";
+function Recommend() {
+  const { dispatch } = useMyContext();
   function recommendPlay() {
     batch(() => {
       dispatch(ListAdd(recomend_data));

@@ -1,13 +1,25 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 import { useSelector } from "react-redux";
-import { PlayStateAction } from "../reducer/reducer";
+import { PlayStateAction } from "../module/reducer";
 import Audio from "./audio";
+import { useMyContext } from "../module/MyContext";
+type playerSelector = {
+  track: string[];
+};
 
-function Player({ dispatch, audioState }) {
-  const [thumbnail, setThumb] = useState("/img/defaultImg.png");
+type playGroundTpye = {
+  title: string;
+  thumbnail: string;
+};
+
+function Player({ audioState, list }) {
+  const { dispatch } = useMyContext();
+  const [thumbnail, setThumb] = useState<string | undefined>(
+    "/img/defaultImg.png"
+  );
   // 현재 썸네일 이미지
-  const [title, setTitle] = useState("기본정보가 없습니다");
+  const [title, setTitle] = useState<string | undefined>("기본정보가 없습니다");
   // 현재 재생중인 노래 타이틀
   const [loop, setLoop] = useState(false);
   const [volume, setVolume] = useState(4);
@@ -21,11 +33,10 @@ function Player({ dispatch, audioState }) {
   const [movieControl, setMovieControl] = useState(false);
   //뮤비 토글 컨트롤러
 
-  const playerRef = useRef();
+  const playerRef = useRef<ReactPlayer>(null);
 
-  const track = useSelector((state) => state.track);
-  const list = useSelector((state) => state.playlist);
-
+  const track = useSelector((state: playerSelector) => state.track);
+  const playRef = playerRef.current;
   // 스페이스 누르면 일시정지 되게 하는 함수
   window.onkeyup = function (event) {
     if (event.keyCode === 32) {
@@ -37,57 +48,57 @@ function Player({ dispatch, audioState }) {
   // 리스트 중 현재 재생중인 노래 index 함수
 
   function playSetting() {
-    const player = playerRef.current.getInternalPlayer();
-    const Sequence = player.playerInfo.playlistIndex;
-    const videoTitle = player.videoTitle;
-    const listLength = Array.from(document.querySelectorAll(".lists li"));
-    listLength.map((value, index) => {
-      //value 지우면 함수 작동이 안되기에 그냥 써놓는거
-      if (Sequence === index) {
-        return listLength[index].classList.add("index");
-      } else {
-        return listLength[index].classList.remove("index");
-      }
-    });
-    playGround(Sequence, videoTitle);
+    if (playRef) {
+      const player = playRef.getInternalPlayer();
+      const Sequence: number = player.playerInfo.playlistIndex;
+      const videoTitle: string = player.videoTitle;
+      const listLength: Element[] = Array.from(
+        document.querySelectorAll(".lists li")
+      );
+      listLength.map((value, index) => {
+        //value 지우면 함수 작동이 안되기에 그냥 써놓는거
+        if (Sequence === index) {
+          return listLength[index].classList.add("index");
+        } else {
+          return listLength[index].classList.remove("index");
+        }
+      });
+      playGround(Sequence, videoTitle);
+    }
   }
 
   // 리스트 중 현재 재생중인 노래 index 함수
 
   // 현재 재생중인 노래의 썸네일과 타이틀 함수
-
-  function playGround(Sequence, videoTitle) {
-    let objects = {};
-    objects.title = videoTitle;
-    objects.thumbnail = list[Sequence].thumbnail;
-
-    setTitle(objects.title);
-    setThumb(objects.thumbnail);
+  function playGround(Sequence: number, videoTitle: string): void {
+    const listElement = list[Sequence] as any;
+    if (listElement) {
+      const objects: playGroundTpye = {
+        title: videoTitle,
+        thumbnail: listElement.thumbnail,
+      };
+      setTitle(objects.title);
+      setThumb(objects.thumbnail);
+    }
   }
   // 현재 재생중인 노래의 썸네일과 타이틀 함수
 
   // 곡의 분/초에 관한 함수
 
-  function handleProgress(progress) {
-    if (progress !== undefined) {
-      setPlayed(Math.floor(progress.playedSeconds));
-      //현재 시점을 state로 전송
-      setSeekbar(progress.played.toFixed(3));
-      // 현재 진행바 시점을 전송
-    } else {
-      const playerSecond = playerRef.current.getCurrentTime();
-      setPlayed(Math.floor(playerSecond));
+  function handleProgress() {
+    if (playRef) {
+      const playerCurrentTime = playRef.getCurrentTime(); // 현재 재생 중인 비디오의 시간
+      setPlayed(Math.floor(playerCurrentTime)); // 현재 시간을 업데이트
+      const progress = playerCurrentTime / playRef.getDuration(); // 진행 상황을 계산
+      setSeekbar(progress); // 진행바 시점을 업데이트
     }
   }
 
-  // 곡의 분/초에 관한 함수
-
-  function handleDuration(duration) {
-    if (duration !== undefined) {
-      setDuration(duration - 1);
-    } else {
-      const playerDurate = playerRef.current.getDuration();
+  function handleDuration() {
+    if (playRef) {
+      const playerDurate = playRef.getDuration();
       setDuration(playerDurate - 1);
+      // 총 재생 시간을 가져와서 업데이트
     }
   }
 
@@ -113,20 +124,24 @@ function Player({ dispatch, audioState }) {
     dispatch(PlayStateAction());
   }
 
-  function date(duration) {
-    let hour = Math.floor(duration / 3600);
-    let minutes = Math.floor((duration - hour * 3600) / 60);
-    var second = duration - hour * 3600 - minutes * 60;
+  function date(duration: number): string {
+    let hour: number = Math.floor(duration / 3600);
+    let minutes: string | number = Math.floor((duration - hour * 3600) / 60);
+    let second: string | number = duration - hour * 3600 - minutes * 60;
+    const condition = (params: string | number) =>
+      typeof params === "number" && params < 10;
 
-    if (minutes < 10) {
+    if (condition(minutes)) {
       minutes = `0${minutes}`;
     }
-    if (second < 10) {
-      second = `0${second}`;
+    if (condition(second)) {
+      second = `0${Math.ceil(second as number)}`;
     }
 
     return ` ${minutes} : ${
-      second < 10 ? `0${Math.ceil(second)}` : Math.ceil(second)
+      condition(second)
+        ? `0${Math.ceil(second as number)}`
+        : Math.ceil(second as number)
     }`;
   }
 
@@ -163,8 +178,6 @@ function Player({ dispatch, audioState }) {
               }}
               onPlay={() => {
                 playSetting();
-                handleProgress();
-                handleDuration();
               }}
               onDuration={handleDuration}
               onError={handleError}
@@ -186,7 +199,6 @@ function Player({ dispatch, audioState }) {
         </div>
       </div>
       <Audio
-        dispatch={dispatch}
         volume={volume}
         audioState={audioState}
         loop={loop}
