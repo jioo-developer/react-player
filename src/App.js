@@ -7,7 +7,7 @@ import AddForm from "./components/AddForm";
 import List from "./components/List";
 import Favorite from "./components/Favorite";
 import Player from "./components/Player";
-//테스트
+//테스트2
 function App() {
   const dispatch = useDispatch();
   const FavoriteName = "FavoriteName";
