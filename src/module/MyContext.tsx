@@ -1,5 +1,5 @@
 // MyContext.js (파일 생성)
-import React, { createContext, useContext } from "react";
+import React, { ReactNode, createContext, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,7 @@ const MyContext = createContext({
   dispatch: (params: any) => {},
 });
 
-export const MyContextProvider = ({ children }) => {
+export const MyContextProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
