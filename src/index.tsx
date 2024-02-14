@@ -4,12 +4,12 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { createStore } from "redux";
+import { Reducer, createStore } from "redux";
 import { applyMiddleware } from "redux";
 import logger from "redux-logger";
 import reducer from "./module/reducer";
 
-let store = createStore(reducer, applyMiddleware(logger));
+let store = createStore(reducer as Reducer, applyMiddleware(logger));
 
 ReactDOM.render(
   <React.StrictMode>
