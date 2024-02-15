@@ -34,7 +34,7 @@ function Recommend() {
             return (
               <div className="album" key={item.id}>
                 <figure>
-                  <img src={`/img/${index}.jpg`} alt=""></img>
+                  <img src={`${item.thumbnail}`} alt=""></img>
                 </figure>
                 <figcaption>
                   <p>{item.title}</p>

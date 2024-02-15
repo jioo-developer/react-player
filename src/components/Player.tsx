@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { PlayStateAction } from "../module/reducer";
 import Audio from "./audio";
 import { useMyContext } from "../module/MyContext";
+import { url } from "inspector";
 
 type playerSelector = {
   track: string[];
@@ -20,7 +21,7 @@ function Player({ audioState, playlist }: playerProps) {
     "/img/defaultImg.png"
   );
   // 현재 썸네일 이미지
-  const [title, setTitle] = useState<string | undefined>("기본정보가 없습니다");
+  const [title, setTitle] = useState<string | undefined>("");
   // 현재 재생중인 노래 타이틀
   const [loop, setLoop] = useState(false);
   const [volume, setVolume] = useState(4);
@@ -30,13 +31,16 @@ function Player({ audioState, playlist }: playerProps) {
   // 재생되는 개체 풀 타임
   const [seekbar, setSeekbar] = useState(0);
   // 100% 중 몇프로 진행 됐는지
-
-  const [movieControl, setMovieControl] = useState(false);
-  //뮤비 토글 컨트롤러
-
   const playerRef = useRef<ReactPlayer>(null);
-  const playRef: any = playerRef.current;
+  const playRef: ReactPlayer | null = playerRef.current;
   const track = useSelector((state: playerSelector) => state.track);
+  const [movieToggle, setMovie] = useState(false);
+  useEffect(() => {
+    let playRef = playerRef.current;
+    if (!playRef) {
+      playRef = playerRef.current;
+    }
+  }, [playRef]);
 
   // 스페이스 누르면 일시정지 되게 하는 함수
   window.onkeyup = function (event) {
@@ -49,6 +53,9 @@ function Player({ audioState, playlist }: playerProps) {
   // 리스트 중 현재 재생중인 노래 index 함수
 
   function playSetting() {
+    setTimeout(() => {
+      setMovie(true);
+    }, 500);
     if (playRef) {
       const player = playRef.getInternalPlayer();
       const Sequence: number = player.playerInfo.playlistIndex;
@@ -66,7 +73,6 @@ function Player({ audioState, playlist }: playerProps) {
           }
         });
       }
-
       playGround(Sequence, videoTitle);
     }
   }
@@ -101,13 +107,9 @@ function Player({ audioState, playlist }: playerProps) {
   function handleDuration() {
     if (playRef) {
       const playerDurate = playRef.getDuration();
+      console.log(playerDurate);
       setDuration(playerDurate - 1);
-      // 총 재생 시간을 가져와서 업데이트
     }
-  }
-
-  function movieAction() {
-    setMovieControl((prev) => !prev);
   }
 
   // 곡의 풀타임 시간에 관한 함수
@@ -128,7 +130,7 @@ function Player({ audioState, playlist }: playerProps) {
     dispatch(PlayStateAction());
   }
 
-  function date(duration: number): string {
+  function TimeLogic(duration: number): string {
     let hour: number = Math.floor(duration / 3600);
     let minutes: string | number = Math.floor((duration - hour * 3600) / 60);
     let second: string | number = duration - hour * 3600 - minutes * 60;
@@ -138,20 +140,16 @@ function Player({ audioState, playlist }: playerProps) {
     if (condition(minutes)) {
       minutes = `0${minutes}`;
     } else {
-      minutes = minutes;
+      minutes = Math.ceil(minutes);
     }
     if (condition(second)) {
       second = `0${Math.ceil(second as number)}`;
     } else {
-      second = second;
+      second = Math.ceil(second);
     }
 
     return `${minutes} : ${second}`;
   }
-
-  useEffect(() => {
-    if (audioState) movieAction();
-  }, [audioState]);
 
   // api에 나온 시점을 분 초 로 계산하는 함수
 
@@ -159,46 +157,43 @@ function Player({ audioState, playlist }: playerProps) {
     <>
       <div className="play">
         <div className="movie_box">
-          <div className="movie-toggle">
-            <input type="checkbox" id="moive_check" onClick={movieAction} />
-            <label htmlFor="movie_check">뮤비보기</label>
-          </div>
-          {!movieControl ? (
-            <div className="playing">
-              <figure className="playing-thumbnail">
-                <img src={thumbnail} alt="" />
-              </figure>
-              <figcaption>{title}</figcaption>
-            </div>
-          ) : (
-            <ReactPlayer
-              ref={playerRef}
-              playing={audioState}
-              loop={loop}
-              url={track}
-              volume={Number(`0.${volume}`)}
-              onStart={() => {
-                playSetting();
-              }}
-              onPlay={() => {
-                playSetting();
-              }}
-              onDuration={handleDuration}
-              onError={handleError}
-              onProgress={handleProgress}
-              width="100%"
-              className={"player"}
-              height="100%"
-              controls={false}
-              config={{
-                youtube: {
-                  playerVars: {
-                    rel: 0,
-                    modestbranding: 1,
-                  },
+          <ReactPlayer
+            ref={playerRef}
+            playing={audioState}
+            loop={loop}
+            url={track}
+            volume={Number(`0.${volume}`)}
+            onStart={() => {
+              playSetting();
+            }}
+            onPlay={() => {
+              playSetting();
+              handleProgress();
+              handleDuration();
+            }}
+            onDuration={handleDuration}
+            onError={handleError}
+            onProgress={handleProgress}
+            width="100%"
+            className={"player"}
+            height="100%"
+            controls={false}
+            config={{
+              youtube: {
+                playerVars: {
+                  rel: 0,
+                  modestbranding: 1,
                 },
-              }}
-            />
+              },
+            }}
+          />
+          {!movieToggle ? (
+            <div
+              className="playing"
+              style={{ backgroundImage: `url(${thumbnail})` }}
+            ></div>
+          ) : (
+            <figcaption>{title}</figcaption>
           )}
         </div>
       </div>
@@ -209,7 +204,7 @@ function Player({ audioState, playlist }: playerProps) {
         getVolume={getVolume}
         loopAction={loopAction}
         played={played}
-        date={date}
+        TimeLogic={TimeLogic}
         seekbar={seekbar}
         duration={duration}
         handleSeekbar={handleSeekbar}

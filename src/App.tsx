@@ -27,14 +27,7 @@ function App() {
         <div className="wrap">
           <Recommend />
           <Favorite audioState={audioState} favoriteState={favoriteState} />
-          <section
-            className="album_wrap"
-            style={
-              favoriteState.length > 0
-                ? { paddingBottom: 175 }
-                : { paddingBottom: 123 }
-            }
-          >
+          <section className="album_wrap">
             <Player audioState={audioState} playlist={list} />
             <AddForm />
             <List

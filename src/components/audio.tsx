@@ -11,9 +11,9 @@ type audioProps = {
   handleSeekbar: (params: number) => void;
   played: number;
   duration: number;
-  date: (parmas: number) => string;
+  TimeLogic: (parmas: number) => string;
   seekbar: number;
-  playRef: ReactPlayer | undefined;
+  playRef: ReactPlayer | null;
 };
 
 function Audio({
@@ -24,7 +24,7 @@ function Audio({
   loopAction,
   played,
   duration,
-  date,
+  TimeLogic,
   seekbar,
   handleSeekbar,
   playRef,
@@ -117,7 +117,7 @@ function Audio({
           )}
         </div>
         <div className="time_wrap">
-          <p className="load_time">{date(played)}</p>
+          <p className="load_time">{TimeLogic(played)}</p>
           <input
             type="range"
             step="any"
@@ -130,7 +130,7 @@ function Audio({
               handleSeekMouseUp(e)
             }
           />
-          <p className="full_time">{date(duration)}</p>
+          <p className="full_time">{TimeLogic(duration)}</p>
         </div>
       </div>
     </div>
