@@ -9,17 +9,18 @@ import Favorite from "./components/Favorite";
 import Player from "./components/Player";
 import { MyContextProvider } from "./module/MyContext";
 
+type appProps = {
+  playState: boolean;
+  favoriteData: commonData[];
+  playlist: commonData[];
+};
+
 function App() {
   // 트랙 default array
-  const audioState = useSelector((state: useSelectorType) => state.playState);
+  const audioState = useSelector((state: appProps) => state.playState);
   // 현재 재생상황 state
-  const favoriteState = useSelector(
-    (state: useSelectorType) => state.favoriteData
-  );
-  const list = useSelector((state: useSelectorType) => state.playlist);
-
-  // 즐겨찾기 상태 state
-
+  const favoriteState = useSelector((state: appProps) => state.favoriteData);
+  const list = useSelector((state: appProps) => state.playlist);
   return (
     <div className="App">
       <MyContextProvider>
@@ -34,11 +35,11 @@ function App() {
                 : { paddingBottom: 123 }
             }
           >
-            <Player audioState={audioState} list={list} />
+            <Player audioState={audioState} playlist={list} />
             <AddForm />
             <List
               audioState={audioState}
-              list={list}
+              playlist={list}
               favoriteState={favoriteState}
             />
           </section>

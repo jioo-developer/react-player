@@ -1,6 +1,21 @@
-import React from "react";
 import { PlayStateAction } from "../module/reducer";
 import { useMyContext } from "../module/MyContext";
+import ReactPlayer from "react-player";
+
+type audioProps = {
+  volume: number;
+  audioState: boolean;
+  loop: boolean;
+  getVolume: (params: number) => void;
+  loopAction: (params: boolean) => void;
+  handleSeekbar: (params: number) => void;
+  played: number;
+  duration: number;
+  date: (parmas: number) => string;
+  seekbar: number;
+  playRef: ReactPlayer | undefined;
+};
+
 function Audio({
   volume,
   audioState,
@@ -12,22 +27,25 @@ function Audio({
   date,
   seekbar,
   handleSeekbar,
-  playerRef,
-}) {
+  playRef,
+}: audioProps) {
   const { dispatch } = useMyContext();
-  function volumControl(e) {
-    if (volume > 0) {
-      if (e.target.parentElement.classList.contains("volum_up")) {
-        getVolume(volume + 1);
-      } else if (e.target.parentElement.classList.contains("volum_down")) {
-        getVolume(volume - 1);
-      }
+  const volumControl = (parmas: string) => {
+    if (parmas === "up") {
+      getVolume(volume + 1);
+    } else {
+      getVolume(volume - 1);
     }
-  }
+  };
 
-  function handleSeekMouseUp(e) {
-    playerRef.current.seekTo(parseFloat(e.target.value));
-  }
+  const handleSeekMouseUp = (
+    e: React.MouseEvent<HTMLInputElement, MouseEvent>
+  ) => {
+    const target = e.target as HTMLInputElement;
+    if (playRef && target) {
+      playRef.seekTo(parseFloat(target.value));
+    }
+  };
 
   return (
     <div className="control_out_wrap">
@@ -50,19 +68,19 @@ function Audio({
               }}
             />
           </button>
-          <button className="volum control volum_down" title="볼륨다운">
-            <img
-              src="/img/volume_down_black_24dp.svg"
-              alt="볼륨내리기"
-              onClick={(e) => volumControl(e)}
-            />
+          <button
+            className="volum control volum_down"
+            title="볼륨다운"
+            onClick={() => volumControl("down")}
+          >
+            <img src="/img/volume_down_black_24dp.svg" alt="볼륨내리기" />
           </button>
-          <button className="volum control volum_up" title="볼륨업">
-            <img
-              src="/img/volume_up_black_24dp.svg"
-              alt="볼륨올리기"
-              onClick={(e) => volumControl(e)}
-            />
+          <button
+            className="volum control volum_up"
+            title="볼륨업"
+            onClick={() => volumControl("up")}
+          >
+            <img src="/img/volume_up_black_24dp.svg" alt="볼륨올리기" />
           </button>
           <button className="next control">
             <img
@@ -74,7 +92,9 @@ function Audio({
           </button>
           <button
             className="next control"
-            onClick={() => playerRef.current.seekTo(999)}
+            onClick={() => {
+              if (playRef) playRef.seekTo(999);
+            }}
           >
             <img src="/img/skip_next_black_24dp.svg" alt="" />
           </button>
@@ -97,9 +117,7 @@ function Audio({
           )}
         </div>
         <div className="time_wrap">
-          <p className="load_time">
-            {isNaN(date(played)) ? "00 : 00" : date(played)}
-          </p>
+          <p className="load_time">{date(played)}</p>
           <input
             type="range"
             step="any"
@@ -108,7 +126,9 @@ function Audio({
             max={0.9999}
             value={seekbar}
             onChange={(e) => handleSeekbar(parseFloat(e.target.value))}
-            onMouseUp={(e) => handleSeekMouseUp(e)}
+            onMouseUp={(e: React.MouseEvent<HTMLInputElement, MouseEvent>) =>
+              handleSeekMouseUp(e)
+            }
           />
           <p className="full_time">{date(duration)}</p>
         </div>

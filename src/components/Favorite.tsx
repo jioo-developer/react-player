@@ -1,36 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { batch } from "react-redux";
 import { useMyContext } from "../module/MyContext";
-import { ListAdd, PlayStateAction, removeFavorite } from "../module/reducer";
-function Favorite({ audioState, favoriteState }) {
-  const { dispatch } = useMyContext();
+import {
+  FavoriteAdd,
+  ListAdd,
+  PlayStateAction,
+  removeFavorite,
+} from "../module/reducer";
 
+type favoriteProps = {
+  audioState: boolean;
+  favoriteState: commonData[];
+};
+
+function Favorite({ audioState, favoriteState }: favoriteProps) {
+  const { dispatch } = useMyContext();
   // 즐겨찾기 상태 state
   const parseFavorite = JSON.parse(
     localStorage.getItem("FavoriteName") || "{}"
   );
-  //즐겨찾기 리스트 불러오기
+  // 즐겨찾기 리스트 불러오기
   // useEffect(() => {
-  //   if (parseFavorite !== null) dispatch(FavoriteAdd(parseFavorite));
+  //   if (Object.entries(parseFavorite).length > 0) {
+  //     dispatch(FavoriteAdd([parseFavorite]));
+  //   }
   // }, []);
 
-  // 즐겨찾기를 삭제한 후 즐겨찾기를 업데이트 하는 함수
+  function handler(DeleteData: commonData) {
+    if (Object.entries(parseFavorite).length > 0) {
+      const defaultArray = [DeleteData];
+      const result = parseFavorite.filter(
+        (item: commonData) =>
+          !defaultArray.some(
+            (defaultArray) =>
+              defaultArray.id === item.id &&
+              defaultArray.url === item.url &&
+              defaultArray.title === item.title
+          )
+      );
 
-  // 즐겨찾기 삭제 함수
-
-  function handler(DeleteData: favoriteType) {
-    const defaultArray = [DeleteData];
-    const result = parseFavorite.filter(
-      (item) =>
-        !defaultArray.some(
-          (defaultArray) =>
-            defaultArray.id === item.id &&
-            defaultArray.url === item.url &&
-            defaultArray.title === item.title
-        )
-    );
-
-    dispatch(removeFavorite(result));
+      dispatch(removeFavorite(result));
+    }
   }
 
   // 즐겨찾기 삭제 함수
@@ -50,7 +60,7 @@ function Favorite({ audioState, favoriteState }) {
                     <img src={value.thumbnail} alt="" />
                   </figure>
                   <div className="data-title">{value.title}</div>
-                  {value.singer !== undefined ? (
+                  {value.singer ? (
                     <figcaption>{value.singer}</figcaption>
                   ) : null}
                   <input type="checkbox" id="CheckBtn" />
@@ -59,16 +69,14 @@ function Favorite({ audioState, favoriteState }) {
                       <li
                         onClick={() => {
                           batch(() => {
-                            dispatch(ListAdd(favoriteState[index]));
+                            dispatch(ListAdd(value));
                             if (!audioState) dispatch(PlayStateAction());
                           });
                         }}
                       >
                         재생
                       </li>
-                      <li onClick={() => handler(favoriteState[index])}>
-                        삭제
-                      </li>
+                      <li onClick={() => handler(value)}>삭제</li>
                     </ul>
                   </label>
                 </article>

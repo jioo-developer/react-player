@@ -1,4 +1,4 @@
-const initialState: reducerType = {
+const initialState = {
   playlist: [],
   favoriteData: [],
   playState: false,
@@ -11,26 +11,26 @@ const Remove = "Remove";
 const playState = "playState";
 const track = "track";
 
-export const ListAdd = (data: favoriteType[]) => ({
+export const ListAdd = (data: any) => ({
   type: ADDLIST,
   data,
 });
 
-export const trackUpdate = (data: string[]) => ({
+export const trackUpdate = (data: any) => ({
   type: track,
   data,
 });
 
 //앨범에 트랙 추가 함수
 
-export const FavoriteAdd = (data: favoriteType[]) => ({
+export const FavoriteAdd = (data: any) => ({
   type: FAVORITE,
   data,
 });
 
 //즐겨찾기 추가 함수
 
-export const removeFavorite = (data: favoriteType[]) => ({
+export const removeFavorite = (data: any) => ({
   type: Remove,
   data,
 });
@@ -46,16 +46,19 @@ export const PlayStateAction = () => ({
 export default function reducer(state = initialState, action: any) {
   switch (action.type) {
     case ADDLIST:
-      const stateCheck: any[] = state.playlist.concat(action.data);
+      const stateCheck: commonData[] = Array.isArray(action.data)
+        ? [...state.playlist, ...action.data]
+        : [...state.playlist, action.data];
+      const filterList = stateCheck.filter((value, idx, arr) => {
+        return (
+          arr.findIndex((item) => {
+            return item.url === value.url;
+          }) === idx
+        );
+      });
       return {
         ...state,
-        playlist: stateCheck.filter((value, idx, arr) => {
-          return (
-            arr.findIndex((item) => {
-              return item.url === value.url;
-            }) === idx
-          );
-        }),
+        playlist: filterList,
       };
 
     case track:
@@ -66,22 +69,26 @@ export default function reducer(state = initialState, action: any) {
 
     case FAVORITE:
       const favoritestateCheck = state.favoriteData.concat(action.data);
+      const filterState = favoritestateCheck.filter((value, idx, arr) => {
+        return (
+          arr.findIndex((item) => {
+            return (
+              item.id === value.id &&
+              item.url === value.url &&
+              item.title === value.title
+            );
+          }) === idx
+        );
+      });
+      localStorage.setItem("favoriteName", JSON.stringify(filterState));
       return {
         ...state,
-        favoriteData: favoritestateCheck.filter((value, idx, arr) => {
-          return (
-            arr.findIndex((item) => {
-              return (
-                item.id === value.id &&
-                item.url === value.url &&
-                item.title === value.title
-              );
-            }) === idx
-          );
-        }),
+        favoriteData: filterState,
       };
 
     case Remove:
+      localStorage.removeItem("favoriteName");
+      localStorage.setItem("FavoriteName", JSON.stringify(action.data));
       return {
         ...state,
         favoriteData: action.data,

@@ -7,7 +7,7 @@ function AddList() {
   const urlRef = useRef<HTMLInputElement>(null);
   // 재생/일시정지 state
 
-  function youtube_parser(params) {
+  function youtube_parser(params: string) {
     let regExp = /^.*((youtu.be\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     let match = params.match(regExp);
     if (match !== null && match[4].length === 11) {
@@ -18,7 +18,7 @@ function AddList() {
     }
   }
 
-  function geturlData(value) {
+  function geturlData(value: string) {
     const response = fetch(
       "https://noembed.com/embed??" +
         new URLSearchParams({
@@ -29,10 +29,9 @@ function AddList() {
     return response.then((res) => res.json());
   }
 
-  async function addPlayList(e) {
-    e.preventDefault();
+  async function addPlayList() {
     if (urlRef.current) {
-      const url = urlRef.current.value; //61번째 줄
+      const url: string = urlRef.current.value;
       const createParser = youtube_parser(url);
       if (createParser) {
         const resultURL = `https://youtube.com/watch?v=${createParser}`;
@@ -44,10 +43,10 @@ function AddList() {
             thumbnail: response.thumbnail_url,
           };
           dispatch(ListAdd(object));
-          (document.querySelector(".text_input") as HTMLInputElement).value =
-            "";
+          urlRef.current.value = "";
         } catch (error) {
           console.log(resultURL);
+          console.log(error);
           console.log("------------------------------");
         }
       } else {
@@ -60,7 +59,7 @@ function AddList() {
   return (
     <div className="input_wrap">
       <p>곡 검색</p>
-      <form>
+      <div className="form">
         <input
           type="text"
           placeholder="유튜브 주소를 입력해주세요"
@@ -68,8 +67,8 @@ function AddList() {
           name="url"
           ref={urlRef}
         ></input>
-        <button onClick={(e) => addPlayList(e)}>추가</button>
-      </form>
+        <button onClick={addPlayList}>추가</button>
+      </div>
     </div>
   );
 }

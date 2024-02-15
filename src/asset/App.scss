@@ -379,7 +379,7 @@ $fold: "all and (max-width:280px)";
         }
       }
 
-      form {
+      .form {
         display: flex;
         width: 100%;
         justify-content: space-between;
@@ -649,7 +649,6 @@ $fold: "all and (max-width:280px)";
     }
 
     input[type="range"] {
-      -webkit-appearance: none;
       overflow: hidden;
       width: 75%;
       height: 10px;

@@ -4,16 +4,17 @@ import { useSelector } from "react-redux";
 import { PlayStateAction } from "../module/reducer";
 import Audio from "./audio";
 import { useMyContext } from "../module/MyContext";
+
 type playerSelector = {
   track: string[];
 };
 
-type playGroundTpye = {
-  title: string;
-  thumbnail: string;
+type playerProps = {
+  audioState: boolean;
+  playlist: commonData[];
 };
 
-function Player({ audioState, list }) {
+function Player({ audioState, playlist }: playerProps) {
   const { dispatch } = useMyContext();
   const [thumbnail, setThumb] = useState<string | undefined>(
     "/img/defaultImg.png"
@@ -34,9 +35,9 @@ function Player({ audioState, list }) {
   //뮤비 토글 컨트롤러
 
   const playerRef = useRef<ReactPlayer>(null);
-
+  const playRef: any = playerRef.current;
   const track = useSelector((state: playerSelector) => state.track);
-  const playRef = playerRef.current;
+
   // 스페이스 누르면 일시정지 되게 하는 함수
   window.onkeyup = function (event) {
     if (event.keyCode === 32) {
@@ -53,16 +54,19 @@ function Player({ audioState, list }) {
       const Sequence: number = player.playerInfo.playlistIndex;
       const videoTitle: string = player.videoTitle;
       const listLength: Element[] = Array.from(
-        document.querySelectorAll(".lists li")
+        document.querySelectorAll(".lists li") || []
       );
-      listLength.map((value, index) => {
-        //value 지우면 함수 작동이 안되기에 그냥 써놓는거
-        if (Sequence === index) {
-          return listLength[index].classList.add("index");
-        } else {
-          return listLength[index].classList.remove("index");
-        }
-      });
+      if (listLength.length > 0) {
+        listLength.map((value, index) => {
+          //value 지우면 함수 작동이 안되기에 그냥 써놓는거
+          if (Sequence === index) {
+            return value.classList.add("index");
+          } else {
+            return value.classList.remove("index");
+          }
+        });
+      }
+
       playGround(Sequence, videoTitle);
     }
   }
@@ -71,9 +75,9 @@ function Player({ audioState, list }) {
 
   // 현재 재생중인 노래의 썸네일과 타이틀 함수
   function playGround(Sequence: number, videoTitle: string): void {
-    const listElement = list[Sequence] as any;
+    const listElement = playlist[Sequence];
     if (listElement) {
-      const objects: playGroundTpye = {
+      const objects = {
         title: videoTitle,
         thumbnail: listElement.thumbnail,
       };
@@ -108,19 +112,19 @@ function Player({ audioState, list }) {
 
   // 곡의 풀타임 시간에 관한 함수
 
-  function getVolume(volume) {
+  function getVolume(volume: number) {
     setVolume(volume);
   }
 
-  function loopAction(loop) {
+  function loopAction(loop: boolean) {
     setLoop(loop);
   }
-  function handleSeekbar(seekbar) {
+  function handleSeekbar(seekbar: number) {
     setSeekbar(seekbar);
   }
   // 진행바에 특정 구간을 클릭시 그 값으로 시점이 이동되게 하는 함수
 
-  function handleError(error) {
+  function handleError() {
     dispatch(PlayStateAction());
   }
 
@@ -133,16 +137,16 @@ function Player({ audioState, list }) {
 
     if (condition(minutes)) {
       minutes = `0${minutes}`;
+    } else {
+      minutes = minutes;
     }
     if (condition(second)) {
       second = `0${Math.ceil(second as number)}`;
+    } else {
+      second = second;
     }
 
-    return ` ${minutes} : ${
-      condition(second)
-        ? `0${Math.ceil(second as number)}`
-        : Math.ceil(second as number)
-    }`;
+    return `${minutes} : ${second}`;
   }
 
   useEffect(() => {
@@ -209,7 +213,7 @@ function Player({ audioState, list }) {
         seekbar={seekbar}
         duration={duration}
         handleSeekbar={handleSeekbar}
-        playerRef={playerRef}
+        playRef={playRef}
       />
     </>
   );
