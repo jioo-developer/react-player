@@ -42,10 +42,7 @@ function Player({ audioState, playlist, track }: playerProps) {
   // 리스트 중 현재 재생중인 노래 index 함수
 
   function playSetting() {
-    setTimeout(() => {
-      setMovie(true);
-    }, 500);
-    //삐데한데
+    setMovie(true);
     if (playRef) {
       const player = playRef.getInternalPlayer();
       const Sequence: number = player.playerInfo.playlistIndex;
@@ -53,7 +50,6 @@ function Player({ audioState, playlist, track }: playerProps) {
       const listLength: Element[] = Array.from(
         document.querySelectorAll(".lists li") || []
       );
-      //all 부분 다르게 표현
       if (listLength.length > 0) {
         listLength.map((value, index) => {
           if (Sequence === index) {
@@ -140,10 +136,14 @@ function Player({ audioState, playlist, track }: playerProps) {
       second = Math.ceil(second);
     }
 
+    if (second >= 60) {
+      minutes += Math.floor(second / 60);
+      second = second % 60;
+    }
+
     return `${minutes} : ${second}`;
   }
 
-  // second가 60이 되면 분으로 넘어가게 gpt 사용
 
   // api에 나온 시점을 분 초 로 계산하는 함수
 
