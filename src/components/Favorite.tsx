@@ -15,16 +15,20 @@ type favoriteProps = {
 
 function Favorite({ audioState, favoriteState }: favoriteProps) {
   const { dispatch } = useMyContext();
-  // 즐겨찾기 상태 state
   const parseFavorite = JSON.parse(
     localStorage.getItem("FavoriteName") || "{}"
   );
+
   // 즐겨찾기 리스트 불러오기
   useEffect(() => {
     if (Object.entries(parseFavorite).length > 0) {
       dispatch(FavoriteAdd(parseFavorite));
     }
   }, []);
+    // 즐겨찾기 리스트 불러오기
+
+      // 즐겨찾기 삭제 함수
+
 
   function handler(DeleteData: commonData) {
     const defaultArray = [DeleteData];

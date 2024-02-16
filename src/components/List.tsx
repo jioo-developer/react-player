@@ -47,12 +47,10 @@ function List({ audioState, playlist, favoriteState, track }: playerProps) {
 
   function directPlay(index: number) {
     const initialArray = [...track];
-    console.log(initialArray);
     const prevSlice = initialArray.splice(index, 1);
     initialArray.unshift(...prevSlice);
 
     const newPlayList = [...playlist];
-    console.log(newPlayList);
     const prevPlayList = newPlayList.splice(index, 1);
     newPlayList.unshift(...prevPlayList);
 
