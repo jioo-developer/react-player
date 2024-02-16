@@ -17,7 +17,6 @@ type appProps = {
 
 function App() {
   const audioState = useSelector((state: appProps) => state.playState);
-  // 현재 재생상황 state
   const favoriteState = useSelector((state: appProps) => state.favoriteData);
   const list = useSelector((state: appProps) => state.playlist);
   const track = useSelector((state: appProps) => state.track);
