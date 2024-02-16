@@ -16,7 +16,6 @@ type appProps = {
 };
 
 function App() {
-  // 트랙 default array
   const audioState = useSelector((state: appProps) => state.playState);
   // 현재 재생상황 state
   const favoriteState = useSelector((state: appProps) => state.favoriteData);
