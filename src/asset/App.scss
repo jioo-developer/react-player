@@ -161,7 +161,7 @@ $fold: "all and (max-width:280px)";
             }
           }
 
-          figcaption {
+          figcaption button {
             font-size: 16px;
             color: #fff;
             position: relative;
@@ -379,7 +379,7 @@ $fold: "all and (max-width:280px)";
         }
       }
 
-      form {
+      .form {
         display: flex;
         width: 100%;
         justify-content: space-between;
@@ -436,7 +436,7 @@ $fold: "all and (max-width:280px)";
 
   .album_list {
     display: flex;
-    width: 30%;
+    width: 31%;
     flex-direction: column;
     order: 2;
 
@@ -649,7 +649,6 @@ $fold: "all and (max-width:280px)";
     }
 
     input[type="range"] {
-      -webkit-appearance: none;
       overflow: hidden;
       width: 75%;
       height: 10px;
@@ -754,14 +753,16 @@ footer {
   }
 
   .playing {
-    order: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scale(1.005);
   }
-}
 
-.player {
-  position: absolute;
-  top: 0;
-  left: 0;
+  figcaption {
+    font-weight: 500;
+    margin-top: 10px;
+  }
 }
 
 .player_wrap {
@@ -778,24 +779,21 @@ footer {
 .play {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 32%;
   align-items: center;
 }
 
 .playing {
   display: flex;
   width: 100%;
+  min-height: 300px;
+  max-height: 400px;
+  background-size: contain;
+  background-position: center;
   flex-direction: column;
-
-  .playing-thumbnail {
-    width: 100%;
-    overflow: hidden;
-
-    img {
-      width: 100%;
-      border-radius: 7px;
-    }
-  }
+  background-position-y: -35px;
+  position: relative;
+  z-index: 10;
 
   figcaption {
     text-align: center;
@@ -864,4 +862,11 @@ iframe {
 
 button {
   cursor: pointer;
+  background: transparent;
+  outline: none;
+  border: 0;
+}
+
+.list_text {
+  max-width: 380px;
 }

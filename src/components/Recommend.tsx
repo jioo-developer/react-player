@@ -1,13 +1,13 @@
-import React from "react";
 import { batch } from "react-redux";
 import { recomend_data } from "../recomend_data";
-import { ListAdd, PlayStateAction } from "../reducer/reducer";
-
-function Recommend({ dispatch }) {
+import { ListAdd, PlayStateAction } from "../module/reducer";
+import { useMyContext } from "../module/MyContext";
+function Recommend({ audioState }: { audioState: boolean }) {
+  const { dispatch } = useMyContext();
   function recommendPlay() {
     batch(() => {
       dispatch(ListAdd(recomend_data));
-      dispatch(PlayStateAction());
+      if (!audioState) dispatch(PlayStateAction(true));
     });
   }
 
@@ -24,16 +24,18 @@ function Recommend({ dispatch }) {
             <figure>
               <img src="/img/play-button.svg" alt="" />
             </figure>
-            <figcaption onClick={recommendPlay}>추천곡 들어보기</figcaption>
+            <figcaption>
+              <button onClick={recommendPlay}>추천곡 들어보기</button>
+            </figcaption>
           </div>
         </div>
 
         <div className="recommend_album">
-          {recomend_data.map(function (item, index) {
+          {recomend_data.map(function (item) {
             return (
               <div className="album" key={item.id}>
                 <figure>
-                  <img src={`/img/${index}.jpg`} alt=""></img>
+                  <img src={`${item.thumbnail}`} alt=""></img>
                 </figure>
                 <figcaption>
                   <p>{item.title}</p>
