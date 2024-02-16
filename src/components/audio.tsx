@@ -1,4 +1,4 @@
-import { ListAdd, PlayStateAction, trackUpdate } from "../module/reducer";
+import { PlayStateAction } from "../module/reducer";
 import { useMyContext } from "../module/MyContext";
 import ReactPlayer from "react-player";
 
@@ -81,21 +81,16 @@ function Audio({
           >
             <img src="/img/skip_next_black_24dp.svg" alt="" />
           </button>
-          {audioState ? (
-            <button
-              className="toggle control"
-              onClick={() => dispatch(PlayStateAction())}
-            >
+          <button
+            className="toggle control"
+            onClick={() => dispatch(PlayStateAction(!audioState))}
+          >
+            {audioState ? (
               <img src="/img/pause_black_24dp.svg" alt="중지" />
-            </button>
-          ) : (
-            <button
-              className="toggle control"
-              onClick={() => dispatch(PlayStateAction())}
-            >
+            ) : (
               <img src="/img/play_arrow_black_24dp.svg" alt="재생" />
-            </button>
-          )}
+            )}
+          </button>
         </div>
         <div className="time_wrap">
           <p className="load_time">{TimeLogic(played)}</p>

@@ -1,4 +1,3 @@
-import React from "react";
 import "./asset/reset.css";
 import "./asset/App.scss";
 import Recommend from "./components/Recommend";
@@ -28,7 +27,7 @@ function App() {
     <div className="App">
       <MyContextProvider>
         <div className="wrap">
-          <Recommend />
+          <Recommend audioState={audioState} />
           <Favorite audioState={audioState} favoriteState={favoriteState} />
           <section
             className="album_wrap"

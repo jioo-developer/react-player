@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { batch } from "react-redux";
 import { useMyContext } from "../module/MyContext";
 import {
@@ -20,27 +20,25 @@ function Favorite({ audioState, favoriteState }: favoriteProps) {
     localStorage.getItem("FavoriteName") || "{}"
   );
   // 즐겨찾기 리스트 불러오기
-  // useEffect(() => {
-  //   if (Object.entries(parseFavorite).length > 0) {
-  //     dispatch(FavoriteAdd([parseFavorite]));
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (Object.entries(parseFavorite).length > 0) {
+      dispatch(FavoriteAdd(parseFavorite));
+    }
+  }, []);
 
   function handler(DeleteData: commonData) {
-    if (Object.entries(parseFavorite).length > 0) {
-      const defaultArray = [DeleteData];
-      const result = parseFavorite.filter(
-        (item: commonData) =>
-          !defaultArray.some(
-            (defaultArray) =>
-              defaultArray.id === item.id &&
-              defaultArray.url === item.url &&
-              defaultArray.title === item.title
-          )
-      );
+    const defaultArray = [DeleteData];
+    const result = favoriteState.filter(
+      (item: commonData) =>
+        !defaultArray.some(
+          (defaultArray) =>
+            defaultArray.id === item.id &&
+            defaultArray.url === item.url &&
+            defaultArray.title === item.title
+        )
+    );
 
-      dispatch(removeFavorite(result));
-    }
+    dispatch(removeFavorite(result));
   }
 
   // 즐겨찾기 삭제 함수
@@ -57,12 +55,18 @@ function Favorite({ audioState, favoriteState }: favoriteProps) {
               return (
                 <article className="recently_music" key={index}>
                   <figure>
-                    <img src={value.thumbnail} alt="" />
+                    <img
+                      src={value.thumbnail}
+                      alt=""
+                      style={{ width: 185, height: 140 }}
+                    />
                   </figure>
                   <div className="data-title">{value.title}</div>
                   {value.singer ? (
                     <figcaption>{value.singer}</figcaption>
-                  ) : null}
+                  ) : (
+                    <figcaption>가수 정보 없음</figcaption>
+                  )}
                   <input type="checkbox" id="CheckBtn" />
                   <label htmlFor="CheckBtn" className="check">
                     <ul>
@@ -71,7 +75,7 @@ function Favorite({ audioState, favoriteState }: favoriteProps) {
                           onClick={() => {
                             batch(() => {
                               dispatch(ListAdd(value));
-                              if (!audioState) dispatch(PlayStateAction());
+                              if (!audioState) dispatch(PlayStateAction(true));
                             });
                           }}
                         >

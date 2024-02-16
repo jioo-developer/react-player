@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
-import { useSelector } from "react-redux";
 import { PlayStateAction } from "../module/reducer";
 import Audio from "./audio";
 import { useMyContext } from "../module/MyContext";
@@ -37,7 +36,7 @@ function Player({ audioState, playlist, track }: playerProps) {
   // 스페이스 누르면 일시정지 되게 하는 함수
   window.onkeyup = function (event) {
     if (event.keyCode === 32) {
-      dispatch(PlayStateAction());
+      dispatch(PlayStateAction(!audioState));
     }
   };
   // 스페이스 누르면 일시정지 되게 하는 함수
@@ -115,7 +114,14 @@ function Player({ audioState, playlist, track }: playerProps) {
   // 진행바에 특정 구간을 클릭시 그 값으로 시점이 이동되게 하는 함수
 
   function handleError() {
-    dispatch(PlayStateAction());
+    dispatch(PlayStateAction(false));
+  }
+
+  function handlePlay() {
+    dispatch(PlayStateAction(true));
+  }
+  function handlePause() {
+    dispatch(PlayStateAction(false));
   }
 
   function TimeLogic(duration: number): string {
@@ -158,10 +164,12 @@ function Player({ audioState, playlist, track }: playerProps) {
               playSetting();
               handleProgress();
               handleDuration();
+              handlePlay();
             }}
             onDuration={handleDuration}
             onError={handleError}
             onProgress={handleProgress}
+            onPause={handlePause}
             width="100%"
             className={"player"}
             height="100%"

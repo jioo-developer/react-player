@@ -38,8 +38,9 @@ export const removeFavorite = (data: commonData[]) => ({
 
 // 즐겨찾기 삭제 함수
 
-export const PlayStateAction = () => ({
+export const PlayStateAction = (data: boolean) => ({
   type: playState,
+  data,
 });
 
 // 재생/일시중지 함수
@@ -92,21 +93,24 @@ export default function reducer(state = initialState, action: any) {
               return (
                 item.id === value.id &&
                 item.url === value.url &&
-                item.title === value.title
+                item.title === value.title &&
+                item.thumbnail === value.thumbnail
               );
             }) === idx
           );
         }
       );
-      localStorage.setItem("favoriteName", JSON.stringify(filterState));
+      localStorage.setItem("FavoriteName", JSON.stringify(filterState));
       return {
         ...state,
         favoriteData: filterState,
       };
 
     case Remove:
-      localStorage.removeItem("favoriteName");
-      localStorage.setItem("FavoriteName", JSON.stringify(action.data));
+      localStorage.removeItem("FavoriteName");
+      if (action.data.length > 0) {
+        localStorage.setItem("FavoriteName", JSON.stringify(action.data));
+      }
       return {
         ...state,
         favoriteData: action.data,
@@ -115,7 +119,7 @@ export default function reducer(state = initialState, action: any) {
     case playState:
       return {
         ...state,
-        playState: !state.playState,
+        playState: action.data,
       };
 
     default:
