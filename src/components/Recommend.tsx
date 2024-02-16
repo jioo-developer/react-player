@@ -46,7 +46,8 @@ function Recommend({ audioState }: { audioState: boolean }) {
           })}
         </div>
       </div>
-      <div className="container" />
+      <div className="container"></div>
+      // 아마 백그라운드 잘 유지되게 지탱해주는 것 같음 
     </section>
   );
 }

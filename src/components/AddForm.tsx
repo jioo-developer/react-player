@@ -5,7 +5,6 @@ import { useMyContext } from "../module/MyContext";
 function AddList() {
   const { dispatch } = useMyContext();
   const urlRef = useRef<HTMLInputElement>(null);
-  // 재생/일시정지 state
 
   function youtube_parser(params: string) {
     let regExp = /^.*((youtu.be\/)|(watch\?))\??v?=?([^#\&\?]*).*/;

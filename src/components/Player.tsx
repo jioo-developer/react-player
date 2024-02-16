@@ -12,12 +12,10 @@ type playerProps = {
 
 function Player({ audioState, playlist, track }: playerProps) {
   const { dispatch } = useMyContext();
-  // 현재 썸네일 이미지
   const [title, setTitle] = useState<string | undefined>("");
   // 현재 재생중인 노래 타이틀
   const [volume, setVolume] = useState(4);
   const [played, setPlayed] = useState(0);
-  const [nowVideo, setNow] = useState<string[]>([]);
   // 현재 재생중인 시점
   const [duration, setDuration] = useState(0);
   // 재생되는 개체 풀 타임
@@ -47,17 +45,17 @@ function Player({ audioState, playlist, track }: playerProps) {
     setTimeout(() => {
       setMovie(true);
     }, 500);
+    //삐데한데
     if (playRef) {
       const player = playRef.getInternalPlayer();
-      setNow(player.playerInfo.videoUrl);
       const Sequence: number = player.playerInfo.playlistIndex;
       const videoTitle: string = player.videoTitle;
       const listLength: Element[] = Array.from(
         document.querySelectorAll(".lists li") || []
       );
+      //all 부분 다르게 표현
       if (listLength.length > 0) {
         listLength.map((value, index) => {
-          //value 지우면 함수 작동이 안되기에 그냥 써놓는거
           if (Sequence === index) {
             return value.classList.add("index");
           } else {
@@ -145,6 +143,8 @@ function Player({ audioState, playlist, track }: playerProps) {
     return `${minutes} : ${second}`;
   }
 
+  // second가 60이 되면 분으로 넘어가게 gpt 사용
+
   // api에 나온 시점을 분 초 로 계산하는 함수
 
   return (
@@ -173,7 +173,7 @@ function Player({ audioState, playlist, track }: playerProps) {
             width="100%"
             className={"player"}
             height="100%"
-            controls={true}
+            controls={false}
             config={{
               youtube: {
                 playerVars: {
