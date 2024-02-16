@@ -27,8 +27,10 @@ function List({ audioState, playlist, favoriteState, track }: playerProps) {
   ) {
     if (starRef.current) {
       if (e.target.checked) {
-        dispatch(FavoriteAdd(value));
-        // 현재 리스트의 인덱스를 즐겨찾기 리스트에 추가
+        if (!favoriteState.includes(value)) {
+          dispatch(FavoriteAdd(value));
+          // 현재 리스트의 인덱스를 즐겨찾기 리스트에 추가
+        }
       } else {
         if (favoriteState.length > 0) {
           const deleteFavorite: commonData[] = favoriteState.filter(
