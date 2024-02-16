@@ -1,13 +1,11 @@
-import { PlayStateAction } from "../module/reducer";
+import { ListAdd, PlayStateAction, trackUpdate } from "../module/reducer";
 import { useMyContext } from "../module/MyContext";
 import ReactPlayer from "react-player";
 
 type audioProps = {
   volume: number;
   audioState: boolean;
-  loop: boolean;
   getVolume: (params: number) => void;
-  loopAction: (params: boolean) => void;
   handleSeekbar: (params: number) => void;
   played: number;
   duration: number;
@@ -19,9 +17,7 @@ type audioProps = {
 function Audio({
   volume,
   audioState,
-  loop,
   getVolume,
-  loopAction,
   played,
   duration,
   TimeLogic,
@@ -32,7 +28,11 @@ function Audio({
   const { dispatch } = useMyContext();
   const volumControl = (parmas: string) => {
     if (parmas === "up") {
-      getVolume(volume + 1);
+      if (volume < 9) {
+        getVolume(volume + 1);
+      } else {
+        getVolume(volume);
+      }
     } else {
       getVolume(volume - 1);
     }
@@ -51,23 +51,6 @@ function Audio({
     <div className="control_out_wrap">
       <div className="control_tower">
         <div className="control_wrap">
-          <button className="loop control" title="반복재생">
-            <img
-              src="/img/all_inclusive_black_24dp.svg"
-              alt="반복재생"
-              style={loop === false ? { opacity: 0.5 } : { opacity: 1 }}
-              onClick={() => {
-                loopAction(!loop);
-                loop === false
-                  ? ((
-                      document.querySelector(".loop") as HTMLInputElement
-                    ).style.opacity = "1")
-                  : ((
-                      document.querySelector(".loop") as HTMLInputElement
-                    ).style.opacity = "0.5");
-              }}
-            />
-          </button>
           <button
             className="volum control volum_down"
             title="볼륨다운"
@@ -98,23 +81,23 @@ function Audio({
           >
             <img src="/img/skip_next_black_24dp.svg" alt="" />
           </button>
-          {audioState === true ? (
-            <button className="toggle control">
-              <img
-                src="/img/pause_black_24dp.svg"
-                alt="중지"
-                onClick={() => dispatch(PlayStateAction())}
-              />
+          {audioState && played !== duration ? (
+            <button
+              className="toggle control"
+              onClick={() => dispatch(PlayStateAction())}
+            >
+              <img src="/img/pause_black_24dp.svg" alt="중지" />
             </button>
-          ) : (
-            <button className="toggle control">
-              <img
-                src="/img/play_arrow_black_24dp.svg"
-                alt="재생"
-                onClick={() => dispatch(PlayStateAction())}
-              />
+          ) : (audioState && played === duration) ||
+            (!audioState && played === duration) ||
+            (!audioState && played !== duration) ? (
+            <button
+              className="toggle control"
+              onClick={() => dispatch(PlayStateAction())}
+            >
+              <img src="/img/play_arrow_black_24dp.svg" alt="재생" />
             </button>
-          )}
+          ) : null}
         </div>
         <div className="time_wrap">
           <p className="load_time">{TimeLogic(played)}</p>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { batch } from "react-redux";
 import {
+  ChangeList,
   FavoriteAdd,
   PlayStateAction,
   removeFavorite,
@@ -12,13 +13,12 @@ type playerProps = {
   audioState: boolean;
   playlist: commonData[];
   favoriteState: commonData[];
+  track: string[];
 };
 
-function List({ audioState, playlist, favoriteState }: playerProps) {
+function List({ audioState, playlist, favoriteState, track }: playerProps) {
   const { dispatch } = useMyContext();
   const starRef = useRef<HTMLUListElement>(null);
-  // 현재 리스트
-  // 즐겨찾기 상태 state
 
   function favoriteHandler(
     e: React.ChangeEvent<HTMLInputElement>,
@@ -26,27 +26,39 @@ function List({ audioState, playlist, favoriteState }: playerProps) {
     index: number
   ) {
     if (starRef.current) {
-      const target = starRef.current?.children[index];
-      if (e.target.checked) {
-        target.classList.add("on");
-        dispatch(FavoriteAdd(value));
-        // 현재 리스트의 인덱스를 즐겨찾기 리스트에 추가
-      } else {
-        target.classList.remove("on");
-
-        if (favoriteState.length > 0) {
-          const deleteFavorite: commonData[] = favoriteState.filter(
-            (item) =>
-              item.title !== playlist[index].title &&
-              item.url !== playlist[index].url &&
-              item.thumbnail !== playlist[index].thumbnail
-          );
-          dispatch(removeFavorite(deleteFavorite));
+      const target = starRef.current?.children[index].querySelector("label");
+      if (target) {
+        if (e.target.checked) {
+          target.classList.add("on");
+          dispatch(FavoriteAdd(value));
+          // 현재 리스트의 인덱스를 즐겨찾기 리스트에 추가
+        } else {
+          target.classList.remove("on");
+          if (favoriteState.length > 0) {
+            const deleteFavorite: commonData[] = favoriteState.filter(
+              (item) =>
+                item.title !== playlist[index].title &&
+                item.url !== playlist[index].url &&
+                item.thumbnail !== playlist[index].thumbnail
+            );
+            dispatch(removeFavorite(deleteFavorite));
+          }
         }
       }
     }
+  }
 
-    // 다시 끌시 별 다시 꺼짐
+  function directPlay(index: number) {
+    const initialArray = [...track];
+    const prevSlice = initialArray.splice(index, 1);
+    initialArray.unshift(...prevSlice);
+
+    const newPlayList = [...playlist];
+    const prevPlayList = newPlayList.splice(index, 1);
+    newPlayList.unshift(...prevPlayList);
+
+    dispatch(trackUpdate(initialArray));
+    dispatch(ChangeList(newPlayList));
   }
 
   useEffect(() => {
@@ -67,7 +79,11 @@ function List({ audioState, playlist, favoriteState }: playerProps) {
         {playlist.length > 0
           ? playlist.map((value, index) => {
               return (
-                <li className="list" key={index}>
+                <li
+                  className="list"
+                  key={index}
+                  onClick={() => directPlay(index)}
+                >
                   <p className="list_text">{value.title ? value.title : ""}</p>
                   <input
                     type="checkbox"

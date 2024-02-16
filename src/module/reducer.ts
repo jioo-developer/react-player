@@ -10,6 +10,7 @@ const FAVORITE = "FAVORITE";
 const Remove = "Remove";
 const playState = "playState";
 const track = "track";
+const changeTrack = "changeTrack";
 
 export const ListAdd = (data: commonData | commonData[]) => ({
   type: ADDLIST,
@@ -23,7 +24,7 @@ export const trackUpdate = (data: string[]) => ({
 
 //앨범에 트랙 추가 함수
 
-export const FavoriteAdd = (data: commonData[]) => ({
+export const FavoriteAdd = (data: commonData[] | commonData) => ({
   type: FAVORITE,
   data,
 });
@@ -43,10 +44,15 @@ export const PlayStateAction = () => ({
 
 // 재생/일시중지 함수
 
+export const ChangeList = (data: commonData[]) => ({
+  type: changeTrack,
+  data,
+});
+
 export default function reducer(state = initialState, action: any) {
   switch (action.type) {
     case ADDLIST:
-      const stateCheck: commonData[] = Array.isArray(action.data)
+      const stateCheck: commonData[] | commonData = Array.isArray(action.data)
         ? [...state.playlist, ...action.data]
         : [...state.playlist, action.data];
       const filterList = stateCheck.filter((value, idx, arr) => {
@@ -61,6 +67,12 @@ export default function reducer(state = initialState, action: any) {
         playlist: filterList,
       };
 
+    case changeTrack:
+      return {
+        ...state,
+        playlist: action.data,
+      };
+
     case track:
       return {
         ...state,
@@ -68,9 +80,11 @@ export default function reducer(state = initialState, action: any) {
       };
 
     case FAVORITE:
-      const favoritestateCheck: commonData[] = state.favoriteData.concat(
+      const favoritestateCheck: commonData[] | commonData = Array.isArray(
         action.data
-      );
+      )
+        ? [...state.favoriteData, ...action.data]
+        : [...state.favoriteData, action.data];
       const filterState: commonData[] = favoritestateCheck.filter(
         (value, idx, arr) => {
           return (

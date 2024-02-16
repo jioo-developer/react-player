@@ -66,17 +66,21 @@ function Favorite({ audioState, favoriteState }: favoriteProps) {
                   <input type="checkbox" id="CheckBtn" />
                   <label htmlFor="CheckBtn" className="check">
                     <ul>
-                      <li
-                        onClick={() => {
-                          batch(() => {
-                            dispatch(ListAdd(value));
-                            if (!audioState) dispatch(PlayStateAction());
-                          });
-                        }}
-                      >
-                        재생
+                      <li>
+                        <button
+                          onClick={() => {
+                            batch(() => {
+                              dispatch(ListAdd(value));
+                              if (!audioState) dispatch(PlayStateAction());
+                            });
+                          }}
+                        >
+                          재생
+                        </button>
                       </li>
-                      <li onClick={() => handler(value)}>삭제</li>
+                      <li>
+                        <button onClick={() => handler(value)}>삭제</button>
+                      </li>
                     </ul>
                   </label>
                 </article>

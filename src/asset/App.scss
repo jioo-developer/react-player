@@ -161,7 +161,7 @@ $fold: "all and (max-width:280px)";
             }
           }
 
-          figcaption {
+          figcaption button {
             font-size: 16px;
             color: #fff;
             position: relative;
@@ -862,4 +862,7 @@ iframe {
 
 button {
   cursor: pointer;
+  background: transparent;
+  outline: none;
+  border: 0;
 }

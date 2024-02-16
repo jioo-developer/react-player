@@ -4,28 +4,21 @@ import { useSelector } from "react-redux";
 import { PlayStateAction } from "../module/reducer";
 import Audio from "./audio";
 import { useMyContext } from "../module/MyContext";
-import { url } from "inspector";
-
-type playerSelector = {
-  track: string[];
-};
 
 type playerProps = {
   audioState: boolean;
   playlist: commonData[];
+  track: string[];
 };
 
-function Player({ audioState, playlist }: playerProps) {
+function Player({ audioState, playlist, track }: playerProps) {
   const { dispatch } = useMyContext();
-  const [thumbnail, setThumb] = useState<string | undefined>(
-    "/img/defaultImg.png"
-  );
   // 현재 썸네일 이미지
   const [title, setTitle] = useState<string | undefined>("");
   // 현재 재생중인 노래 타이틀
-  const [loop, setLoop] = useState(false);
   const [volume, setVolume] = useState(4);
   const [played, setPlayed] = useState(0);
+  const [nowVideo, setNow] = useState<string[]>([]);
   // 현재 재생중인 시점
   const [duration, setDuration] = useState(0);
   // 재생되는 개체 풀 타임
@@ -33,7 +26,6 @@ function Player({ audioState, playlist }: playerProps) {
   // 100% 중 몇프로 진행 됐는지
   const playerRef = useRef<ReactPlayer>(null);
   const playRef: ReactPlayer | null = playerRef.current;
-  const track = useSelector((state: playerSelector) => state.track);
   const [movieToggle, setMovie] = useState(false);
   useEffect(() => {
     let playRef = playerRef.current;
@@ -58,6 +50,7 @@ function Player({ audioState, playlist }: playerProps) {
     }, 500);
     if (playRef) {
       const player = playRef.getInternalPlayer();
+      setNow(player.playerInfo.videoUrl);
       const Sequence: number = player.playerInfo.playlistIndex;
       const videoTitle: string = player.videoTitle;
       const listLength: Element[] = Array.from(
@@ -88,7 +81,6 @@ function Player({ audioState, playlist }: playerProps) {
         thumbnail: listElement.thumbnail,
       };
       setTitle(objects.title);
-      setThumb(objects.thumbnail);
     }
   }
   // 현재 재생중인 노래의 썸네일과 타이틀 함수
@@ -107,7 +99,6 @@ function Player({ audioState, playlist }: playerProps) {
   function handleDuration() {
     if (playRef) {
       const playerDurate = playRef.getDuration();
-      console.log(playerDurate);
       setDuration(playerDurate - 1);
     }
   }
@@ -118,9 +109,6 @@ function Player({ audioState, playlist }: playerProps) {
     setVolume(volume);
   }
 
-  function loopAction(loop: boolean) {
-    setLoop(loop);
-  }
   function handleSeekbar(seekbar: number) {
     setSeekbar(seekbar);
   }
@@ -160,7 +148,7 @@ function Player({ audioState, playlist }: playerProps) {
           <ReactPlayer
             ref={playerRef}
             playing={audioState}
-            loop={loop}
+            loop={true}
             url={track}
             volume={Number(`0.${volume}`)}
             onStart={() => {
@@ -177,7 +165,7 @@ function Player({ audioState, playlist }: playerProps) {
             width="100%"
             className={"player"}
             height="100%"
-            controls={false}
+            controls={true}
             config={{
               youtube: {
                 playerVars: {
@@ -190,19 +178,16 @@ function Player({ audioState, playlist }: playerProps) {
           {!movieToggle ? (
             <div
               className="playing"
-              style={{ backgroundImage: `url(${thumbnail})` }}
+              style={{ backgroundImage: "url(/img/defaultImg.png" }}
             ></div>
-          ) : (
-            <figcaption>{title}</figcaption>
-          )}
+          ) : null}
+          <figcaption>{title}</figcaption>
         </div>
       </div>
       <Audio
         volume={volume}
         audioState={audioState}
-        loop={loop}
         getVolume={getVolume}
-        loopAction={loopAction}
         played={played}
         TimeLogic={TimeLogic}
         seekbar={seekbar}

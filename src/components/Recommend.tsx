@@ -25,12 +25,14 @@ function Recommend() {
             <figure>
               <img src="/img/play-button.svg" alt="" />
             </figure>
-            <figcaption onClick={recommendPlay}>추천곡 들어보기</figcaption>
+            <figcaption>
+              <button onClick={recommendPlay}>추천곡 들어보기</button>
+            </figcaption>
           </div>
         </div>
 
         <div className="recommend_album">
-          {recomend_data.map(function (item, index) {
+          {recomend_data.map(function (item) {
             return (
               <div className="album" key={item.id}>
                 <figure>

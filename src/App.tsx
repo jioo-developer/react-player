@@ -13,6 +13,7 @@ type appProps = {
   playState: boolean;
   favoriteData: commonData[];
   playlist: commonData[];
+  track: string[];
 };
 
 function App() {
@@ -21,17 +22,27 @@ function App() {
   // 현재 재생상황 state
   const favoriteState = useSelector((state: appProps) => state.favoriteData);
   const list = useSelector((state: appProps) => state.playlist);
+  const track = useSelector((state: appProps) => state.track);
+
   return (
     <div className="App">
       <MyContextProvider>
         <div className="wrap">
           <Recommend />
           <Favorite audioState={audioState} favoriteState={favoriteState} />
-          <section className="album_wrap">
-            <Player audioState={audioState} playlist={list} />
+          <section
+            className="album_wrap"
+            style={
+              favoriteState.length > 0
+                ? { paddingBottom: 150 }
+                : { paddingBottom: 0 }
+            }
+          >
+            <Player audioState={audioState} playlist={list} track={track} />
             <AddForm />
             <List
               audioState={audioState}
+              track={track}
               playlist={list}
               favoriteState={favoriteState}
             />
