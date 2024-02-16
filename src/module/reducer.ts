@@ -11,26 +11,26 @@ const Remove = "Remove";
 const playState = "playState";
 const track = "track";
 
-export const ListAdd = (data: any) => ({
+export const ListAdd = (data: commonData | commonData[]) => ({
   type: ADDLIST,
   data,
 });
 
-export const trackUpdate = (data: any) => ({
+export const trackUpdate = (data: string[]) => ({
   type: track,
   data,
 });
 
 //앨범에 트랙 추가 함수
 
-export const FavoriteAdd = (data: any) => ({
+export const FavoriteAdd = (data: commonData[]) => ({
   type: FAVORITE,
   data,
 });
 
 //즐겨찾기 추가 함수
 
-export const removeFavorite = (data: any) => ({
+export const removeFavorite = (data: commonData[]) => ({
   type: Remove,
   data,
 });
@@ -68,18 +68,22 @@ export default function reducer(state = initialState, action: any) {
       };
 
     case FAVORITE:
-      const favoritestateCheck = state.favoriteData.concat(action.data);
-      const filterState = favoritestateCheck.filter((value, idx, arr) => {
-        return (
-          arr.findIndex((item) => {
-            return (
-              item.id === value.id &&
-              item.url === value.url &&
-              item.title === value.title
-            );
-          }) === idx
-        );
-      });
+      const favoritestateCheck: commonData[] = state.favoriteData.concat(
+        action.data
+      );
+      const filterState: commonData[] = favoritestateCheck.filter(
+        (value, idx, arr) => {
+          return (
+            arr.findIndex((item) => {
+              return (
+                item.id === value.id &&
+                item.url === value.url &&
+                item.title === value.title
+              );
+            }) === idx
+          );
+        }
+      );
       localStorage.setItem("favoriteName", JSON.stringify(filterState));
       return {
         ...state,
