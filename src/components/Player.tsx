@@ -3,6 +3,7 @@ import ReactPlayer from "react-player";
 import { PlayStateAction } from "../module/reducer";
 import Audio from "./audio";
 import { useMyContext } from "../module/MyContext";
+import { commonData } from "../module/interfaceModule";
 
 type playerProps = {
   audioState: boolean;
@@ -12,7 +13,7 @@ type playerProps = {
 
 function Player({ audioState, playlist, track }: playerProps) {
   const { dispatch } = useMyContext();
-  const [title, setTitle] = useState<string | undefined>("");
+  const [title, setTitle] = useState<string>("");
   // 현재 재생중인 노래 타이틀
   const [volume, setVolume] = useState(4);
   const [played, setPlayed] = useState(0);
@@ -22,13 +23,12 @@ function Player({ audioState, playlist, track }: playerProps) {
   const [seekbar, setSeekbar] = useState(0);
   // 100% 중 몇프로 진행 됐는지
   const playerRef = useRef<ReactPlayer>(null);
-  const playRef: ReactPlayer | null = playerRef.current;
+  let playRef: ReactPlayer | null = playerRef.current;
+
   const [movieToggle, setMovie] = useState(false);
+
   useEffect(() => {
-    let playRef = playerRef.current;
-    if (!playRef) {
-      playRef = playerRef.current;
-    }
+    if (!playRef) playRef = playerRef.current;
   }, [playRef]);
 
   // 스페이스 누르면 일시정지 되게 하는 함수
@@ -67,8 +67,8 @@ function Player({ audioState, playlist, track }: playerProps) {
 
   // 현재 재생중인 노래의 썸네일과 타이틀 함수
   function playGround(Sequence: number, videoTitle: string): void {
-    const listElement = playlist[Sequence];
-    if (listElement) {
+    if (playlist) {
+      const listElement = playlist[Sequence];
       const objects = {
         title: videoTitle,
         thumbnail: listElement.thumbnail,
@@ -119,31 +119,22 @@ function Player({ audioState, playlist, track }: playerProps) {
   }
 
   function TimeLogic(duration: number): string {
-    let hour: number = Math.floor(duration / 3600);
-    let minutes: string | number = Math.floor((duration - hour * 3600) / 60);
-    let second: string | number = duration - hour * 3600 - minutes * 60;
-    const condition = (params: string | number) =>
-      typeof params === "number" && params < 10;
-
-    if (condition(minutes)) {
-      minutes = `0${minutes}`;
-    } else {
-      minutes = Math.ceil(minutes);
-    }
-    if (condition(second)) {
-      second = `0${Math.ceil(second as number)}`;
-    } else {
-      second = Math.ceil(second);
-    }
+    const hour: number = Math.floor(duration / 3600);
+    let minutes: number = Math.floor((duration - hour * 3600) / 60);
+    let second: number = duration - hour * 3600 - minutes * 60;
 
     if (second >= 60) {
-      minutes += Math.floor(second / 60);
+      minutes = minutes + Math.floor(second / 60);
       second = second % 60;
     }
 
-    return `${minutes} : ${second}`;
-  }
+    const result = [
+      minutes > 10 ? minutes : `0${minutes}`,
+      second > 10 ? second : `0${second}`,
+    ].join(":");
 
+    return result;
+  }
 
   // api에 나온 시점을 분 초 로 계산하는 함수
 
@@ -157,9 +148,7 @@ function Player({ audioState, playlist, track }: playerProps) {
             loop={true}
             url={track}
             volume={Number(`0.${volume}`)}
-            onStart={() => {
-              playSetting();
-            }}
+            onStart={() => playSetting()}
             onPlay={() => {
               playSetting();
               handleProgress();
