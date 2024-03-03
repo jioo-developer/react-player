@@ -1,3 +1,4 @@
+import React from "react";
 import "./asset/reset.css";
 import "./asset/App.scss";
 import Recommend from "./components/Recommend";
@@ -7,6 +8,7 @@ import List from "./components/List";
 import Favorite from "./components/Favorite";
 import Player from "./components/Player";
 import { MyContextProvider } from "./module/MyContext";
+import { commonData } from "./module/interfaceModule";
 
 type appProps = {
   playState: boolean;

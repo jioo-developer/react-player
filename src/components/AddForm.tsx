@@ -47,9 +47,11 @@ function AddList() {
           console.log(resultURL);
           console.log(error);
           console.log("------------------------------");
+          window.alert("url 정보를 찾지 못했습니다.");
         }
       } else {
         console.log(createParser);
+        window.alert("url 정보를 찾지 못했습니다.");
         console.log("---------------------------------");
       }
     }

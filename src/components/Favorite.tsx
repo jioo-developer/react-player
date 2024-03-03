@@ -7,6 +7,7 @@ import {
   PlayStateAction,
   removeFavorite,
 } from "../module/reducer";
+import { commonData } from "../module/interfaceModule";
 
 type favoriteProps = {
   audioState: boolean;
@@ -25,10 +26,9 @@ function Favorite({ audioState, favoriteState }: favoriteProps) {
       dispatch(FavoriteAdd(parseFavorite));
     }
   }, []);
-    // 즐겨찾기 리스트 불러오기
+  // 즐겨찾기 리스트 불러오기
 
-      // 즐겨찾기 삭제 함수
-
+  // 즐겨찾기 삭제 함수
 
   function handler(DeleteData: commonData) {
     const defaultArray = [DeleteData];
@@ -49,7 +49,7 @@ function Favorite({ audioState, favoriteState }: favoriteProps) {
 
   return (
     <>
-      {favoriteState.length ? (
+      {favoriteState.length > 0 ? (
         <section className="Recently">
           <div className="recently_header">
             <p className="recently_title">자주 듣는 노래</p>
