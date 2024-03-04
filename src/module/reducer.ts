@@ -1,6 +1,6 @@
-import { commonData } from "./interfaceModule";
+import { Action, commonData, state } from "./interfaceModule";
 
-const initialState = {
+export const initialState: state = {
   playlist: [],
   favoriteData: [],
   playState: false,
@@ -40,11 +40,6 @@ export const removeFavorite = (data: commonData[]) => ({
 
 // 즐겨찾기 삭제 함수
 
-export const PlayStateAction = (data: boolean) => ({
-  type: playState,
-  data,
-});
-
 // 재생/일시중지 함수
 
 export const ChangeList = (data: commonData[]) => ({
@@ -52,7 +47,7 @@ export const ChangeList = (data: commonData[]) => ({
   data,
 });
 
-export default function reducer(state = initialState, action: any) {
+export default function reducer(state = initialState, action: Action): state {
   switch (action.type) {
     case ADDLIST:
       const stateCheck: commonData[] | commonData = Array.isArray(action.data)

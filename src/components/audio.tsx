@@ -1,10 +1,8 @@
-import { PlayStateAction } from "../module/reducer";
 import { useMyContext } from "../module/MyContext";
 import ReactPlayer from "react-player";
 
 type audioProps = {
   volume: number;
-  audioState: boolean;
   getVolume: (params: number) => void;
   handleSeekbar: (params: number) => void;
   played: number;
@@ -16,7 +14,6 @@ type audioProps = {
 
 function Audio({
   volume,
-  audioState,
   getVolume,
   played,
   duration,
@@ -25,7 +22,7 @@ function Audio({
   handleSeekbar,
   playRef,
 }: audioProps) {
-  const { dispatch } = useMyContext();
+  const { playDispatch, playState } = useMyContext();
   const volumControl = (parmas: string) => {
     if (parmas === "up") {
       if (volume < 9) {
@@ -83,9 +80,9 @@ function Audio({
           </button>
           <button
             className="toggle control"
-            onClick={() => dispatch(PlayStateAction(!audioState))}
+            onClick={() => playDispatch((prev) => !prev)}
           >
-            {audioState ? (
+            {playState ? (
               <img src="/img/pause_black_24dp.svg" alt="중지" />
             ) : (
               <img src="/img/play_arrow_black_24dp.svg" alt="재생" />

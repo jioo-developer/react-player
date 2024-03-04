@@ -1,14 +1,11 @@
-import { batch } from "react-redux";
 import { recomend_data } from "../recomend_data";
-import { ListAdd, PlayStateAction } from "../module/reducer";
+import { ListAdd } from "../module/reducer";
 import { useMyContext } from "../module/MyContext";
-function Recommend({ audioState }: { audioState: boolean }) {
-  const { dispatch } = useMyContext();
+function Recommend() {
+  const { playDispatch, addDispatch, playState } = useMyContext();
   function recommendPlay() {
-    batch(() => {
-      dispatch(ListAdd(recomend_data));
-      if (!audioState) dispatch(PlayStateAction(true));
-    });
+    addDispatch(ListAdd(recomend_data));
+    if (!playState) playDispatch(true);
   }
 
   return (
@@ -47,7 +44,7 @@ function Recommend({ audioState }: { audioState: boolean }) {
         </div>
       </div>
       <div className="container"></div>
-      // 아마 백그라운드 잘 유지되게 지탱해주는 것 같음 
+      // 아마 백그라운드 잘 유지되게 지탱해주는 것 같음
     </section>
   );
 }

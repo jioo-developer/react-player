@@ -1,21 +1,16 @@
 import { useEffect } from "react";
-import { batch } from "react-redux";
 import { useMyContext } from "../module/MyContext";
-import {
-  FavoriteAdd,
-  ListAdd,
-  PlayStateAction,
-  removeFavorite,
-} from "../module/reducer";
+import { FavoriteAdd, ListAdd, removeFavorite } from "../module/reducer";
 import { commonData } from "../module/interfaceModule";
 
-type favoriteProps = {
-  audioState: boolean;
-  favoriteState: commonData[];
-};
-
-function Favorite({ audioState, favoriteState }: favoriteProps) {
-  const { dispatch } = useMyContext();
+function Favorite() {
+  const {
+    favoriteDispatch,
+    addDispatch,
+    playDispatch,
+    favoriteData,
+    playState,
+  } = useMyContext();
   const parseFavorite = JSON.parse(
     localStorage.getItem("FavoriteName") || "{}"
   );
@@ -23,7 +18,7 @@ function Favorite({ audioState, favoriteState }: favoriteProps) {
   // 즐겨찾기 리스트 불러오기
   useEffect(() => {
     if (Object.entries(parseFavorite).length > 0) {
-      dispatch(FavoriteAdd(parseFavorite));
+      favoriteDispatch(FavoriteAdd(parseFavorite));
     }
   }, []);
   // 즐겨찾기 리스트 불러오기
@@ -32,7 +27,7 @@ function Favorite({ audioState, favoriteState }: favoriteProps) {
 
   function handler(DeleteData: commonData) {
     const defaultArray = [DeleteData];
-    const result = favoriteState.filter(
+    const result = favoriteData.filter(
       (item: commonData) =>
         !defaultArray.some(
           (defaultArray) =>
@@ -42,20 +37,20 @@ function Favorite({ audioState, favoriteState }: favoriteProps) {
         )
     );
 
-    dispatch(removeFavorite(result));
+    favoriteDispatch(removeFavorite(result));
   }
 
   // 즐겨찾기 삭제 함수
 
   return (
     <>
-      {favoriteState.length > 0 ? (
+      {favoriteData.length > 0 ? (
         <section className="Recently">
           <div className="recently_header">
             <p className="recently_title">자주 듣는 노래</p>
           </div>
           <div className="recently_wrap">
-            {favoriteState.map((value, index) => {
+            {favoriteData.map((value, index) => {
               return (
                 <article className="recently_music" key={index}>
                   <figure>
@@ -77,10 +72,8 @@ function Favorite({ audioState, favoriteState }: favoriteProps) {
                       <li>
                         <button
                           onClick={() => {
-                            batch(() => {
-                              dispatch(ListAdd(value));
-                              if (!audioState) dispatch(PlayStateAction(true));
-                            });
+                            addDispatch(ListAdd(value));
+                            if (!playState) playDispatch(true);
                           }}
                         >
                           재생
