@@ -2,9 +2,12 @@ import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
 import Audio from "./audio";
 import { useMyContext } from "../module/MyContext";
+import { commonData } from "../module/interfaceModule";
 
 function Player() {
-  const { playlist, track, playState, playDispatch } = useMyContext();
+  const { playlistData, trackData, playState, playDispatch } = useMyContext();
+  const playlist: commonData[] = playlistData.playlist;
+  const track: string[] = trackData.track;
   const [title, setTitle] = useState<string>("");
   // 현재 재생중인 노래 타이틀
   const [volume, setVolume] = useState(4);

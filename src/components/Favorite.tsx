@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useMyContext } from "../module/MyContext";
 import { FavoriteAdd, ListAdd, removeFavorite } from "../module/reducer";
-import { commonData, loadContextProps } from "../module/interfaceModule";
+import { commonData } from "../module/interfaceModule";
 
 function Favorite() {
   const {
@@ -10,7 +10,8 @@ function Favorite() {
     playDispatch,
     favoriteData,
     playState,
-  }: loadContextProps = useMyContext();
+  } = useMyContext();
+  const favoriteState: commonData[] = favoriteData.favoriteData;
   const parseFavorite = JSON.parse(
     localStorage.getItem("FavoriteName") || "{}"
   );
@@ -27,7 +28,7 @@ function Favorite() {
 
   function handler(DeleteData: commonData) {
     const defaultArray = [DeleteData];
-    const result = favoriteData.filter(
+    const result = favoriteState.filter(
       (item: commonData) =>
         !defaultArray.some(
           (defaultArray) =>
@@ -44,13 +45,13 @@ function Favorite() {
 
   return (
     <>
-      {favoriteData.length > 0 ? (
+      {favoriteState.length > 0 ? (
         <section className="Recently">
           <div className="recently_header">
             <p className="recently_title">자주 듣는 노래</p>
           </div>
           <div className="recently_wrap">
-            {favoriteData.map((value, index) => {
+            {favoriteState.map((value, index) => {
               return (
                 <article className="recently_music" key={index}>
                   <figure>
