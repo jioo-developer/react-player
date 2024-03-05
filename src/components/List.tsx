@@ -6,19 +6,22 @@ import {
   trackUpdate,
 } from "../module/reducer";
 import { useMyContext } from "../module/MyContext";
-import { commonData, loadContextProps } from "../module/interfaceModule";
+import { commonData } from "../module/interfaceModule";
 
 function List() {
   const {
     favoriteDispatch,
-    playlist,
+    playlistData,
     favoriteData,
-    track,
+    trackData,
     playState,
     trackDispatch,
     playDispatch,
     addDispatch,
-  }: loadContextProps = useMyContext();
+  } = useMyContext();
+  const playlist: commonData[] = playlistData.playlist;
+  const favoriteState: commonData[] = favoriteData.favoriteData;
+  const track: string[] = trackData.track;
   const starRef = useRef<HTMLUListElement>(null);
 
   function favoriteHandler(
@@ -28,13 +31,13 @@ function List() {
   ) {
     if (starRef.current) {
       if (e.target.checked) {
-        if (!favoriteData.includes(value)) {
+        if (!favoriteState.includes(value)) {
           favoriteDispatch(FavoriteAdd(value));
           // 현재 리스트의 인덱스를 즐겨찾기 리스트에 추가
         }
       } else {
-        if (favoriteData.length > 0) {
-          const deleteFavorite: commonData[] = favoriteData.filter(
+        if (favoriteState.length > 0) {
+          const deleteFavorite: commonData[] = favoriteState.filter(
             (item) =>
               item.title !== playlist[index].title &&
               item.url !== playlist[index].url &&
@@ -89,7 +92,7 @@ function List() {
                   />
                   <label
                     className={
-                      favoriteData.includes(value)
+                      favoriteState.includes(value)
                         ? "star_label on"
                         : "star_label"
                     }
