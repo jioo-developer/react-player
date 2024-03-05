@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from "react";
-import { batch } from "react-redux";
 import {
   ChangeList,
   FavoriteAdd,
@@ -7,7 +6,7 @@ import {
   trackUpdate,
 } from "../module/reducer";
 import { useMyContext } from "../module/MyContext";
-import { commonData } from "../module/interfaceModule";
+import { commonData, loadContextProps } from "../module/interfaceModule";
 
 function List() {
   const {
@@ -19,7 +18,7 @@ function List() {
     trackDispatch,
     playDispatch,
     addDispatch,
-  } = useMyContext();
+  }: loadContextProps = useMyContext();
   const starRef = useRef<HTMLUListElement>(null);
 
   function favoriteHandler(

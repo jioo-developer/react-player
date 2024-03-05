@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import reducer, { initialState } from "./reducer";
-import { Action, commonData, state } from "./interfaceModule";
+import { Action, commonData } from "./interfaceModule";
 
 export const MyContextProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
@@ -36,9 +36,9 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export interface MyContextProps {
-  playlist: commonData[];
-  favoriteData: commonData[];
-  track: string[];
+  playlist: any;
+  favoriteData: any;
+  track: any;
   playState: boolean;
   navigate: (params: string) => void;
   addDispatch: React.Dispatch<Action>;

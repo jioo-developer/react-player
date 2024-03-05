@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useMyContext } from "../module/MyContext";
 import { FavoriteAdd, ListAdd, removeFavorite } from "../module/reducer";
-import { commonData } from "../module/interfaceModule";
+import { commonData, loadContextProps } from "../module/interfaceModule";
 
 function Favorite() {
   const {
@@ -10,7 +10,7 @@ function Favorite() {
     playDispatch,
     favoriteData,
     playState,
-  } = useMyContext();
+  }: loadContextProps = useMyContext();
   const parseFavorite = JSON.parse(
     localStorage.getItem("FavoriteName") || "{}"
   );

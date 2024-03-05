@@ -1,10 +1,10 @@
-import { Action, commonData, state } from "./interfaceModule";
+import { Action, commonData, stateType } from "./interfaceModule";
 
-export const initialState: state = {
+export const initialState: stateType = {
   playlist: [],
   favoriteData: [],
-  playState: false,
   track: [],
+  playState: false,
 };
 
 const ADDLIST = "ADDLIST";
@@ -47,7 +47,10 @@ export const ChangeList = (data: commonData[]) => ({
   data,
 });
 
-export default function reducer(state = initialState, action: Action): state {
+export default function reducer(
+  state = initialState,
+  action: Action
+): stateType {
   switch (action.type) {
     case ADDLIST:
       const stateCheck: commonData[] | commonData = Array.isArray(action.data)
