@@ -18,13 +18,9 @@ function Player() {
   const [seekbar, setSeekbar] = useState(0);
   // 100% 중 몇프로 진행 됐는지
   const playerRef = useRef<ReactPlayer>(null);
-  let playRef: ReactPlayer | null = playerRef.current;
+  const playRef: ReactPlayer = playerRef.current as ReactPlayer;
 
   const [movieToggle, setMovie] = useState(false);
-
-  useEffect(() => {
-    if (!playRef) playRef = playerRef.current;
-  }, [playRef]);
 
   // 스페이스 누르면 일시정지 되게 하는 함수
   window.onkeyup = function (event) {
