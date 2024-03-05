@@ -3,7 +3,7 @@ import { ListAdd } from "../module/reducer";
 import { useMyContext } from "../module/MyContext";
 
 function AddList() {
-  const { dispatch } = useMyContext();
+  const { addDispatch } = useMyContext();
   const urlRef = useRef<HTMLInputElement>(null);
 
   function youtube_parser(params: string) {
@@ -41,7 +41,7 @@ function AddList() {
             url: response.url,
             thumbnail: response.thumbnail_url,
           };
-          dispatch(ListAdd(object));
+          addDispatch(ListAdd(object));
           urlRef.current.value = "";
         } catch (error) {
           console.log(resultURL);

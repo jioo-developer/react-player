@@ -1,18 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactPlayer from "react-player";
-import { PlayStateAction } from "../module/reducer";
 import Audio from "./audio";
 import { useMyContext } from "../module/MyContext";
-import { commonData } from "../module/interfaceModule";
 
-type playerProps = {
-  audioState: boolean;
-  playlist: commonData[];
-  track: string[];
-};
-
-function Player({ audioState, playlist, track }: playerProps) {
-  const { dispatch } = useMyContext();
+function Player() {
+  const { playlist, track, playState, playDispatch } = useMyContext();
   const [title, setTitle] = useState<string>("");
   // 현재 재생중인 노래 타이틀
   const [volume, setVolume] = useState(4);
@@ -34,7 +26,7 @@ function Player({ audioState, playlist, track }: playerProps) {
   // 스페이스 누르면 일시정지 되게 하는 함수
   window.onkeyup = function (event) {
     if (event.keyCode === 32) {
-      dispatch(PlayStateAction(!audioState));
+      playDispatch((prev) => !prev);
     }
   };
   // 스페이스 누르면 일시정지 되게 하는 함수
@@ -108,14 +100,14 @@ function Player({ audioState, playlist, track }: playerProps) {
   // 진행바에 특정 구간을 클릭시 그 값으로 시점이 이동되게 하는 함수
 
   function handleError() {
-    dispatch(PlayStateAction(false));
+    playDispatch(false);
   }
 
   function handlePlay() {
-    dispatch(PlayStateAction(true));
+    playDispatch(true);
   }
   function handlePause() {
-    dispatch(PlayStateAction(false));
+    playDispatch(false);
   }
 
   function TimeLogic(duration: number): string {
@@ -144,7 +136,7 @@ function Player({ audioState, playlist, track }: playerProps) {
         <div className="movie_box">
           <ReactPlayer
             ref={playerRef}
-            playing={audioState}
+            playing={playState}
             loop={true}
             url={track}
             volume={Number(`0.${volume}`)}
@@ -183,7 +175,6 @@ function Player({ audioState, playlist, track }: playerProps) {
       </div>
       <Audio
         volume={volume}
-        audioState={audioState}
         getVolume={getVolume}
         played={played}
         TimeLogic={TimeLogic}

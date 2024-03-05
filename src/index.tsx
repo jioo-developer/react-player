@@ -2,21 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { Reducer, createStore } from "redux";
-import { applyMiddleware } from "redux";
-import logger from "redux-logger";
-import reducer from "./module/reducer";
-
-let store = createStore(reducer as Reducer, applyMiddleware(logger));
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <App />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

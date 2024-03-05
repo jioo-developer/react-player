@@ -5,3 +5,27 @@ export type commonData = {
   title: string;
   url: string;
 };
+
+export interface Action {
+  type: string;
+  data?: any;
+}
+
+export type stateType = {
+  playlist: commonData[];
+  favoriteData: commonData[];
+  track: string[];
+  playState: boolean;
+};
+
+export interface loadContextProps {
+  playlist: commonData[];
+  favoriteData: commonData[];
+  track: string[];
+  playState: boolean;
+  navigate: (params: string) => void;
+  addDispatch: React.Dispatch<Action>;
+  favoriteDispatch: React.Dispatch<Action>;
+  trackDispatch: React.Dispatch<Action>;
+  playDispatch: React.Dispatch<React.SetStateAction<boolean>>;
+}

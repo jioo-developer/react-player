@@ -1,24 +1,24 @@
 import React, { useEffect, useRef } from "react";
-import { batch } from "react-redux";
 import {
   ChangeList,
   FavoriteAdd,
-  PlayStateAction,
   removeFavorite,
   trackUpdate,
 } from "../module/reducer";
 import { useMyContext } from "../module/MyContext";
-import { commonData } from "../module/interfaceModule";
+import { commonData, loadContextProps } from "../module/interfaceModule";
 
-type playerProps = {
-  audioState: boolean;
-  playlist: commonData[];
-  favoriteState: commonData[];
-  track: string[];
-};
-
-function List({ audioState, playlist, favoriteState, track }: playerProps) {
-  const { dispatch } = useMyContext();
+function List() {
+  const {
+    favoriteDispatch,
+    playlist,
+    favoriteData,
+    track,
+    playState,
+    trackDispatch,
+    playDispatch,
+    addDispatch,
+  }: loadContextProps = useMyContext();
   const starRef = useRef<HTMLUListElement>(null);
 
   function favoriteHandler(
@@ -28,19 +28,19 @@ function List({ audioState, playlist, favoriteState, track }: playerProps) {
   ) {
     if (starRef.current) {
       if (e.target.checked) {
-        if (!favoriteState.includes(value)) {
-          dispatch(FavoriteAdd(value));
+        if (!favoriteData.includes(value)) {
+          favoriteDispatch(FavoriteAdd(value));
           // 현재 리스트의 인덱스를 즐겨찾기 리스트에 추가
         }
       } else {
-        if (favoriteState.length > 0) {
-          const deleteFavorite: commonData[] = favoriteState.filter(
+        if (favoriteData.length > 0) {
+          const deleteFavorite: commonData[] = favoriteData.filter(
             (item) =>
               item.title !== playlist[index].title &&
               item.url !== playlist[index].url &&
               item.thumbnail !== playlist[index].thumbnail
           );
-          dispatch(removeFavorite(deleteFavorite));
+          favoriteDispatch(removeFavorite(deleteFavorite));
         }
       }
     }
@@ -55,18 +55,16 @@ function List({ audioState, playlist, favoriteState, track }: playerProps) {
     const prevPlayList = newPlayList.splice(index, 1);
     newPlayList.unshift(...prevPlayList);
 
-    dispatch(trackUpdate(initialArray));
-    dispatch(ChangeList(newPlayList));
+    trackUpdate(initialArray);
+    addDispatch(ChangeList(newPlayList));
   }
 
   useEffect(() => {
     if (playlist.length > 0) {
       const arr: string[] = [];
       playlist.forEach((item) => arr.push(item.url));
-      batch(() => {
-        dispatch(trackUpdate(arr));
-        if (!audioState) dispatch(PlayStateAction(true));
-      });
+      trackDispatch(trackUpdate(arr));
+      if (!playState) playDispatch(true);
     }
   }, [playlist]);
 
@@ -91,7 +89,7 @@ function List({ audioState, playlist, favoriteState, track }: playerProps) {
                   />
                   <label
                     className={
-                      favoriteState.includes(value)
+                      favoriteData.includes(value)
                         ? "star_label on"
                         : "star_label"
                     }
