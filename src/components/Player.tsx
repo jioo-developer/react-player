@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import ReactPlayer from "react-player";
 import Audio from "./audio";
 import { useMyContext } from "../module/MyContext";
@@ -109,23 +109,25 @@ function Player() {
     playDispatch(false);
   }
 
-  function TimeLogic(duration: number): string {
-    const hour: number = Math.floor(duration / 3600);
-    let minutes: number = Math.floor((duration - hour * 3600) / 60);
-    let second: number = duration - hour * 3600 - minutes * 60;
+  const TimeLogic = useMemo(() => {
+    return (duration: number): string => {
+      const hour: number = Math.floor(duration / 3600);
+      let minutes: number = Math.floor((duration - hour * 3600) / 60);
+      let second: number = Math.floor(duration - hour * 3600 - minutes * 60);
 
-    if (second >= 60) {
-      minutes = minutes + Math.floor(second / 60);
-      second = second % 60;
-    }
+      if (second >= 60) {
+        minutes = minutes + Math.floor(second / 60);
+        second = second % 60;
+      }
 
-    const result = [
-      minutes > 10 ? minutes : `0${minutes}`,
-      second > 10 ? second : `0${second}`,
-    ].join(":");
+      const result = [
+        minutes > 10 ? minutes : `0${minutes}`,
+        second > 10 ? second : `0${second}`,
+      ].join(":");
 
-    return result;
-  }
+      return result;
+    };
+  }, []);
 
   // api에 나온 시점을 분 초 로 계산하는 함수
 
