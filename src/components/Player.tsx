@@ -41,7 +41,10 @@ function Player() {
       const listLength: Element[] = Array.from(
         document.querySelectorAll(".lists li") || []
       );
-      if (listLength.length > 0) {
+      const someArr = listLength.some((item) =>
+        item.classList.contains("index")
+      );
+      if (!someArr) {
         listLength.map((value, index) => {
           if (Sequence === index) {
             return value.classList.add("index");
@@ -49,8 +52,8 @@ function Player() {
             return value.classList.remove("index");
           }
         });
+        playGround(Sequence, videoTitle);
       }
-      playGround(Sequence, videoTitle);
     }
   }
 

@@ -11,7 +11,9 @@ function Favorite() {
     favoriteData,
     playState,
   } = useMyContext();
+
   const favoriteState: commonData[] = favoriteData.favoriteData;
+
   const parseFavorite = JSON.parse(
     localStorage.getItem("FavoriteName") || "{}"
   );

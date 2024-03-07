@@ -3,6 +3,7 @@ import { ListAdd } from "../module/reducer";
 import { useMyContext } from "../module/MyContext";
 function Recommend() {
   const { playDispatch, addDispatch, playState } = useMyContext();
+
   function recommendPlay() {
     addDispatch(ListAdd(recomend_data));
     if (!playState) playDispatch(true);
