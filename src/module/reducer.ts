@@ -47,7 +47,7 @@ export const ChangeList = (data: commonData[]) => ({
   data,
 });
 
-export default (state: stateType, action: Action): stateType => {
+const reducer = (state: stateType, action: Action): stateType => {
   switch (action.type) {
     case ADDLIST:
       const stateCheck: commonData[] | commonData = Array.isArray(action.data)
@@ -123,3 +123,5 @@ export default (state: stateType, action: Action): stateType => {
       return state;
   }
 };
+
+export default reducer;

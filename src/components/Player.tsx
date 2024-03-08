@@ -2,7 +2,6 @@ import React, { useState, useRef, useMemo } from "react";
 import ReactPlayer from "react-player";
 import Audio from "./audio";
 import { useMyContext } from "../module/MyContext";
-import { commonData } from "../module/interfaceModule";
 
 function Player() {
   const { playlist, track, playState, playDispatch } = useMyContext();
