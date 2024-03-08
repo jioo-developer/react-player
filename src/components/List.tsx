@@ -11,18 +11,14 @@ import { commonData } from "../module/interfaceModule";
 function List() {
   const {
     favoriteDispatch,
-    playlistData,
-    favoriteData,
-    trackData,
+    playlist,
+    favoriteState,
+    track,
     playState,
     trackDispatch,
     playDispatch,
     addDispatch,
   } = useMyContext();
-
-  const playlist: commonData[] = playlistData.playlist;
-  const favoriteState: commonData[] = favoriteData.favoriteData;
-  const track: string[] = trackData.track;
 
   const starRef = useRef<HTMLUListElement>(null);
 

@@ -5,9 +5,8 @@ import { useMyContext } from "../module/MyContext";
 import { commonData } from "../module/interfaceModule";
 
 function Player() {
-  const { playlistData, trackData, playState, playDispatch } = useMyContext();
-  const playlist: commonData[] = playlistData.playlist;
-  const track: string[] = trackData.track;
+  const { playlist, track, playState, playDispatch } = useMyContext();
+
   const [title, setTitle] = useState<string>("");
   // 현재 재생중인 노래 타이틀
   const [volume, setVolume] = useState(4);
