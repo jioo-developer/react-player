@@ -20,7 +20,7 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 
 ## Preview
 
-  <img src="./public/img/preview.jpg" alt="" />
+  <img src="./public/img/preview.PNG" alt="" />
 
 ### 📌 주요기능
 
