@@ -102,7 +102,7 @@ function Player() {
         <img
           src={playlist[thumbIndex].thumbnail}
           alt=""
-          style={{ position: "absolute", top: 0, zIndex: 100 }}
+          style={{ position: "absolute", top: 0, zIndex: 100, width: "100%" }}
           onError={(e) =>
             ((e.target as HTMLImageElement).src = "/img/defaultImg.png")
           }
