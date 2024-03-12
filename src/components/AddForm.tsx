@@ -5,6 +5,7 @@ import { useMyContext } from "../module/MyContext";
 function AddList() {
   const { addDispatch } = useMyContext();
   const urlRef = useRef<HTMLInputElement>(null);
+
   function youtube_parser(params: string) {
     let regExp = /^.*((youtu.be\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     let match = params.match(regExp);
@@ -43,8 +44,6 @@ function AddList() {
           addDispatch(ListAdd(object));
           urlRef.current.value = "";
         } catch (error) {
-          console.log(resultURL);
-          console.log(error);
           console.log("------------------------------");
           window.alert("url 정보를 찾지 못했습니다.");
         }

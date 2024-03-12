@@ -8,10 +8,10 @@ function Favorite() {
     favoriteDispatch,
     addDispatch,
     playDispatch,
-    favoriteData,
+    favoriteState,
     playState,
   } = useMyContext();
-  const favoriteState: commonData[] = favoriteData.favoriteData;
+
   const parseFavorite = JSON.parse(
     localStorage.getItem("FavoriteName") || "{}"
   );

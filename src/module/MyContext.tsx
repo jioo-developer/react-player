@@ -8,23 +8,26 @@ import React, {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import reducer, { initialState } from "./reducer";
-import { Action } from "./interfaceModule";
+import { Action, commonData } from "./interfaceModule";
 
 export const MyContextProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const [playlistData, addDispatch] = useReducer(reducer, initialState);
+  const playlist = playlistData.playlist;
   const [favoriteData, favoriteDispatch] = useReducer(reducer, initialState);
+  const favoriteState = favoriteData.favoriteData;
   const [trackData, trackDispatch] = useReducer(reducer, initialState);
+  const track = trackData.track;
   const [playState, playDispatch] = useState(false);
   return (
     <MyContext.Provider
       value={{
         navigate,
-        playlistData,
+        playlist,
         addDispatch,
-        favoriteData,
+        favoriteState,
         favoriteDispatch,
-        trackData,
+        track,
         trackDispatch,
         playState,
         playDispatch,
@@ -36,9 +39,9 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export interface MyContextProps {
-  playlistData: any;
-  favoriteData: any;
-  trackData: any;
+  playlist: commonData[];
+  favoriteState: commonData[];
+  track: string[];
   playState: boolean;
   navigate: (params: string) => void;
   addDispatch: React.Dispatch<Action>;
@@ -49,9 +52,9 @@ export interface MyContextProps {
 
 const MyContext = createContext<MyContextProps>({
   navigate: () => {},
-  playlistData: initialState.playlist,
-  favoriteData: initialState.favoriteData,
-  trackData: initialState.track,
+  playlist: initialState.playlist,
+  favoriteState: initialState.favoriteData,
+  track: initialState.track,
   addDispatch: () => {},
   favoriteDispatch: () => {},
   trackDispatch: () => {},

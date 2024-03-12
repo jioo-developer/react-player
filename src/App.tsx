@@ -7,11 +7,9 @@ import List from "./components/List";
 import Favorite from "./components/Favorite";
 import Player from "./components/Player";
 import { useMyContext } from "./module/MyContext";
-import { commonData } from "./module/interfaceModule";
 
 function App() {
-  const reducerData = useMyContext();
-  const favoriteData: commonData | commonData[] = reducerData.favoriteData;
+  const { favoriteState } = useMyContext();
 
   return (
     <div className="App">
@@ -21,7 +19,7 @@ function App() {
         <section
           className="album_wrap"
           style={
-            Object.entries(favoriteData).length > 0
+            favoriteState.length > 0
               ? { paddingBottom: 150 }
               : { paddingBottom: 0 }
           }

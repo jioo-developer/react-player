@@ -11,17 +11,15 @@ import { commonData } from "../module/interfaceModule";
 function List() {
   const {
     favoriteDispatch,
-    playlistData,
-    favoriteData,
-    trackData,
+    playlist,
+    favoriteState,
+    track,
     playState,
     trackDispatch,
     playDispatch,
     addDispatch,
   } = useMyContext();
-  const playlist: commonData[] = playlistData.playlist;
-  const favoriteState: commonData[] = favoriteData.favoriteData;
-  const track: string[] = trackData.track;
+
   const starRef = useRef<HTMLUListElement>(null);
 
   function favoriteHandler(
@@ -33,7 +31,7 @@ function List() {
       if (e.target.checked) {
         if (!favoriteState.includes(value)) {
           favoriteDispatch(FavoriteAdd(value));
-          // 현재 리스트의 인덱스를 즐겨찾기 리스트에 추가
+          // 즐겨찾기 재생
         }
       } else {
         if (favoriteState.length > 0) {
@@ -44,6 +42,7 @@ function List() {
               item.thumbnail !== playlist[index].thumbnail
           );
           favoriteDispatch(removeFavorite(deleteFavorite));
+          // 즐겨찾기 삭제
         }
       }
     }

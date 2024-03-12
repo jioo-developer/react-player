@@ -1,13 +1,17 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, {
+  useState,
+  useRef,
+  useMemo,
+  useCallback,
+  useEffect,
+} from "react";
 import ReactPlayer from "react-player";
 import Audio from "./audio";
 import { useMyContext } from "../module/MyContext";
-import { commonData } from "../module/interfaceModule";
 
 function Player() {
-  const { playlistData, trackData, playState, playDispatch } = useMyContext();
-  const playlist: commonData[] = playlistData.playlist;
-  const track: string[] = trackData.track;
+  const { playlist, track, playState, playDispatch } = useMyContext();
+
   const [title, setTitle] = useState<string>("");
   // 현재 재생중인 노래 타이틀
   const [volume, setVolume] = useState(4);
@@ -32,16 +36,21 @@ function Player() {
 
   // 리스트 중 현재 재생중인 노래 index 함수
 
+  const [thumbIndex, setIndex] = useState<number | null>(null);
+
   function playSetting() {
-    setMovie(true);
     if (playRef) {
       const player = playRef.getInternalPlayer();
       const Sequence: number = player.playerInfo.playlistIndex;
+      setIndex(Sequence);
       const videoTitle: string = player.videoTitle;
       const listLength: Element[] = Array.from(
         document.querySelectorAll(".lists li") || []
       );
-      if (listLength.length > 0) {
+      const someArr = listLength.some((item) =>
+        item.classList.contains("index")
+      );
+      if (!someArr) {
         listLength.map((value, index) => {
           if (Sequence === index) {
             return value.classList.add("index");
@@ -49,8 +58,8 @@ function Player() {
             return value.classList.remove("index");
           }
         });
+        playGround(Sequence, videoTitle);
       }
-      playGround(Sequence, videoTitle);
     }
   }
 
@@ -86,6 +95,27 @@ function Player() {
       setDuration(playerDurate - 1);
     }
   }
+
+  const thumbnailHanlder = useCallback(() => {
+    if (thumbIndex !== null) {
+      return (
+        <img
+          src={playlist[thumbIndex].thumbnail}
+          alt=""
+          style={{ position: "absolute", top: 0, zIndex: 100 }}
+          onError={(e) =>
+            ((e.target as HTMLImageElement).src = "/img/defaultImg.png")
+          }
+        />
+      );
+    } else return null;
+  }, [thumbIndex]);
+
+  useEffect(() => {
+    if (thumbIndex !== null) {
+      setMovie(true);
+    }
+  }, [thumbIndex]);
 
   // 곡의 풀타임 시간에 관한 함수
 
@@ -170,7 +200,9 @@ function Player() {
               className="playing"
               style={{ backgroundImage: "url(/img/defaultImg.png" }}
             ></div>
-          ) : null}
+          ) : (
+            thumbnailHanlder()
+          )}
           <figcaption>{title}</figcaption>
         </div>
       </div>
