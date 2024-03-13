@@ -1,10 +1,13 @@
 import { recomend_data } from "../recomend_data";
-import { ListAdd } from "../module/reducer";
+import { ListAdd, trackUpdate } from "../module/reducer";
 import { useMyContext } from "../module/MyContext";
 function Recommend() {
-  const { playDispatch, addDispatch, playState } = useMyContext();
+  const { playDispatch, addDispatch, playState, trackDispatch } =
+    useMyContext();
 
   function recommendPlay() {
+    const url = recomend_data.map((item) => item.url);
+    trackDispatch(trackUpdate(url));
     addDispatch(ListAdd(recomend_data));
     if (!playState) playDispatch(true);
   }

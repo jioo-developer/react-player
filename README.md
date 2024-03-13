@@ -45,9 +45,7 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 
 1. form에 입력된 주소 중 "youtube"와 "watch"가 포함 되어 있는 지 체크 후 watch 뒤 동영상 ID 추출
 2. 그렇게 추출 된 동영상 ID를 URLSearchParams를 이용하여 json 형식으로 해당 주소의 데이터를 가져옴
-3. 가져온 데이터 중 필요한 데이터를 객체로 생성하여 State 안에 넣음
-4.
-
+3. 가져온 데이터 중 필요한 데이터를 객체로 생성하여 state안에 넣고 스트레밍 & 플레이 리스트 만들기
 <hr />
 
 - 체크사항 기능 구현 2 : 쿠키를 사용하여 오늘 자정이 되면 localstorage를 지우게 함

@@ -19,7 +19,7 @@ export const ListAdd = (data: commonData | commonData[]) => ({
   data,
 });
 
-export const trackUpdate = (data: string[]) => ({
+export const trackUpdate = (data: string | string[]) => ({
   type: track,
   data,
 });
@@ -74,7 +74,10 @@ const reducer = (state: stateType, action: Action): stateType => {
     case track:
       return {
         ...state,
-        track: action.data,
+        track:
+          typeof action.data === "string"
+            ? [...state.track, action.data]
+            : action.data,
       };
 
     case FAVORITE:

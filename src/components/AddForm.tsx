@@ -1,9 +1,10 @@
 import React, { useRef } from "react";
-import { ListAdd } from "../module/reducer";
+import { ListAdd, trackUpdate } from "../module/reducer";
 import { useMyContext } from "../module/MyContext";
 
 function AddList() {
-  const { addDispatch } = useMyContext();
+  const { addDispatch, trackDispatch, playDispatch, playState } =
+    useMyContext();
   const urlRef = useRef<HTMLInputElement>(null);
 
   function youtube_parser(params: string) {
@@ -45,6 +46,8 @@ function AddList() {
             thumbnail: response.thumbnail_url,
           };
           addDispatch(ListAdd(object));
+          trackDispatch(trackUpdate(object.url));
+          if (!playState) playDispatch(true);
           urlRef.current.value = "";
         } catch (error) {
           console.log("------------------------------");

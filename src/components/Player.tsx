@@ -96,7 +96,7 @@ function Player() {
     }
   }
 
-  const thumbnailHanlder = useCallback(() => {
+  function thumbnailHanlder() {
     if (thumbIndex !== null) {
       return (
         <img
@@ -109,7 +109,7 @@ function Player() {
         />
       );
     } else return null;
-  }, [thumbIndex]);
+  }
 
   useEffect(() => {
     if (thumbIndex !== null) {

@@ -14,10 +14,10 @@ function List() {
     playlist,
     favoriteState,
     track,
-    playState,
     trackDispatch,
-    playDispatch,
     addDispatch,
+    playState,
+    playDispatch,
   } = useMyContext();
 
   const starRef = useRef<HTMLUListElement>(null);
@@ -57,18 +57,10 @@ function List() {
     const prevPlayList = newPlayList.splice(index, 1);
     newPlayList.unshift(...prevPlayList);
 
-    trackUpdate(initialArray);
+    trackDispatch(trackUpdate(initialArray));
     addDispatch(ChangeList(newPlayList));
+    if (!playState) playDispatch(true);
   }
-
-  useEffect(() => {
-    if (playlist.length > 0) {
-      const arr: string[] = [];
-      playlist.forEach((item) => arr.push(item.url));
-      trackDispatch(trackUpdate(arr));
-      if (!playState) playDispatch(true);
-    }
-  }, [playlist]);
 
   return (
     <div className="album_list">
