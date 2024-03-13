@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import reducer, { initialState } from "./reducer";
+import reducer, { initialState } from "./reducer.ts";
 import { Action, commonData } from "./interfaceModule";
 
 export const MyContextProvider = ({ children }: { children: ReactNode }) => {

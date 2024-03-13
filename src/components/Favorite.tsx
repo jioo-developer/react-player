@@ -1,6 +1,6 @@
-import { useEffect } from "react";
-import { useMyContext } from "../module/MyContext";
-import { FavoriteAdd, ListAdd, removeFavorite } from "../module/reducer";
+import React, { useEffect } from "react";
+import { useMyContext } from "../module/MyContext.tsx";
+import { FavoriteAdd, ListAdd, removeFavorite } from "../module/reducer.ts";
 import { commonData } from "../module/interfaceModule";
 
 function Favorite() {

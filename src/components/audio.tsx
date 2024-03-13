@@ -1,4 +1,5 @@
-import { useMyContext } from "../module/MyContext";
+import React from "react";
+import { useMyContext } from "../module/MyContext.tsx";
 import ReactPlayer from "react-player";
 
 type audioProps = {

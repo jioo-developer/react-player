@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
-import { ListAdd, trackUpdate } from "../module/reducer";
-import { useMyContext } from "../module/MyContext";
+import { ListAdd, trackUpdate } from "../module/reducer.ts";
+import { useMyContext } from "../module/MyContext.tsx";
 
 function AddList() {
   const { addDispatch, trackDispatch, playDispatch, playState } =

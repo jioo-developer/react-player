@@ -1,6 +1,7 @@
-import { recomend_data } from "../recomend_data";
-import { ListAdd, trackUpdate } from "../module/reducer";
-import { useMyContext } from "../module/MyContext";
+import React from "react";
+import { recomend_data } from "../recomend_data.ts";
+import { ListAdd, trackUpdate } from "../module/reducer.ts";
+import { useMyContext } from "../module/MyContext.tsx";
 function Recommend() {
   const { playDispatch, addDispatch, playState, trackDispatch } =
     useMyContext();

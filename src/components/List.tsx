@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import {
   ChangeList,
   FavoriteAdd,
   removeFavorite,
   trackUpdate,
-} from "../module/reducer";
-import { useMyContext } from "../module/MyContext";
+} from "../module/reducer.ts";
+import { useMyContext } from "../module/MyContext.tsx";
 import { commonData } from "../module/interfaceModule";
 
 function List() {

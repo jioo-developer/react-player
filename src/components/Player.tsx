@@ -2,12 +2,12 @@ import React, {
   useState,
   useRef,
   useMemo,
-  useCallback,
   useEffect,
+  useCallback,
 } from "react";
 import ReactPlayer from "react-player";
-import Audio from "./audio";
-import { useMyContext } from "../module/MyContext";
+import Audio from "./audio.tsx";
+import { useMyContext } from "../module/MyContext.tsx";
 
 function Player() {
   const { playlist, track, playState, playDispatch } = useMyContext();
@@ -42,14 +42,13 @@ function Player() {
     if (playRef) {
       const player = playRef.getInternalPlayer();
       const Sequence: number = player.playerInfo.playlistIndex;
+
       const videoTitle: string = player.videoTitle;
       const listLength: Element[] = Array.from(
         document.querySelectorAll(".lists li") || []
       );
-      const someArr = listLength.some((item) =>
-        item.classList.contains("index")
-      );
-      if (listLength.length > 0 && !someArr) {
+
+      if (listLength.length > 0) {
         listLength.map((value, index) => {
           if (Sequence === index) {
             return value.classList.add("index");
@@ -57,7 +56,10 @@ function Player() {
             return value.classList.remove("index");
           }
         });
-        playGround(Sequence, videoTitle);
+        if (Sequence !== thumbIndex) {
+          setIndex(Sequence);
+          playGround(Sequence, videoTitle);
+        }
       }
     }
   }
@@ -65,21 +67,23 @@ function Player() {
   // 리스트 중 현재 재생중인 노래 index 함수
 
   // 현재 재생중인 노래의 썸네일과 타이틀 함수
-  function playGround(Sequence: number, videoTitle: string): void {
-    if (playlist) {
-      const listElement = playlist[Sequence];
-      const objects = {
-        title: videoTitle,
-        thumbnail: listElement.thumbnail,
-      };
-      setTitle(objects.title);
-      setIndex(Sequence);
-    }
-  }
+  const playGround = useCallback(
+    (Sequence: number, videoTitle: string) => {
+      if (thumbIndex !== null && playlist.length > 0) {
+        const listElement = playlist[Sequence];
+        const objects = {
+          title: videoTitle,
+          thumbnail: listElement.thumbnail,
+        };
+        setTitle(objects.title);
+      }
+    },
+    [playlist, thumbIndex]
+  );
   // 현재 재생중인 노래의 썸네일과 타이틀 함수
 
-  function thumbnailHanlder() {
-    if (thumbIndex !== null) {
+  const thumbnailHanlder = useCallback(() => {
+    if (thumbIndex !== null && playlist.length > 0) {
       return (
         <img
           src={playlist[thumbIndex].thumbnail}
@@ -91,7 +95,7 @@ function Player() {
         />
       );
     } else return null;
-  }
+  }, [thumbIndex, playlist]);
 
   // 곡의 분/초에 관한 함수
 
@@ -151,8 +155,8 @@ function Player() {
       }
 
       const result = [
-        minutes > 10 ? minutes : `0${minutes}`,
-        second > 10 ? second : `0${second}`,
+        minutes >= 10 ? minutes : `0${minutes}`,
+        second >= 10 ? second : `0${second}`,
       ].join(":");
 
       return result;

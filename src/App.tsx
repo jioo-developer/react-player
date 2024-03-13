@@ -1,16 +1,15 @@
 import React from "react";
 import "./asset/reset.css";
 import "./asset/App.scss";
-import Recommend from "./components/Recommend";
-import AddForm from "./components/AddForm";
-import List from "./components/List";
-import Favorite from "./components/Favorite";
-import Player from "./components/Player";
-import { useMyContext } from "./module/MyContext";
+import Recommend from "./components/Recommend.tsx";
+import AddForm from "./components/AddForm.tsx";
+import List from "./components/List.tsx";
+import Favorite from "./components/Favorite.tsx";
+import Player from "./components/Player.tsx";
+import { useMyContext } from "./module/MyContext.tsx";
 
 function App() {
-  const { favoriteState } = useMyContext();
-
+  const { favoriteState, playlist } = useMyContext();
   return (
     <div className="App">
       <div className="wrap">
@@ -19,9 +18,11 @@ function App() {
         <section
           className="album_wrap"
           style={
-            favoriteState.length > 0
-              ? { paddingBottom: 150 }
-              : { paddingBottom: 0 }
+            favoriteState.length > 0 ||
+            Object.entries(favoriteState).length > 0 ||
+            playlist.length > 0
+              ? { paddingBottom: 170 }
+              : { paddingBottom: 250 }
           }
         >
           <Player />
