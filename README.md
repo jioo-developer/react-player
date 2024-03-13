@@ -55,4 +55,5 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 #### 플레이리스트 index 컨트롤
 
 <img src="/public/img/play-function.jpg">
-- onChange & splice & forEach문을 이용해 원하는 타겟들의 배열 index를 조정
+<br />
+- start / play / error 등의 이벤트가 일어 났을 시 콜백함수를 생성하여 실행 (player.tsx 41줄 ~ 94줄 까지 참조)
