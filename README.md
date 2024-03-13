@@ -48,9 +48,6 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 3. 가져온 데이터 중 필요한 데이터를 객체로 생성하여 state안에 넣고 스트레밍 & 플레이 리스트 만들어줌
 <hr />
 
-- 체크사항 기능 구현 2 : 쿠키를 사용하여 오늘 자정이 되면 localstorage를 지우게 함
-- 체크사항 기능 구현 3 : calendar.tsx 주석 참조
-
 #### 곡 셔플 & 원하는 곡 바로 재생
 
-1. 곡 셔플 : 체크박스로 체크된 리스트들의 index들을 가져온 후 playlist.splice()
+- onChange & splice & forEach문을 이용해 원하는 타겟들의 배열 index를 조정
