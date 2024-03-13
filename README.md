@@ -35,9 +35,9 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 - [x] 유튜브 주소를 입력하면 주소에 관련된 전체 데이터를 가져오는 코드 짜기
 - [x] 유튜브 api를 통해 주소의 전체 데이터를 가져오면 필요한 부분들만 필터해서 각 배열에 넣기
 - [x] 플레이 순서를 바꿀 때, 현재 입력된 플레이리스트를 유지 한 채로 곡의 순서만 바꿔야함
+- [x] 플레이리스트 중 지금 재생곡의 index 찾아서 사용자에게 현재 어떤 순번이 재생되는지 노출시켜주기
 - [x] react-player라고 해도 iframe 유튜브창을 띄워놓는 건데 이걸 임의의 컴포넌트로 만들어진 오디오 컨트롤러와 연결하는법
   > 현재 플레이타임 & 총 플레이타임 / 재생&일시정지 / 볼륨조절 / 곡 넘어가기 / 곡 중 원하는 플레이 타임으로 넘어가기
-- [x] 플레이리스트 중 지금 재생곡의 index 찾아서 사용자에게 현재 어떤 순번이 재생되는지 노출시켜주기
 
 ### 🚀 기능 구현
 
@@ -50,4 +50,9 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 
 #### 곡 셔플 & 원하는 곡 바로 재생
 
+- onChange & splice & forEach문을 이용해 원하는 타겟들의 배열 index를 조정
+
+#### 플레이리스트 index 컨트롤
+
+<img src="/public/img/play-function.jpg">
 - onChange & splice & forEach문을 이용해 원하는 타겟들의 배열 index를 조정

@@ -42,7 +42,6 @@ function Player() {
     if (playRef) {
       const player = playRef.getInternalPlayer();
       const Sequence: number = player.playerInfo.playlistIndex;
-      setIndex(Sequence);
       const videoTitle: string = player.videoTitle;
       const listLength: Element[] = Array.from(
         document.querySelectorAll(".lists li") || []
@@ -50,7 +49,7 @@ function Player() {
       const someArr = listLength.some((item) =>
         item.classList.contains("index")
       );
-      if (!someArr) {
+      if (listLength.length > 0 && !someArr) {
         listLength.map((value, index) => {
           if (Sequence === index) {
             return value.classList.add("index");
@@ -74,9 +73,25 @@ function Player() {
         thumbnail: listElement.thumbnail,
       };
       setTitle(objects.title);
+      setIndex(Sequence);
     }
   }
   // 현재 재생중인 노래의 썸네일과 타이틀 함수
+
+  function thumbnailHanlder() {
+    if (thumbIndex !== null) {
+      return (
+        <img
+          src={playlist[thumbIndex].thumbnail}
+          alt=""
+          style={{ position: "absolute", top: 0, zIndex: 100, width: "100%" }}
+          onError={(e) =>
+            ((e.target as HTMLImageElement).src = "/img/defaultImg.png")
+          }
+        />
+      );
+    } else return null;
+  }
 
   // 곡의 분/초에 관한 함수
 
@@ -94,21 +109,6 @@ function Player() {
       const playerDurate = playRef.getDuration();
       setDuration(playerDurate - 1);
     }
-  }
-
-  function thumbnailHanlder() {
-    if (thumbIndex !== null) {
-      return (
-        <img
-          src={playlist[thumbIndex].thumbnail}
-          alt=""
-          style={{ position: "absolute", top: 0, zIndex: 100, width: "100%" }}
-          onError={(e) =>
-            ((e.target as HTMLImageElement).src = "/img/defaultImg.png")
-          }
-        />
-      );
-    } else return null;
   }
 
   useEffect(() => {
