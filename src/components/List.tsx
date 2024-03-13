@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   ChangeList,
   FavoriteAdd,
@@ -19,6 +19,8 @@ function List() {
     playState,
     playDispatch,
   } = useMyContext();
+
+  const [shuffleToggle, setShuffle] = useState(false);
 
   const starRef = useRef<HTMLUListElement>(null);
 
@@ -64,15 +66,39 @@ function List() {
 
   return (
     <div className="album_list">
-      <p className="playlist">플레이리스트</p>
+      <div className="playlist">
+        플레이리스트
+        {!shuffleToggle ? (
+          <button onClick={() => setShuffle(true)}>
+            <img src="img/playlist_shuffle.png" alt="" />
+          </button>
+        ) : (
+          <button>
+            <img src="img/up-down.png" alt="" />
+          </button>
+        )}
+      </div>
       <ul className="list lists" ref={starRef}>
         {playlist.length > 0
           ? playlist.map((value, index) => {
               return (
                 <li className="list" key={index}>
-                  <div className="list_text" onClick={() => directPlay(index)}>
-                    {value.title ? value.title : ""}
+                  <div style={{ display: "flex" }}>
+                    {shuffleToggle ? (
+                      <input
+                        type="checkbox"
+                        id={`shuffle-${index}`}
+                        style={{ marginRight: 10 }}
+                      />
+                    ) : null}
+                    <div
+                      className="list_text"
+                      onClick={() => directPlay(index)}
+                    >
+                      {value.title ? value.title : ""}
+                    </div>
                   </div>
+
                   <input
                     type="checkbox"
                     className="star"

@@ -445,11 +445,20 @@ $fold: "all and (max-width:280px)";
     }
 
     .playlist {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-size: 25px;
       font-weight: 700;
       padding-bottom: 30px;
       border-bottom: 1px solid #ccc;
       box-sizing: border-box;
+      line-height: 1;
+
+      img {
+        width: 25px;
+        margin-top: 3px;
+      }
 
       @media #{$mobile} {
         text-align: center;
