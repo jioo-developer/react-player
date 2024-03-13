@@ -59,5 +59,7 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 <br />
 - start / play / error 등의 이벤트가 일어 났을 시 콜백함수를 생성하여 실행 (player.tsx 41줄 ~ 94줄 까지 참조)
 <hr />
+
 #### 오디오 컨트롤러
+
 - 재생/일시정지 / 다음 곡 넘어가기 / 볼륨조절 (126줄 ~ 164줄) + audio.tsx 참조
