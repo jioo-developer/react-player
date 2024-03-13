@@ -7,10 +7,13 @@ function AddList() {
   const urlRef = useRef<HTMLInputElement>(null);
 
   function youtube_parser(params: string) {
-    let regExp = /^.*((youtu.be\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-    let match = params.match(regExp);
-    if (match !== null && match[4].length === 11) {
-      return match[4];
+    const regExp = /^.*(youtu.be\/.*|watch\?.*v=)([^#\&\?]*).*/;
+    const match = params.match(regExp);
+    if (match) {
+      const result = match.filter(
+        (item) => item.length === 11 || item.length === 12
+      );
+      return result[0].replace(/"/g, "");
     } else {
       console.log(`${params}는 맞지 않는 url 입니다.`);
       return false;
