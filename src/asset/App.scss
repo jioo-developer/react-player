@@ -455,9 +455,20 @@ $fold: "all and (max-width:280px)";
       box-sizing: border-box;
       line-height: 1;
 
-      img {
-        width: 25px;
-        margin-top: 3px;
+      button {
+        display: flex;
+        align-items: center;
+        button {
+          margin-right: 10px;
+        }
+        img {
+          width: 25px;
+          margin-top: 3px;
+
+          &:last-child {
+            transform: rotate(180deg);
+          }
+        }
       }
 
       @media #{$mobile} {
