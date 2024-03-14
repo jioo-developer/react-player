@@ -50,7 +50,7 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 
 #### 곡 셔플 & 원하는 곡 바로 재생
 
-- onChange & splice & forEach문을 이용해 원하는 타겟들의 배열 index를 조정
+- onChange,slice,filter,forEach문을 이용해 원하는 타겟들의 배열 index를 조정 / (list.tsx 68줄 ~ 117줄 까지 참조)
 <hr />
 
 #### 플레이리스트 index 컨트롤
