@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 import { useMyContext } from "../module/MyContext.tsx";
-import { FavoriteAdd, ListAdd, removeFavorite } from "../module/reducer.ts";
+import {
+  FavoriteAdd,
+  ListAdd,
+  removeFavorite,
+  trackUpdate,
+} from "../module/reducer.ts";
 import { commonData } from "../module/interfaceModule";
 
 function Favorite() {
@@ -10,6 +15,7 @@ function Favorite() {
     playDispatch,
     favoriteState,
     playState,
+    trackDispatch,
   } = useMyContext();
 
   const parseFavorite = JSON.parse(
@@ -74,6 +80,7 @@ function Favorite() {
                         <button
                           onClick={() => {
                             addDispatch(ListAdd(value));
+                            trackDispatch(trackUpdate(value.url));
                             if (!playState) playDispatch(true);
                           }}
                         >

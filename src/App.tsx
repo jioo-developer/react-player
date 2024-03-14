@@ -21,7 +21,7 @@ function App() {
             favoriteState.length > 0 ||
             Object.entries(favoriteState).length > 0 ||
             playlist.length > 0
-              ? { paddingBottom: playlist.length * 25 }
+              ? { paddingBottom: playlist.length * 25 + 150 }
               : { paddingBottom: 250 }
           }
         >

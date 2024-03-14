@@ -37,7 +37,7 @@ function Player() {
   // 리스트 중 현재 재생중인 노래 index 함수
 
   const [thumbIndex, setIndex] = useState<number | null>(null);
-
+  const [loop, setLoop] = useState(false);
   function playSetting() {
     if (playRef) {
       const player = playRef.getInternalPlayer();
@@ -104,6 +104,9 @@ function Player() {
       const playerCurrentTime = playRef.getCurrentTime(); // 현재 재생 중인 비디오의 시간
       setPlayed(Math.floor(playerCurrentTime)); // 현재 시간을 업데이트
       const progress = playerCurrentTime / playRef.getDuration(); // 진행 상황을 계산
+      if (playlist.length === 1 && progress.toFixed(2) === "0.99") {
+        setLoop(true);
+      }
       setSeekbar(progress); // 진행바 시점을 업데이트
     }
   }
@@ -172,7 +175,7 @@ function Player() {
           <ReactPlayer
             ref={playerRef}
             playing={playState}
-            loop={true}
+            loop={loop}
             url={track}
             volume={Number(`0.${volume}`)}
             onStart={() => playSetting()}
@@ -189,7 +192,7 @@ function Player() {
             width="100%"
             className={"player"}
             height="100%"
-            controls={false}
+            controls={true}
             config={{
               youtube: {
                 playerVars: {
@@ -205,9 +208,11 @@ function Player() {
               style={{ backgroundImage: "url(/img/defaultImg.png" }}
             ></div>
           ) : (
-            thumbnailHanlder()
+            <div className="thumbnail-wrap">
+              {thumbnailHanlder()}
+              <figcaption>{title}</figcaption>
+            </div>
           )}
-          <figcaption>{title}</figcaption>
         </div>
       </div>
       <Audio
