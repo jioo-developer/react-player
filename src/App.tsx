@@ -7,15 +7,27 @@ import List from "./components/List.tsx";
 import Favorite from "./components/Favorite.tsx";
 import Player from "./components/Player.tsx";
 import { useMyContext } from "./module/MyContext.tsx";
+import Replay from "./components/Replay.tsx";
+import RandomList from "./components/RandomList.tsx";
 
 function App() {
   const { favoriteState, playlist } = useMyContext();
   return (
     <div className="App">
       <div className="wrap">
-        <Recommend />
-        <Favorite />
-        <section
+        <header>
+          <h1 className="logo">
+            <img src="img/on_platform_logo_dark.svg" alt="" />
+          </h1>
+          <AddForm />
+        </header>
+        <div className="area-padding">
+          <Replay />
+          <RandomList />
+          <Recommend />
+        </div>
+        {/* <Favorite /> */}
+        {/* <section
           className="album_wrap"
           style={
             favoriteState.length > 0 ||
@@ -26,9 +38,8 @@ function App() {
           }
         >
           <Player />
-          <AddForm />
           <List />
-        </section>
+        </section> */}
       </div>
     </div>
   );

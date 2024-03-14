@@ -14,43 +14,30 @@ function Recommend() {
   }
 
   return (
-    <section className="Recommend">
+    <div className="recommend_wrap" style={{ paddingTop: 100 }}>
+      <h2 className="mb30">추천 앨범</h2>
       <div className="in_wrap">
-        <div className="recommend_txt_wrap">
-          <b>
-            제작자가 추천하는
-            <br />
-            플레이리스트
-          </b>
-          <div className="total_music">
-            <figure>
-              <img src="/img/play-button.svg" alt="" />
-            </figure>
-            <figcaption>
-              <button onClick={recommendPlay}>추천곡 들어보기</button>
-            </figcaption>
-          </div>
-        </div>
-
-        <div className="recommend_album">
-          {recomend_data.map(function (item) {
+        <div className="middle_album">
+          {recomend_data.map((item, index) => {
             return (
-              <div className="album" key={item.id}>
+              <article>
                 <figure>
-                  <img src={`${item.thumbnail}`} alt=""></img>
+                  <img
+                    src={`${item.thumbnail}`}
+                    alt=""
+                    className="borderRound"
+                  />
                 </figure>
                 <figcaption>
                   <p>{item.title}</p>
                   <span>{item.singer}</span>
                 </figcaption>
-              </div>
+              </article>
             );
           })}
         </div>
       </div>
-      <div className="container"></div>
-      {/* // 아마 백그라운드 잘 유지되게 지탱해주는 것 같음 */}
-    </section>
+    </div>
   );
 }
 
