@@ -10,7 +10,17 @@ function Replay() {
             return (
               <article className="replay_albumWrap">
                 <figure>
-                  <img src={`${item.thumbnail}`} alt="" />
+                  <button className="middle_favorite">
+                    <img src="img/heart.png" alt="" />
+                  </button>
+                  <button className="middle_play">
+                    <img src="img/play-icon.png" alt="" />
+                  </button>
+                  <img
+                    src={`${item.thumbnail}`}
+                    alt=""
+                    className="middle-thumbnail"
+                  />
                 </figure>
                 <figcaption>
                   <p>{item.title}</p>
