@@ -49,6 +49,7 @@ function AddList({ setData, vw, searchToggle, setToggle }: props) {
               title: response.title,
               url: response.url,
               thumbnail: response.thumbnail_url,
+              singer: response.author_name,
             };
             urlRef.current.value = "";
             setData(object);

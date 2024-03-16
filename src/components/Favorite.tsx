@@ -8,7 +8,7 @@ import {
 } from "../module/reducer.ts";
 import { commonData } from "../module/interfaceModule";
 
-function Favorite() {
+function Favorite({ vw }: { vw: number }) {
   const {
     favoriteDispatch,
     addDispatch,
@@ -55,8 +55,11 @@ function Favorite() {
         <section className="favorite" style={{ paddingTop: 57 }}>
           <div className="favorite_header">
             <h2>자주 듣는 노래</h2>
-            {favoriteState.map((item, index) => {
-              return (
+          </div>
+
+          {favoriteState.map((item, index) => {
+            return (
+              <div className="in_wrap">
                 <div className="middle_album">
                   <article className="favorite_albumWrap">
                     <figure>
@@ -75,10 +78,9 @@ function Favorite() {
                     </figcaption>
                   </article>
                 </div>
-              );
-            })}
-          </div>
-          <div className="favorite_wrap"></div>
+              </div>
+            );
+          })}
         </section>
       ) : null}
     </>

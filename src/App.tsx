@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./asset/reset.css";
 import "./asset/App.scss";
 import Recommend from "./components/Recommend.tsx";
@@ -9,6 +9,7 @@ import RandomList from "./components/RandomList.tsx";
 import Favorite from "./components/Favorite.tsx";
 import { commonData } from "./module/interfaceModule.ts";
 import SearchResult from "./components/SearchResult.tsx";
+import Player from "./components/Player.tsx";
 
 function App() {
   // const initialData: commonData = {
@@ -17,19 +18,40 @@ function App() {
   //   url: "",
   //   singer: "디오",
   // };
+
   const initialData: commonData = {
     title: "",
     thumbnail: "",
     url: "",
+    singer: "",
   };
+
   const { favoriteState, playlist } = useMyContext();
   const [searchData, setData] = useState<commonData>(initialData);
   const [searchToggle, setToggle] = useState(false);
+  const [vw, setvw] = useState(0);
 
-  const [vw, setVw] = useState(0);
   function updatevW() {
-    const vw = window.innerWidth * 1;
-    setVw(vw);
+    const newVW = window.innerWidth * 1;
+    const parentWidth = Array.from(
+      document.querySelectorAll(".in_wrap")
+    ) as HTMLElement[];
+    parentWidth.forEach((item) => {
+      if (item.classList.contains("small")) {
+        if (newVW < 1000) {
+          item.style.overflowX = "scroll";
+        } else {
+          item.style.overflowX = "visible";
+        }
+      } else {
+        if (newVW < 1600) {
+          item.style.overflowX = "scroll";
+        } else {
+          item.style.overflowX = "visible";
+        }
+      }
+    });
+    setvw(newVW);
   }
   useEffect(() => {
     updatevW();
@@ -62,8 +84,9 @@ function App() {
             <>
               <Replay />
               <RandomList />
-              <Favorite />
+              <Favorite vw={vw} />
               <Recommend />
+              {playlist.length > 0 ? <Player /> : null}
             </>
           )}
         </>

@@ -19,6 +19,7 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
   const [trackData, trackDispatch] = useReducer(reducer, initialState);
   const track = trackData.track;
   const [playState, playDispatch] = useState(false);
+  const [listToggle, setListToggle] = useState(false);
   return (
     <MyContext.Provider
       value={{
@@ -31,6 +32,8 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
         trackDispatch,
         playState,
         playDispatch,
+        listToggle,
+        setListToggle,
       }}
     >
       {children}
@@ -48,6 +51,8 @@ export interface MyContextProps {
   favoriteDispatch: React.Dispatch<Action>;
   trackDispatch: React.Dispatch<Action>;
   playDispatch: React.Dispatch<React.SetStateAction<boolean>>;
+  listToggle: boolean;
+  setListToggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const MyContext = createContext<MyContextProps>({
@@ -60,6 +65,8 @@ const MyContext = createContext<MyContextProps>({
   trackDispatch: () => {},
   playState: false,
   playDispatch: () => {},
+  listToggle: false,
+  setListToggle: () => {},
 });
 
 export const useMyContext = () => {

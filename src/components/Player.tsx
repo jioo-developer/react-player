@@ -82,21 +82,6 @@ function Player() {
   );
   // 현재 재생중인 노래의 썸네일과 타이틀 함수
 
-  const thumbnailHanlder = useCallback(() => {
-    if (thumbIndex !== null && playlist.length > 0) {
-      return (
-        <img
-          src={playlist[thumbIndex].thumbnail}
-          alt=""
-          style={{ position: "absolute", top: 0, zIndex: 100, width: "100%" }}
-          onError={(e) =>
-            ((e.target as HTMLImageElement).src = "/img/defaultImg.png")
-          }
-        />
-      );
-    } else return null;
-  }, [thumbIndex, playlist]);
-
   // 곡의 분/초에 관한 함수
 
   function handleProgress() {
@@ -158,10 +143,9 @@ function Player() {
       }
 
       const result = [
-        minutes >= 10 ? minutes : `0${minutes}`,
+        minutes >= 10 ? `${minutes} ` : `0${minutes}`,
         second >= 10 ? second : `0${second}`,
       ].join(":");
-
       return result;
     };
   }, []);
@@ -189,9 +173,7 @@ function Player() {
             onError={handleError}
             onProgress={handleProgress}
             onPause={handlePause}
-            width="100%"
             className={"player"}
-            height="100%"
             controls={true}
             config={{
               youtube: {
@@ -202,20 +184,10 @@ function Player() {
               },
             }}
           />
-          {!movieToggle ? (
-            <div
-              className="playing"
-              style={{ backgroundImage: "url(/img/defaultImg.png" }}
-            ></div>
-          ) : (
-            <div className="thumbnail-wrap">
-              {thumbnailHanlder()}
-              <figcaption>{title}</figcaption>
-            </div>
-          )}
         </div>
       </div>
       <Audio
+        thumbIndex={thumbIndex}
         volume={volume}
         getVolume={getVolume}
         played={played}

@@ -12,6 +12,7 @@ const SearchResult = ({ searchData }: { searchData: commonData }) => {
         <div className="right_wrap">
           <figcaption>
             <h2> {searchData.title}</h2>
+            <p>{searchData.singer}</p>
           </figcaption>
           <div className="button_wrap">
             <button>재생</button>
