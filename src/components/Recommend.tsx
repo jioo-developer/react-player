@@ -25,8 +25,11 @@ function Recommend() {
                   <img
                     src={`${item.thumbnail}`}
                     alt=""
-                    className="borderRound"
+                    className="borderRound middle-thumbnail"
                   />
+                  <button className="middle_play">
+                    <img src="img/play-icon.png" alt="" />
+                  </button>
                 </figure>
                 <figcaption>
                   <p>{item.title}</p>

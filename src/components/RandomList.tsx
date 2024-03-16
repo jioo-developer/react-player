@@ -5,22 +5,20 @@ function RandomList() {
   return (
     <div className="random_wrap" style={{ paddingTop: 100 }}>
       <h2 className="mb30">빠른 선곡</h2>
-      <div className="in_wrap">
-        <div className="small_album">
-          {testArray.map((item, index) => {
-            return (
-              <article>
-                <figure>
-                  <img src={`${item.thumbnail}`} alt="" />
-                </figure>
-                <figcaption>
-                  <p>{item.title}</p>
-                  <span>{item.singer}</span>
-                </figcaption>
-              </article>
-            );
-          })}
-        </div>
+      <div className="small_album">
+        {testArray.map((item, index) => {
+          return (
+            <article>
+              <figure>
+                <img src={`${item.thumbnail}`} alt="" />
+              </figure>
+              <figcaption>
+                <p>{item.title}</p>
+                <span>{item.singer}</span>
+              </figcaption>
+            </article>
+          );
+        })}
       </div>
     </div>
   );

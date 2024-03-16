@@ -5,6 +5,15 @@ $fold: "all and (max-width:280px)";
 
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400;500;700&display=swap");
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0px 1000px 배경색 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 .mb30 {
   margin-bottom: 30px;
 }
@@ -14,8 +23,14 @@ $fold: "all and (max-width:280px)";
 }
 
 .area-padding {
-  padding-left: 250px;
-  max-width: 1480px;
+  padding-left: 13.1378%;
+  padding-bottom: 100px;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  @media all and (max-width: 1200px) {
+    padding-left: 10%;
+  }
 }
 
 .area-padding .in_wrap {
@@ -36,8 +51,9 @@ h2 {
 
 .in_wrap::-webkit-scrollbar {
   width: 8px;
-  height: 6px;
+  height: 4px;
   background: transparent;
+  cursor: pointer;
 }
 
 .in_wrap::-webkit-scrollbar-thumb {
@@ -54,7 +70,7 @@ button {
   display: flex;
   gap: 0 24px;
   width: 1680px;
-  padding-bottom: 15px;
+  padding-bottom: 25px;
   article {
     width: 225px;
     figure {
@@ -126,7 +142,7 @@ button {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  padding-bottom: 15px;
+  padding-bottom: 25px;
 
   article {
     display: flex;
@@ -154,16 +170,30 @@ button {
   position: relative;
   min-height: 100vh;
   background: #030303;
-
   header {
     display: flex;
     align-items: center;
     width: 100%;
     height: 64px;
     padding: 8px 0;
+    position: relative;
+    padding-left: 13.1378%;
+    box-sizing: border-box;
+    @media all and (max-width: 1200px) {
+      padding-left: 10%;
+    }
 
     .logo {
-      margin: 0 120px 0 50px;
+      margin-right: 50px;
+      cursor: pointer;
+      position: absolute;
+      top: 20px;
+      left: 2.5%;
+      @media all and (max-width: 1200px) {
+        position: relative;
+        top: 0;
+        left: 0;
+      }
     }
 
     .input_wrap {
@@ -173,6 +203,7 @@ button {
       border: 1px solid rgba(255, 255, 255, 0.15);
       background: rgba(255, 255, 255, 0.15);
       border-radius: 5px;
+
       .input-search {
         width: 24px;
         height: 24px;
@@ -185,6 +216,7 @@ button {
         background: transparent;
         outline: none;
         border: 0;
+        color: #fff;
 
         &:focus {
           outline: none;
@@ -195,6 +227,115 @@ button {
         &::placeholder {
           color: rgba(255, 255, 255, 0.5);
         }
+      }
+    }
+  }
+  .search-result-wrap {
+    margin-top: 64px;
+    @media all and (max-width: 800px) {
+      margin-top: 0;
+    }
+
+    .search_in_wrap {
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      align-items: center;
+      @media all and (max-width: 800px) {
+        display: flex;
+        flex-direction: column;
+      }
+      figure {
+        display: flex;
+        width: 264px;
+        height: 264px;
+        min-width: 200px;
+        min-height: 200px;
+        border-radius: 5px;
+        margin-right: 5%;
+        overflow: hidden;
+        @media all and (max-width: 800px) {
+          width: auto;
+          height: auto;
+        }
+        img {
+          width: 100%;
+        }
+      }
+      .right_wrap {
+        width: calc(87% - 264px);
+        max-width: 1156px;
+        @media all and (max-width: 800px) {
+          width: 90%;
+        }
+        figcaption {
+          width: 100%;
+          margin-bottom: 35px;
+          h2 {
+            font-size: 45px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 20px;
+
+            @media all and (max-width: 1740px) {
+              font-size: 2.6vw;
+            }
+            @media all and (max-width: 800px) {
+              font-size: 45px;
+            }
+          }
+          p {
+            color: #aaa;
+          }
+        }
+        .button_wrap {
+          display: flex;
+          @media all and (max-width: 800px) {
+            flex-direction: column;
+          }
+          button {
+            font-size: 14px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 165px;
+            background: transparent;
+            border: 1px solid rgba(241, 241, 241, 0.3);
+            box-sizing: border-box;
+            color: #fff;
+            border-radius: 18px;
+            letter-spacing: 1px;
+            margin-right: 10px;
+
+            &:first-child {
+              width: 84px;
+              height: 36px;
+              background: #fff;
+              color: #000;
+              border-radius: 18px;
+              @media all and (max-width: 800px) {
+                width: 100%;
+              }
+            }
+            @media all and (max-width: 1000px) {
+              font-size: 1.558vw;
+            }
+            @media all and (max-width: 800px) {
+              width: 100%;
+              font-size: 14px;
+              margin-bottom: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .favorite {
+    .favorite_albumWrap {
+      width: auto;
+      figure {
+        height: 100%;
       }
     }
   }

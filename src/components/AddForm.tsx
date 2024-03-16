@@ -1,10 +1,13 @@
-import React, { useRef } from "react";
-import { ListAdd, trackUpdate } from "../module/reducer.ts";
-import { useMyContext } from "../module/MyContext.tsx";
+import React, { useEffect, useRef, useState } from "react";
+import { commonData } from "../module/interfaceModule.ts";
 
-function AddList() {
-  const { addDispatch, trackDispatch, playDispatch, playState } =
-    useMyContext();
+type props = {
+  setData: React.Dispatch<React.SetStateAction<commonData>>;
+  vw: number;
+  searchToggle: boolean;
+  setToggle: React.Dispatch<React.SetStateAction<boolean>>;
+};
+function AddList({ setData, vw, searchToggle, setToggle }: props) {
   const urlRef = useRef<HTMLInputElement>(null);
 
   function youtube_parser(params: string) {
@@ -41,15 +44,17 @@ function AddList() {
           const resultURL = `https://youtube.com/watch?v=${createParser}`;
           try {
             const response = await geturlData(resultURL);
+            console.log(response);
             const object = {
               title: response.title,
               url: response.url,
               thumbnail: response.thumbnail_url,
             };
-            addDispatch(ListAdd(object));
-            trackDispatch(trackUpdate(object.url));
-            if (!playState) playDispatch(true);
             urlRef.current.value = "";
+            setData(object);
+            // addDispatch(ListAdd(object));
+            // trackDispatch(trackUpdate(object.url));
+            // if (!playState) playDispatch(true);
           } catch (error) {
             console.log("------------------------------");
             window.alert("url 정보를 찾지 못했습니다.");
@@ -64,17 +69,42 @@ function AddList() {
   }
 
   return (
-    <div className="input_wrap">
-      <img src="img/icon-search.svg" alt="" className="input-search" />
-      <input
-        type="text"
-        placeholder="유튜브 주소를 입력해주세요 (제목X)"
-        className="text_input url"
-        name="url"
-        ref={urlRef}
-        onKeyPress={(e) => addPlayList(e)}
-      />
-    </div>
+    <>
+      {vw > 700 || (vw < 700 && searchToggle) ? (
+        <div
+          className="input_wrap"
+          style={vw < 700 && searchToggle ? { width: "93%" } : {}}
+        >
+          <img src="img/icon-search.svg" alt="" className="input-search" />
+          <input
+            type="text"
+            placeholder="유튜브 주소를 입력해주세요 (제목X)"
+            className="text_input url"
+            name="url"
+            ref={urlRef}
+            onKeyPress={(e) => addPlayList(e)}
+            onMouseLeave={() => {
+              if (vw < 700 && searchToggle) {
+                setToggle(false);
+              }
+            }}
+          />
+        </div>
+      ) : vw < 700 && !searchToggle ? (
+        <img
+          src="img/icon-search.svg"
+          alt=""
+          className="input-search"
+          style={{
+            marginLeft: "auto",
+            marginRight: 30,
+            filter: "grayScale(1)",
+            cursor: "pointer",
+          }}
+          onClick={() => setToggle(true)}
+        />
+      ) : null}
+    </>
   );
 }
 

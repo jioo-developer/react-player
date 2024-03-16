@@ -52,50 +52,33 @@ function Favorite() {
   return (
     <>
       {favoriteState.length > 0 ? (
-        <section className="Recently">
-          <div className="recently_header">
-            <p className="recently_title">자주 듣는 노래</p>
-          </div>
-          <div className="recently_wrap">
-            {favoriteState.map((value, index) => {
+        <section className="favorite" style={{ paddingTop: 57 }}>
+          <div className="favorite_header">
+            <h2>자주 듣는 노래</h2>
+            {favoriteState.map((item, index) => {
               return (
-                <article className="recently_music" key={index}>
-                  <figure>
-                    <img
-                      src={value.thumbnail}
-                      alt=""
-                      style={{ width: 185, height: 140 }}
-                    />
-                  </figure>
-                  <div className="data-title">{value.title}</div>
-                  {value.singer ? (
-                    <figcaption>{value.singer}</figcaption>
-                  ) : (
-                    <figcaption>가수 정보 없음</figcaption>
-                  )}
-                  <input type="checkbox" id="CheckBtn" />
-                  <label htmlFor="CheckBtn" className="check">
-                    <ul>
-                      <li>
-                        <button
-                          onClick={() => {
-                            addDispatch(ListAdd(value));
-                            trackDispatch(trackUpdate(value.url));
-                            if (!playState) playDispatch(true);
-                          }}
-                        >
-                          재생
-                        </button>
-                      </li>
-                      <li>
-                        <button onClick={() => handler(value)}>삭제</button>
-                      </li>
-                    </ul>
-                  </label>
-                </article>
+                <div className="middle_album">
+                  <article className="favorite_albumWrap">
+                    <figure>
+                      <button className="middle_play">
+                        <img src="img/play-icon.png" alt="" />
+                      </button>
+                      <img
+                        src={`${item.thumbnail}`}
+                        alt=""
+                        className="middle-thumbnail"
+                      />
+                    </figure>
+                    <figcaption>
+                      <p>{item.title}</p>
+                      <span>{item.singer}</span>
+                    </figcaption>
+                  </article>
+                </div>
               );
             })}
           </div>
+          <div className="favorite_wrap"></div>
         </section>
       ) : null}
     </>
