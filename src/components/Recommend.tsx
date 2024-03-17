@@ -20,7 +20,7 @@ function Recommend() {
         <div className="middle_album">
           {recomend_data.map((item, index) => {
             return (
-              <article>
+              <article key={index}>
                 <figure>
                   <img
                     src={`${item.thumbnail}`}

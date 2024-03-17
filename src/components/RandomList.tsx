@@ -9,7 +9,7 @@ function RandomList() {
         <div className="small_album">
           {testArray.map((item, index) => {
             return (
-              <article>
+              <article key={index}>
                 <figure>
                   <img src={`${item.thumbnail}`} alt="" />
                 </figure>

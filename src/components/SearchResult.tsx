@@ -1,8 +1,10 @@
 import React from "react";
 import { commonData } from "../module/interfaceModule";
+import { recomend_data } from "../recomend_data.ts";
 
 const SearchResult = ({ searchData }: { searchData: commonData }) => {
-  console.log(searchData);
+  const testArray = [...recomend_data, ...recomend_data];
+
   return (
     <div className="search-result-wrap">
       <div className="search_in_wrap">
@@ -23,6 +25,22 @@ const SearchResult = ({ searchData }: { searchData: commonData }) => {
             </button>
           </div>
         </div>
+      </div>
+      <div className="small_album">
+        <h2 style={{ fontSize: 35, marginBottom: 10 }}>플레이리스트</h2>
+        {testArray.map((item, index) => {
+          return (
+            <article key={index}>
+              <figure>
+                <img src={`${item.thumbnail}`} alt="" />
+              </figure>
+              <figcaption>
+                <p>{item.title}</p>
+                <span>{item.singer}</span>
+              </figcaption>
+            </article>
+          );
+        })}
       </div>
     </div>
   );

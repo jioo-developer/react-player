@@ -59,7 +59,7 @@ function Favorite({ vw }: { vw: number }) {
 
           {favoriteState.map((item, index) => {
             return (
-              <div className="in_wrap">
+              <div className="in_wrap" key={index}>
                 <div className="middle_album">
                   <article className="favorite_albumWrap">
                     <figure>

@@ -8,7 +8,7 @@ function Replay() {
         <div className="middle_album">
           {recomend_data.map((item, index) => {
             return (
-              <article className="replay_albumWrap">
+              <article className="replay_albumWrap" key={index}>
                 <figure>
                   <button className="middle_favorite">
                     <img src="img/heart.png" alt="" />
