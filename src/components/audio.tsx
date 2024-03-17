@@ -12,6 +12,7 @@ type audioProps = {
   seekbar: number;
   playRef: ReactPlayer | null;
   thumbIndex: number | null;
+  title: string;
 };
 
 function Audio({
@@ -21,6 +22,7 @@ function Audio({
   duration,
   TimeLogic,
   seekbar,
+  title,
   handleSeekbar,
   playRef,
   thumbIndex,
@@ -114,14 +116,12 @@ function Audio({
         }
       />
       <div className="control-info">
-        {!thumbIndex ? (
+        {thumbIndex ? (
           <>
-            <figure>
-              <img src="img/cheer.jpg" alt="" />
-            </figure>
+            <figure>{thumbnailHanlder()}</figure>
             <figcaption>
-              <p>괜찮아도 괜찮아</p>
-              <span>디오</span>
+              <p>{title}</p>
+              <span>{playlist[thumbIndex].singer}</span>
             </figcaption>
           </>
         ) : null}

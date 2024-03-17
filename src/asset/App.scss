@@ -341,14 +341,14 @@ button {
       }
     }
   }
-  .player {
-    width: 0 !important;
-    height: 0 !important;
-    div {
-      width: 0 !important;
-      height: 0 !important;
-    }
-  }
+  // .player {
+  //   width: 0 !important;
+  //   height: 0 !important;
+  //   div {
+  //     width: 0 !important;
+  //     height: 0 !important;
+  //   }
+  // }
   .control_out_wrap {
     display: flex;
     width: 100%;
@@ -439,9 +439,8 @@ button {
       -webkit-appearance: none;
       width: 0;
       height: 10px;
-      box-shadow: -100vw 0 0 100vw #ccc;
+      box-shadow: -100vw 0 0 100vw red;
       cursor: pointer;
-      background: #dd2c00;
     }
   }
 

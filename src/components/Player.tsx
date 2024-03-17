@@ -2,8 +2,8 @@ import React, {
   useState,
   useRef,
   useMemo,
-  useEffect,
   useCallback,
+  useEffect,
 } from "react";
 import ReactPlayer from "react-player";
 import Audio from "./audio.tsx";
@@ -22,10 +22,8 @@ function Player() {
   const [seekbar, setSeekbar] = useState(0);
   // 100% 중 몇프로 진행 됐는지
   const playerRef = useRef<ReactPlayer>(null);
+  console.log(playerRef);
   const playRef: ReactPlayer = playerRef.current as ReactPlayer;
-
-  const [movieToggle, setMovie] = useState(false);
-
   // 스페이스 누르면 일시정지 되게 하는 함수
   window.onkeyup = function (event) {
     if (event.keyCode === 32) {
@@ -61,6 +59,8 @@ function Player() {
           playGround(Sequence, videoTitle);
         }
       }
+    } else {
+      console.log("11111");
     }
   }
 
@@ -102,12 +102,6 @@ function Player() {
       setDuration(playerDurate - 1);
     }
   }
-
-  useEffect(() => {
-    if (thumbIndex !== null) {
-      setMovie(true);
-    }
-  }, [thumbIndex]);
 
   // 곡의 풀타임 시간에 관한 함수
 
@@ -156,34 +150,36 @@ function Player() {
     <>
       <div className="play">
         <div className="movie_box">
-          <ReactPlayer
-            ref={playerRef}
-            playing={playState}
-            loop={loop}
-            url={track}
-            volume={Number(`0.${volume}`)}
-            onStart={() => playSetting()}
-            onPlay={() => {
-              playSetting();
-              handleProgress();
-              handleDuration();
-              handlePlay();
-            }}
-            onDuration={handleDuration}
-            onError={handleError}
-            onProgress={handleProgress}
-            onPause={handlePause}
-            className={"player"}
-            controls={true}
-            config={{
-              youtube: {
-                playerVars: {
-                  rel: 0,
-                  modestbranding: 1,
+          {playlist.length > 0 ? (
+            <ReactPlayer
+              ref={playerRef}
+              playing={playState}
+              loop={loop}
+              url={track}
+              volume={Number(`0.${volume}`)}
+              onStart={() => playSetting()}
+              onPlay={() => {
+                playSetting();
+                handleProgress();
+                handleDuration();
+                handlePlay();
+              }}
+              onDuration={handleDuration}
+              onError={handleError}
+              onProgress={handleProgress}
+              onPause={handlePause}
+              className={"player"}
+              controls={true}
+              config={{
+                youtube: {
+                  playerVars: {
+                    rel: 0,
+                    modestbranding: 1,
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          ) : null}
         </div>
       </div>
       <Audio
@@ -191,6 +187,7 @@ function Player() {
         volume={volume}
         getVolume={getVolume}
         played={played}
+        title={title}
         TimeLogic={TimeLogic}
         seekbar={seekbar}
         duration={duration}

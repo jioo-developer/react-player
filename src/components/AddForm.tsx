@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { commonData } from "../module/interfaceModule.ts";
 
 type props = {
@@ -53,9 +53,6 @@ function AddList({ setData, vw, searchToggle, setToggle }: props) {
             };
             urlRef.current.value = "";
             setData(object);
-            // addDispatch(ListAdd(object));
-            // trackDispatch(trackUpdate(object.url));
-            // if (!playState) playDispatch(true);
           } catch (error) {
             console.log("------------------------------");
             window.alert("url 정보를 찾지 못했습니다.");

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./asset/reset.css";
 import "./asset/App.scss";
 import Recommend from "./components/Recommend.tsx";
@@ -26,7 +26,7 @@ function App() {
     singer: "",
   };
 
-  const { favoriteState, playlist } = useMyContext();
+  const { playlist } = useMyContext();
   const [searchData, setData] = useState<commonData>(initialData);
   const [searchToggle, setToggle] = useState(false);
   const [vw, setvw] = useState(0);
@@ -86,9 +86,9 @@ function App() {
               <RandomList />
               <Favorite vw={vw} />
               <Recommend />
-              {playlist.length > 0 ? <Player /> : null}
             </>
           )}
+          {playlist.length > 0 ? <Player /> : null}
         </>
       </div>
     </div>
