@@ -52,16 +52,15 @@ function Favorite({ vw }: { vw: number }) {
   return (
     <>
       {favoriteState.length > 0 ? (
-        <section className="favorite" style={{ paddingTop: 57 }}>
+        <div className="favorite">
           <div className="favorite_header">
             <h2>자주 듣는 노래</h2>
           </div>
-
-          {favoriteState.map((item, index) => {
-            return (
-              <div className="in_wrap" key={index}>
-                <div className="middle_album">
-                  <article className="favorite_albumWrap">
+          <div className="in_wrap">
+            <div className="middle_album">
+              {favoriteState.map((item, index) => {
+                return (
+                  <article className="favorite_albumWrap" key={index}>
                     <figure>
                       <button className="middle_play">
                         <img src="img/play-icon.png" alt="" />
@@ -77,11 +76,11 @@ function Favorite({ vw }: { vw: number }) {
                       <span>{item.singer}</span>
                     </figcaption>
                   </article>
-                </div>
-              </div>
-            );
-          })}
-        </section>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       ) : null}
     </>
   );

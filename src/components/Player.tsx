@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useMemo,
-  useCallback,
-  useEffect,
-} from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import ReactPlayer from "react-player";
 import Audio from "./audio.tsx";
 import { useMyContext } from "../module/MyContext.tsx";
@@ -12,19 +6,24 @@ import { useMyContext } from "../module/MyContext.tsx";
 function Player() {
   const { playlist, track, playState, playDispatch } = useMyContext();
 
-  const [title, setTitle] = useState<string>("");
-  // 현재 재생중인 노래 타이틀
   const [volume, setVolume] = useState(4);
   const [played, setPlayed] = useState(0);
   // 현재 재생중인 시점
   const [duration, setDuration] = useState(0);
   // 재생되는 개체 풀 타임
   const [seekbar, setSeekbar] = useState(0);
+  const [init, setInit] = useState(false);
   // 100% 중 몇프로 진행 됐는지
   const playerRef = useRef<ReactPlayer>(null);
-  console.log(playerRef);
   const playRef: ReactPlayer = playerRef.current as ReactPlayer;
   // 스페이스 누르면 일시정지 되게 하는 함수
+  const [thumbIndex, setIndex] = useState<number | null>(null);
+  const [loop, setLoop] = useState(false);
+
+  useEffect(() => {
+    setInit(true);
+  }, [init]);
+
   window.onkeyup = function (event) {
     if (event.keyCode === 32) {
       playDispatch((prev) => !prev);
@@ -34,53 +33,18 @@ function Player() {
 
   // 리스트 중 현재 재생중인 노래 index 함수
 
-  const [thumbIndex, setIndex] = useState<number | null>(null);
-  const [loop, setLoop] = useState(false);
   function playSetting() {
     if (playRef) {
       const player = playRef.getInternalPlayer();
       const Sequence: number = player.playerInfo.playlistIndex;
 
-      const videoTitle: string = player.videoTitle;
-      const listLength: Element[] = Array.from(
-        document.querySelectorAll(".lists li") || []
-      );
-
-      if (listLength.length > 0) {
-        listLength.map((value, index) => {
-          if (Sequence === index) {
-            return value.classList.add("index");
-          } else {
-            return value.classList.remove("index");
-          }
-        });
-        if (Sequence !== thumbIndex) {
-          setIndex(Sequence);
-          playGround(Sequence, videoTitle);
-        }
+      if (Sequence !== thumbIndex) {
+        setIndex(Sequence);
       }
-    } else {
-      console.log("11111");
     }
   }
 
   // 리스트 중 현재 재생중인 노래 index 함수
-
-  // 현재 재생중인 노래의 썸네일과 타이틀 함수
-  const playGround = useCallback(
-    (Sequence: number, videoTitle: string) => {
-      if (thumbIndex !== null && playlist.length > 0) {
-        const listElement = playlist[Sequence];
-        const objects = {
-          title: videoTitle,
-          thumbnail: listElement.thumbnail,
-        };
-        setTitle(objects.title);
-      }
-    },
-    [playlist, thumbIndex]
-  );
-  // 현재 재생중인 노래의 썸네일과 타이틀 함수
 
   // 곡의 분/초에 관한 함수
 
@@ -150,36 +114,34 @@ function Player() {
     <>
       <div className="play">
         <div className="movie_box">
-          {playlist.length > 0 ? (
-            <ReactPlayer
-              ref={playerRef}
-              playing={playState}
-              loop={loop}
-              url={track}
-              volume={Number(`0.${volume}`)}
-              onStart={() => playSetting()}
-              onPlay={() => {
-                playSetting();
-                handleProgress();
-                handleDuration();
-                handlePlay();
-              }}
-              onDuration={handleDuration}
-              onError={handleError}
-              onProgress={handleProgress}
-              onPause={handlePause}
-              className={"player"}
-              controls={true}
-              config={{
-                youtube: {
-                  playerVars: {
-                    rel: 0,
-                    modestbranding: 1,
-                  },
+          <ReactPlayer
+            ref={playerRef}
+            playing={playState}
+            loop={loop}
+            url={track}
+            volume={Number(`0.${volume}`)}
+            onStart={() => playSetting()}
+            onPlay={() => {
+              playSetting();
+              handleProgress();
+              handleDuration();
+              handlePlay();
+            }}
+            onDuration={handleDuration}
+            onError={handleError}
+            onProgress={handleProgress}
+            onPause={handlePause}
+            className={"player"}
+            controls={true}
+            config={{
+              youtube: {
+                playerVars: {
+                  rel: 0,
+                  modestbranding: 1,
                 },
-              }}
-            />
-          ) : null}
+              },
+            }}
+          />
         </div>
       </div>
       <Audio
@@ -187,7 +149,6 @@ function Player() {
         volume={volume}
         getVolume={getVolume}
         played={played}
-        title={title}
         TimeLogic={TimeLogic}
         seekbar={seekbar}
         duration={duration}

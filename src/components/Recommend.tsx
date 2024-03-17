@@ -14,7 +14,7 @@ function Recommend() {
   }
 
   return (
-    <div className="recommend_wrap" style={{ paddingTop: 100 }}>
+    <div className="recommend_wrap">
       <h2 className="mb30">추천 앨범</h2>
       <div className="in_wrap">
         <div className="middle_album">

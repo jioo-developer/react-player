@@ -18,10 +18,6 @@ input:-webkit-autofill:active {
   margin-bottom: 30px;
 }
 
-.pdt {
-  padding-top: 80px;
-}
-
 .area-padding {
   padding-left: 13.1378%;
   padding-bottom: 100px;
@@ -75,7 +71,6 @@ button {
     width: 225px;
     figure {
       width: 100%;
-      height: 225px;
       cursor: pointer;
       position: relative;
 
@@ -85,6 +80,9 @@ button {
         }
         .middle_favorite {
           opacity: 0.7;
+          &:hover {
+            opacity: 1;
+          }
         }
         .middle_play {
           opacity: 1;
@@ -108,6 +106,7 @@ button {
       background: transparent;
       opacity: 0;
       z-index: 100;
+      transition-duration: 0.5s;
     }
 
     .middle_play {
@@ -335,20 +334,21 @@ button {
   }
   .favorite {
     .favorite_albumWrap {
-      width: auto;
+      width: 400px;
+      gap: 0 24px;
       figure {
-        height: 90%;
+        width: 100%;
       }
     }
   }
-  // .player {
-  //   width: 0 !important;
-  //   height: 0 !important;
-  //   div {
-  //     width: 0 !important;
-  //     height: 0 !important;
-  //   }
-  // }
+  .player {
+    width: 0 !important;
+    height: 0 !important;
+    div {
+      width: 0 !important;
+      height: 0 !important;
+    }
+  }
   .control_out_wrap {
     display: flex;
     width: 100%;
@@ -367,7 +367,7 @@ button {
       display: flex;
       width: 700px;
       height: 72px;
-      padding: 15px 0;
+      padding: 15px;
       box-sizing: border-box;
 
       figure {
@@ -528,4 +528,8 @@ button {
       }
     }
   }
+}
+
+.area-padding > div:not(.play, .control_out_wrap) {
+  padding-top: 57px;
 }

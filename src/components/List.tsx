@@ -24,32 +24,6 @@ function List() {
   const [shuffleArray, setArray] = useState<number[] | any>([]);
   const starRef = useRef<HTMLUListElement>(null);
 
-  function favoriteHandler(
-    e: React.ChangeEvent<HTMLInputElement>,
-    value: commonData,
-    index: number
-  ) {
-    if (starRef.current) {
-      if (e.target.checked) {
-        if (!favoriteState.includes(value)) {
-          favoriteDispatch(FavoriteAdd(value));
-          // 즐겨찾기 재생
-        }
-      } else {
-        if (favoriteState.length > 0) {
-          const deleteFavorite: commonData[] = favoriteState.filter(
-            (item) =>
-              item.title !== playlist[index].title &&
-              item.url !== playlist[index].url &&
-              item.thumbnail !== playlist[index].thumbnail
-          );
-          favoriteDispatch(removeFavorite(deleteFavorite));
-          // 즐겨찾기 삭제
-        }
-      }
-    }
-  }
-
   function directPlay(index: number) {
     const initialArray = [...track];
     const prevSlice = initialArray.splice(index, 1);

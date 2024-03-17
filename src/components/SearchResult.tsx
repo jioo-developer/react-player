@@ -1,8 +1,8 @@
 import React from "react";
 import { commonData } from "../module/interfaceModule";
-import { recomend_data } from "../recomend_data.ts";
 import { useMyContext } from "../module/MyContext.tsx";
 import { ListAdd, trackUpdate } from "../module/reducer.ts";
+import { favoriteHandler, play } from "../module/exportFunction.ts";
 
 const SearchResult = ({ searchData }: { searchData: commonData }) => {
   const {
@@ -11,17 +11,24 @@ const SearchResult = ({ searchData }: { searchData: commonData }) => {
     trackDispatch,
     addDispatch,
     playState,
+    favoriteState,
+    favoriteDispatch,
     playDispatch,
   } = useMyContext();
-  function play() {
-    const copyTrack = [...track];
-    copyTrack.unshift(searchData.url);
-    trackDispatch(trackUpdate(copyTrack));
-    const copyPlayList = [...playlist];
-    copyPlayList.push(searchData);
-    addDispatch(ListAdd(copyPlayList));
-    if (!playState) playDispatch(true);
+
+  function playConnecter(type: string) {
+    play(
+      type,
+      track,
+      playlist,
+      searchData,
+      trackDispatch,
+      addDispatch,
+      playDispatch,
+      playState
+    );
   }
+
   return (
     <div className="search-result-wrap">
       <div className="search_in_wrap">
@@ -34,9 +41,15 @@ const SearchResult = ({ searchData }: { searchData: commonData }) => {
             <p>{searchData.singer}</p>
           </figcaption>
           <div className="button_wrap">
-            <button onClick={() => play()}>재생</button>
-            <button>현재 리스트에 추가</button>
-            <button>
+            <button onClick={() => playConnecter("unshift")}>재생</button>
+            <button onClick={() => playConnecter("push")}>
+              현재 리스트에 추가
+            </button>
+            <button
+              onClick={() =>
+                favoriteHandler(searchData, favoriteState, favoriteDispatch)
+              }
+            >
               <img src="img/addd.jpg" alt="" />
               즐겨찾기에 저장
             </button>
@@ -44,7 +57,9 @@ const SearchResult = ({ searchData }: { searchData: commonData }) => {
         </div>
       </div>
       <div className="small_album">
-        <h2 style={{ fontSize: 35, marginBottom: 10 }}>플레이리스트</h2>
+        {playlist.length > 0 ? (
+          <h2 style={{ fontSize: 35, marginBottom: 10 }}>플레이리스트</h2>
+        ) : null}
         {playlist.length > 0
           ? playlist.map((item, index) => {
               return (

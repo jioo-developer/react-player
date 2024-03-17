@@ -12,7 +12,6 @@ type audioProps = {
   seekbar: number;
   playRef: ReactPlayer | null;
   thumbIndex: number | null;
-  title: string;
 };
 
 function Audio({
@@ -22,7 +21,6 @@ function Audio({
   duration,
   TimeLogic,
   seekbar,
-  title,
   handleSeekbar,
   playRef,
   thumbIndex,
@@ -56,7 +54,6 @@ function Audio({
         <img
           src={playlist[thumbIndex].thumbnail}
           alt=""
-          style={{ position: "absolute", top: 0, zIndex: 100, width: "100%" }}
           onError={(e) =>
             ((e.target as HTMLImageElement).src = "/img/defaultImg.png")
           }
@@ -116,11 +113,11 @@ function Audio({
         }
       />
       <div className="control-info">
-        {thumbIndex ? (
+        {thumbIndex !== null ? (
           <>
             <figure>{thumbnailHanlder()}</figure>
             <figcaption>
-              <p>{title}</p>
+              <p>{playlist[thumbIndex].title}</p>
               <span>{playlist[thumbIndex].singer}</span>
             </figcaption>
           </>
