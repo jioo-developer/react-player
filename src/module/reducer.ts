@@ -55,10 +55,27 @@ export const ChangeList = (data: commonData[]) => ({
 const reducer = (state: stateType, action: Action): stateType => {
   switch (action.type) {
     case ADDLIST:
-      const stateCheck: commonData[] | commonData = Array.isArray(action.data)
-        ? [...state.playlist, ...action.data]
-        : [...state.playlist, action.data];
-      const filterList = stateCheck.filter((value, idx, arr) => {
+      const addplay = () => {
+        if (Array.isArray(action.data)) {
+          if (action.direction && action.direction === "unshift") {
+            return [...action.data, ...state.playlist];
+          } else if (action.direction && action.direction === "push") {
+            return [...state.playlist, ...action.data];
+          } else {
+            return [...state.playlist, ...action.data];
+          }
+        } else {
+          if (action.direction && action.direction === "unshift") {
+            return [action.data, ...state.playlist];
+          } else if (action.direction && action.direction === "push") {
+            return [...state.playlist, action.data];
+          } else {
+            return [...state.playlist, action.data];
+          }
+        }
+      };
+
+      const filterList = addplay().filter((value, idx, arr) => {
         return (
           arr.findIndex((item) => {
             return item.url === value.url;

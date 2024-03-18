@@ -347,14 +347,7 @@ button {
       }
     }
   }
-  // .player {
-  //   width: 0 !important;
-  //   height: 0 !important;
-  //   div {
-  //     width: 0 !important;
-  //     height: 0 !important;
-  //   }
-  // }
+
   .control_out_wrap {
     display: flex;
     width: 100%;
@@ -538,4 +531,13 @@ button {
 
 .area-padding > div:not(.play, .control_out_wrap) {
   padding-top: 57px;
+}
+
+.player {
+  width: 0 !important;
+  height: 0 !important;
+  div {
+    width: 0 !important;
+    height: 0 !important;
+  }
 }

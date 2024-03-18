@@ -23,7 +23,6 @@ export function play(
 ) {
   const copyTrack = [...track];
   const copyPlayList = [...playlist];
-  console.log(type);
   if (type === "unshift") {
     copyPlayList.unshift(data);
     copyTrack.unshift(data.url);

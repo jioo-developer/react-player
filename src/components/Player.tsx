@@ -36,18 +36,18 @@ function Player() {
     if (playRef) {
       console.log("실행 playSetting");
       const player = playRef.getInternalPlayer();
-      const Sequence: number = player.playerInfo.playlistIndex;
       const newtitle = player.videoTitle;
+      const newthumbNail = playlist.filter((item) => {
+        return item.url.includes(player.playerInfo.videoData.video_id);
+      });
 
       if (playData.title !== newtitle) {
-        console.log(playlist);
         const newObject = {
           title: newtitle,
-          singer: playlist[Sequence].singer || "",
-          thumbnail: playlist[Sequence].thumbnail,
-          url: playlist[Sequence].url,
+          singer: player.playerInfo.videoData.author || "",
+          thumbnail: newthumbNail[0].thumbnail,
+          url: player.playerInfo.videoUrl,
         };
-        console.log(newObject);
         setPlayData(newObject);
       }
     }

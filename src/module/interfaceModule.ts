@@ -9,6 +9,7 @@ export type commonData = {
 export interface Action {
   type: string;
   data?: any;
+  direction?: string;
 }
 
 export type stateType = {

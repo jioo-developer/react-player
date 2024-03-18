@@ -13,7 +13,19 @@ function RandomList() {
     } else {
       return [loadData, ...recomend_data];
     }
-  }, [loadData]);
+  }, [loadData]).filter((value, idx, arr) => {
+    // value = 각각의 값 , idx = 순서 arr = 순회대상
+    return (
+      arr.findIndex((item) => {
+        return (
+          item.title === value.title &&
+          item.thumbnail === value.thumbnail &&
+          item.url === value.url
+        );
+      }) === idx
+      //비교할 대상 item과 value를 뱌교
+    );
+  });
   const {
     track,
     playlist,
