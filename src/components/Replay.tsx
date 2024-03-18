@@ -15,6 +15,7 @@ function Replay() {
     playState,
     favoriteState,
     favoriteDispatch,
+    setIndex,
   } = useMyContext();
   return (
     <>
@@ -46,7 +47,8 @@ function Replay() {
                             trackDispatch,
                             addDispatch,
                             playDispatch,
-                            playState
+                            playState,
+                            setIndex
                           )
                         }
                       >

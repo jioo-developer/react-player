@@ -10,6 +10,7 @@ function Recommend() {
     addDispatch,
     playState,
     trackDispatch,
+    setIndex,
   } = useMyContext();
 
   return (
@@ -30,7 +31,8 @@ function Recommend() {
                       trackDispatch,
                       addDispatch,
                       playDispatch,
-                      playState
+                      playState,
+                      setIndex
                     )
                   }
                 >

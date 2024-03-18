@@ -4,7 +4,8 @@ import Audio from "./audio.tsx";
 import { useMyContext } from "../module/MyContext.tsx";
 
 function Player() {
-  const { playlist, track, playState, playDispatch } = useMyContext();
+  const { playlist, track, playState, playDispatch, playIndex, setIndex } =
+    useMyContext();
   const [playData, setPlayData] = useState({
     title: "",
     singer: "",
@@ -13,7 +14,7 @@ function Player() {
   });
   const [volume, setVolume] = useState(4);
   const [played, setPlayed] = useState(0);
-  const [playIndex, setIndex] = useState<number>(0);
+
   // 현재 재생중인 시점
   const [duration, setDuration] = useState(0);
   // 재생되는 개체 풀 타임

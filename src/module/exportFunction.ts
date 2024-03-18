@@ -19,7 +19,8 @@ export function play(
   trackDispatch,
   addDispatch,
   playDispatch,
-  playState
+  playState,
+  setIndex
 ) {
   const copyTrack = [...track];
   const copyPlayList = [...playlist];
@@ -28,6 +29,7 @@ export function play(
     copyTrack.unshift(data.url);
     trackDispatch(trackUpdate(copyTrack, "unshift"));
     addDispatch(ListAdd(copyPlayList, "unshift"));
+    setIndex(0);
   } else {
     copyPlayList.push(data);
     copyTrack.push(data.url);

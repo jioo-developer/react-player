@@ -33,6 +33,7 @@ function RandomList() {
     addDispatch,
     playDispatch,
     playState,
+    setIndex,
   } = useMyContext();
   return (
     <>
@@ -54,7 +55,8 @@ function RandomList() {
                         trackDispatch,
                         addDispatch,
                         playDispatch,
-                        playState
+                        playState,
+                        setIndex
                       )
                     }
                   >

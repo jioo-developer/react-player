@@ -14,6 +14,7 @@ const SearchResult = ({ searchData }: { searchData: commonData }) => {
     favoriteState,
     favoriteDispatch,
     playDispatch,
+    setIndex,
   } = useMyContext();
 
   function playConnecter(type: string) {
@@ -25,7 +26,8 @@ const SearchResult = ({ searchData }: { searchData: commonData }) => {
       trackDispatch,
       addDispatch,
       playDispatch,
-      playState
+      playState,
+      setIndex
     );
   }
 

@@ -13,6 +13,7 @@ function Favorite() {
     playState,
     favoriteDispatch,
     favoriteState,
+    setIndex,
   } = useMyContext();
 
   const parseFavorite = JSON.parse(
@@ -50,7 +51,8 @@ function Favorite() {
                         trackDispatch,
                         addDispatch,
                         playDispatch,
-                        playState
+                        playState,
+                        setIndex
                       )
                     }
                   >
