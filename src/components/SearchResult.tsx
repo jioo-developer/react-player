@@ -1,7 +1,6 @@
 import React from "react";
 import { commonData } from "../module/interfaceModule";
 import { useMyContext } from "../module/MyContext.tsx";
-import { ListAdd, trackUpdate } from "../module/reducer.ts";
 import { favoriteHandler, play } from "../module/exportFunction.ts";
 
 const SearchResult = ({ searchData }: { searchData: commonData }) => {

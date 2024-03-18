@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useEffect } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import ReactPlayer from "react-player";
 import Audio from "./audio.tsx";
 import { useMyContext } from "../module/MyContext.tsx";

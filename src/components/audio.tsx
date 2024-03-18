@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { useMyContext } from "../module/MyContext.tsx";
 import ReactPlayer from "react-player";
 import { commonData } from "../module/interfaceModule.ts";
@@ -33,7 +33,6 @@ function Audio({
   loopConnect,
 }: audioProps) {
   const { playDispatch, playState, playlist, listToggle } = useMyContext();
-  const [loopToggle, setLoop] = useState(false);
   const volumControl = (parmas: string) => {
     if (parmas === "up") {
       if (volume < 9) {
