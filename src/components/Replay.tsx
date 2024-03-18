@@ -1,10 +1,21 @@
 import React from "react";
 import { commonData } from "../module/interfaceModule";
+import { favoriteHandler, play } from "../module/exportFunction.ts";
+import { useMyContext } from "../module/MyContext.tsx";
 function Replay() {
   const loadData: commonData[] = JSON.parse(
     localStorage.getItem("saveData") || "[]"
   );
-
+  const {
+    track,
+    playlist,
+    trackDispatch,
+    addDispatch,
+    playDispatch,
+    playState,
+    favoriteState,
+    favoriteDispatch,
+  } = useMyContext();
   return (
     <>
       {loadData.length > 0 ? (
@@ -16,10 +27,29 @@ function Replay() {
                 return (
                   <article className="replay_albumWrap" key={index}>
                     <figure>
-                      <button className="middle_favorite">
+                      <button
+                        className="middle_favorite"
+                        onClick={() =>
+                          favoriteHandler(item, favoriteState, favoriteDispatch)
+                        }
+                      >
                         <img src="img/heart.png" alt="" />
                       </button>
-                      <button className="middle_play">
+                      <button
+                        className="middle_play"
+                        onClick={() =>
+                          play(
+                            "unshift",
+                            track,
+                            playlist,
+                            item,
+                            trackDispatch,
+                            addDispatch,
+                            playDispatch,
+                            playState
+                          )
+                        }
+                      >
                         <img src="img/play-icon.png" alt="" />
                       </button>
                       <img

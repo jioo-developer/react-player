@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useMyContext } from "../module/MyContext.tsx";
 import ReactPlayer from "react-player";
+import { commonData } from "../module/interfaceModule.ts";
 
 type audioProps = {
   volume: number;
@@ -11,7 +12,7 @@ type audioProps = {
   TimeLogic: (parmas: number) => string;
   seekbar: number;
   playRef: ReactPlayer | null;
-  thumbIndex: number | null;
+  playData: commonData;
 };
 
 function Audio({
@@ -23,7 +24,7 @@ function Audio({
   seekbar,
   handleSeekbar,
   playRef,
-  thumbIndex,
+  playData,
 }: audioProps) {
   const { playDispatch, playState, playlist, listToggle } = useMyContext();
   const [loopToggle, setLoop] = useState(false);
@@ -49,10 +50,10 @@ function Audio({
   };
 
   const thumbnailHanlder = useCallback(() => {
-    if (thumbIndex !== null && playlist.length > 0) {
+    if (playData.title !== "" && playlist.length > 0) {
       return (
         <img
-          src={playlist[thumbIndex].thumbnail}
+          src={playData.thumbnail}
           alt=""
           onError={(e) =>
             ((e.target as HTMLImageElement).src = "/img/defaultImg.png")
@@ -60,10 +61,13 @@ function Audio({
         />
       );
     } else return null;
-  }, [thumbIndex, playlist]);
+  }, [playData]);
 
   return (
-    <div className="control_out_wrap">
+    <div
+      className="control_out_wrap"
+      style={playlist.length > 0 ? { display: "flex" } : { display: "none" }}
+    >
       <div className="control_tower">
         <div className="control_wrap">
           <button className="next control">
@@ -113,12 +117,12 @@ function Audio({
         }
       />
       <div className="control-info">
-        {thumbIndex !== null ? (
+        {playData.title !== "" ? (
           <>
             <figure>{thumbnailHanlder()}</figure>
             <figcaption>
-              <p>{playlist[thumbIndex].title}</p>
-              <span>{playlist[thumbIndex].singer}</span>
+              <p>{playData.title}</p>
+              <span>{playData.singer}</span>
             </figcaption>
           </>
         ) : null}

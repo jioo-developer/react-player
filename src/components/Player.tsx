@@ -5,24 +5,23 @@ import { useMyContext } from "../module/MyContext.tsx";
 
 function Player() {
   const { playlist, track, playState, playDispatch } = useMyContext();
-
+  const [playData, setPlayData] = useState({
+    title: "",
+    singer: "",
+    thumbnail: "",
+    url: "",
+  });
   const [volume, setVolume] = useState(4);
   const [played, setPlayed] = useState(0);
   // 현재 재생중인 시점
   const [duration, setDuration] = useState(0);
   // 재생되는 개체 풀 타임
   const [seekbar, setSeekbar] = useState(0);
-  const [init, setInit] = useState(false);
   // 100% 중 몇프로 진행 됐는지
   const playerRef = useRef<ReactPlayer>(null);
   const playRef: ReactPlayer = playerRef.current as ReactPlayer;
   // 스페이스 누르면 일시정지 되게 하는 함수
-  const [thumbIndex, setIndex] = useState<number | null>(null);
   const [loop, setLoop] = useState(false);
-
-  useEffect(() => {
-    setInit(true);
-  }, [init]);
 
   window.onkeyup = function (event) {
     if (event.keyCode === 32) {
@@ -35,11 +34,21 @@ function Player() {
 
   function playSetting() {
     if (playRef) {
+      console.log("실행 playSetting");
       const player = playRef.getInternalPlayer();
       const Sequence: number = player.playerInfo.playlistIndex;
+      const newtitle = player.videoTitle;
 
-      if (Sequence !== thumbIndex) {
-        setIndex(Sequence);
+      if (playData.title !== newtitle) {
+        console.log(playlist);
+        const newObject = {
+          title: newtitle,
+          singer: playlist[Sequence].singer || "",
+          thumbnail: playlist[Sequence].thumbnail,
+          url: playlist[Sequence].url,
+        };
+        console.log(newObject);
+        setPlayData(newObject);
       }
     }
   }
@@ -145,7 +154,7 @@ function Player() {
         </div>
       </div>
       <Audio
-        thumbIndex={thumbIndex}
+        playData={playData}
         volume={volume}
         getVolume={getVolume}
         played={played}

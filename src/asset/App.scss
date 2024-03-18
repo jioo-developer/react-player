@@ -71,6 +71,7 @@ button {
     width: 225px;
     figure {
       width: 100%;
+      overflow: hidden;
       cursor: pointer;
       position: relative;
 
@@ -93,6 +94,10 @@ button {
       img {
         width: 100%;
         filter: brightness(1);
+      }
+
+      .middle-thumbnail {
+        height: 225px;
       }
     }
 
@@ -126,6 +131,7 @@ button {
     }
 
     figcaption {
+      margin-top: 15px;
       font-size: 16px;
       p {
         color: #fff;
@@ -341,14 +347,14 @@ button {
       }
     }
   }
-  .player {
-    width: 0 !important;
-    height: 0 !important;
-    div {
-      width: 0 !important;
-      height: 0 !important;
-    }
-  }
+  // .player {
+  //   width: 0 !important;
+  //   height: 0 !important;
+  //   div {
+  //     width: 0 !important;
+  //     height: 0 !important;
+  //   }
+  // }
   .control_out_wrap {
     display: flex;
     width: 100%;

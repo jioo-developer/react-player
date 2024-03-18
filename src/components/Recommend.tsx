@@ -1,17 +1,16 @@
 import React from "react";
 import { recomend_data } from "../recomend_data.ts";
-import { ListAdd, trackUpdate } from "../module/reducer.ts";
 import { useMyContext } from "../module/MyContext.tsx";
+import { play } from "../module/exportFunction.ts";
 function Recommend() {
-  const { playDispatch, addDispatch, playState, trackDispatch } =
-    useMyContext();
-
-  function recommendPlay() {
-    const url = recomend_data.map((item) => item.url);
-    trackDispatch(trackUpdate(url));
-    addDispatch(ListAdd(recomend_data));
-    if (!playState) playDispatch(true);
-  }
+  const {
+    track,
+    playlist,
+    playDispatch,
+    addDispatch,
+    playState,
+    trackDispatch,
+  } = useMyContext();
 
   return (
     <div className="recommend_wrap">
@@ -21,7 +20,20 @@ function Recommend() {
           {recomend_data.map((item, index) => {
             return (
               <article key={index}>
-                <figure>
+                <figure
+                  onClick={() =>
+                    play(
+                      "unshift",
+                      track,
+                      playlist,
+                      item,
+                      trackDispatch,
+                      addDispatch,
+                      playDispatch,
+                      playState
+                    )
+                  }
+                >
                   <img
                     src={`${item.thumbnail}`}
                     alt=""

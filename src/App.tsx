@@ -26,7 +26,7 @@ function App() {
     singer: "",
   };
 
-  const { playlist } = useMyContext();
+  const { playlist, track } = useMyContext();
   const [searchData, setData] = useState<commonData>(initialData);
   const [searchToggle, setToggle] = useState(false);
   const [vw, setvw] = useState(0);
@@ -84,11 +84,11 @@ function App() {
             <>
               <Replay />
               <RandomList />
-              <Favorite vw={vw} />
+              <Favorite />
               <Recommend />
             </>
           )}
-          {playlist.length > 0 ? <Player /> : null}
+          <Player />
         </>
       </div>
     </div>

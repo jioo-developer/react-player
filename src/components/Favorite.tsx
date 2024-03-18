@@ -1,21 +1,18 @@
 import React, { useEffect } from "react";
 import { useMyContext } from "../module/MyContext.tsx";
-import {
-  FavoriteAdd,
-  ListAdd,
-  removeFavorite,
-  trackUpdate,
-} from "../module/reducer.ts";
-import { commonData } from "../module/interfaceModule";
+import { FavoriteAdd } from "../module/reducer.ts";
+import { play } from "../module/exportFunction.ts";
 
-function Favorite({ vw }: { vw: number }) {
+function Favorite() {
   const {
-    favoriteDispatch,
+    track,
+    playlist,
+    trackDispatch,
     addDispatch,
     playDispatch,
-    favoriteState,
     playState,
-    trackDispatch,
+    favoriteDispatch,
+    favoriteState,
   } = useMyContext();
 
   const parseFavorite = JSON.parse(
@@ -30,25 +27,6 @@ function Favorite({ vw }: { vw: number }) {
   }, []);
   // 즐겨찾기 리스트 불러오기
 
-  // 즐겨찾기 삭제 함수
-
-  function handler(DeleteData: commonData) {
-    const defaultArray = [DeleteData];
-    const result = favoriteState.filter(
-      (item: commonData) =>
-        !defaultArray.some(
-          (defaultArray) =>
-            defaultArray.id === item.id &&
-            defaultArray.url === item.url &&
-            defaultArray.title === item.title
-        )
-    );
-
-    favoriteDispatch(removeFavorite(result));
-  }
-
-  // 즐겨찾기 삭제 함수
-
   return (
     <>
       {favoriteState.length > 0 ? (
@@ -60,7 +38,22 @@ function Favorite({ vw }: { vw: number }) {
             <div className="middle_album">
               {favoriteState.map((item, index) => {
                 return (
-                  <article className="favorite_albumWrap" key={index}>
+                  <article
+                    className="favorite_albumWrap"
+                    key={index}
+                    onClick={() =>
+                      play(
+                        "unshift",
+                        track,
+                        playlist,
+                        item,
+                        trackDispatch,
+                        addDispatch,
+                        playDispatch,
+                        playState
+                      )
+                    }
+                  >
                     <figure>
                       <button className="middle_play">
                         <img src="img/play-icon.png" alt="" />

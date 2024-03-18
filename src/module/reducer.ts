@@ -14,14 +14,19 @@ const playState = "playState";
 const track = "track";
 const changeTrack = "changeTrack";
 
-export const ListAdd = (data: commonData | commonData[]) => ({
+export const ListAdd = (
+  data: commonData | commonData[],
+  direction: string
+) => ({
   type: ADDLIST,
   data,
+  direction,
 });
 
-export const trackUpdate = (data: string | string[]) => ({
+export const trackUpdate = (data: string | string[], direction: string) => ({
   type: track,
   data,
+  direction,
 });
 
 //앨범에 트랙 추가 함수
