@@ -13,6 +13,9 @@ type audioProps = {
   seekbar: number;
   playRef: ReactPlayer | null;
   playData: commonData;
+  currentVideoContorl: (direction: string) => void;
+  setConnect: React.Dispatch<React.SetStateAction<boolean>>;
+  loopConnect: boolean;
 };
 
 function Audio({
@@ -25,6 +28,9 @@ function Audio({
   handleSeekbar,
   playRef,
   playData,
+  currentVideoContorl,
+  setConnect,
+  loopConnect,
 }: audioProps) {
   const { playDispatch, playState, playlist, listToggle } = useMyContext();
   const [loopToggle, setLoop] = useState(false);
@@ -70,13 +76,15 @@ function Audio({
     >
       <div className="control_tower">
         <div className="control_wrap">
-          <button className="next control">
+          <button
+            className="next control"
+            onClick={() => currentVideoContorl("prev")}
+          >
             <img
               src="/img/skip_next_black_24dp.svg"
               alt=""
               className="rotate"
               style={{ transform: "rotate(180deg)" }}
-              title="이 기능은 현재 지원하고 있지 않습니다."
             />
           </button>
           <button
@@ -91,9 +99,7 @@ function Audio({
           </button>
           <button
             className="next control"
-            onClick={() => {
-              if (playRef) playRef.seekTo(999);
-            }}
+            onClick={() => currentVideoContorl("next")}
           >
             <img src="/img/skip_next_black_24dp.svg" alt="" />
           </button>
@@ -142,9 +148,14 @@ function Audio({
         >
           <img src="/img/volume_up_black_24dp.svg" alt="볼륨올리기" />
         </button>
-        <button>
+        <button
+          style={{ width: 47, height: 33 }}
+          onClick={() => {
+            setConnect((prev) => !prev);
+          }}
+        >
           <img
-            src={loopToggle ? "/img/oneplay.jpg" : "/img/allplay.jpg"}
+            src={loopConnect ? "/img/oneplay.PNG" : "/img/allplay.PNG"}
             alt=""
           />
         </button>

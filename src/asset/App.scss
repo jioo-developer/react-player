@@ -379,6 +379,10 @@ button {
         }
       }
       figcaption {
+        font-size: 16px;
+        @media all and (max-width: 1000px) {
+          font-size: 1.7vw;
+        }
         p {
           color: #fff;
         }
@@ -533,11 +537,11 @@ button {
   padding-top: 57px;
 }
 
-.player {
-  width: 0 !important;
-  height: 0 !important;
-  div {
-    width: 0 !important;
-    height: 0 !important;
-  }
-}
+// .player {
+//   width: 0 !important;
+//   height: 0 !important;
+//   div {
+//     width: 0 !important;
+//     height: 0 !important;
+//   }
+// }

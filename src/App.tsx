@@ -26,11 +26,9 @@ function App() {
     singer: "",
   };
 
-  const { playlist, track } = useMyContext();
   const [searchData, setData] = useState<commonData>(initialData);
   const [searchToggle, setToggle] = useState(false);
   const [vw, setvw] = useState(0);
-
   function updatevW() {
     const newVW = window.innerWidth * 1;
     const parentWidth = Array.from(

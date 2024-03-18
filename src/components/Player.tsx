@@ -13,6 +13,7 @@ function Player() {
   });
   const [volume, setVolume] = useState(4);
   const [played, setPlayed] = useState(0);
+  const [playIndex, setIndex] = useState<number>(0);
   // 현재 재생중인 시점
   const [duration, setDuration] = useState(0);
   // 재생되는 개체 풀 타임
@@ -22,7 +23,7 @@ function Player() {
   const playRef: ReactPlayer = playerRef.current as ReactPlayer;
   // 스페이스 누르면 일시정지 되게 하는 함수
   const [loop, setLoop] = useState(false);
-
+  const [loopConntect, setConnect] = useState(false);
   window.onkeyup = function (event) {
     if (event.keyCode === 32) {
       playDispatch((prev) => !prev);
@@ -33,13 +34,17 @@ function Player() {
   // 리스트 중 현재 재생중인 노래 index 함수
 
   function playSetting() {
-    if (playRef) {
-      console.log("실행 playSetting");
-      const player = playRef.getInternalPlayer();
+    const player = playRef.getInternalPlayer();
+    if (playRef && player) {
       const newtitle = player.videoTitle;
+
       const newthumbNail = playlist.filter((item) => {
         return item.url.includes(player.playerInfo.videoData.video_id);
       });
+      const index = playlist.indexOf(newthumbNail[0]);
+      if (playIndex !== index) {
+        setIndex(index);
+      }
 
       if (playData.title !== newtitle) {
         const newObject = {
@@ -62,9 +67,8 @@ function Player() {
       const playerCurrentTime = playRef.getCurrentTime(); // 현재 재생 중인 비디오의 시간
       setPlayed(Math.floor(playerCurrentTime)); // 현재 시간을 업데이트
       const progress = playerCurrentTime / playRef.getDuration(); // 진행 상황을 계산
-      if (playlist.length === 1 && progress.toFixed(2) === "0.99") {
-        setLoop(true);
-      }
+      const fullProgress = progress.toFixed(2) === "0.99";
+      loopHandler(fullProgress);
       setSeekbar(progress); // 진행바 시점을 업데이트
     }
   }
@@ -117,6 +121,33 @@ function Player() {
     };
   }, []);
 
+  function currentVideoContorl(direction: string) {
+    if (track.length > 1) {
+      if (direction === "prev") {
+        if (playIndex > 0) {
+          const newIndex = playIndex - 1;
+          setIndex(newIndex);
+        }
+      } else if (direction === "next") {
+        if (playIndex < track.length) {
+          const newIndex = playIndex + 1;
+          setIndex(newIndex);
+        }
+      }
+    }
+  }
+
+  function loopHandler(progress) {
+    if (playlist.length > 0) {
+      if (loopConntect && playlist.length > 1) {
+        setLoop(true);
+      } else if (!loopConntect && playlist.length > 1) {
+        setLoop(false);
+      } else {
+        setLoop(true);
+      }
+    }
+  }
   // api에 나온 시점을 분 초 로 계산하는 함수
 
   return (
@@ -127,7 +158,7 @@ function Player() {
             ref={playerRef}
             playing={playState}
             loop={loop}
-            url={track}
+            url={track[playIndex]}
             volume={Number(`0.${volume}`)}
             onStart={() => playSetting()}
             onPlay={() => {
@@ -140,6 +171,11 @@ function Player() {
             onError={handleError}
             onProgress={handleProgress}
             onPause={handlePause}
+            onEnded={() => {
+              if (!loopConntect) {
+                setIndex((prev) => prev + 1);
+              }
+            }}
             className={"player"}
             controls={true}
             config={{
@@ -159,9 +195,12 @@ function Player() {
         getVolume={getVolume}
         played={played}
         TimeLogic={TimeLogic}
+        loopConnect={loopConntect}
         seekbar={seekbar}
         duration={duration}
+        currentVideoContorl={currentVideoContorl}
         handleSeekbar={handleSeekbar}
+        setConnect={setConnect}
         playRef={playRef}
       />
     </>
