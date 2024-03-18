@@ -1,9 +1,15 @@
 import React, { useState, useRef, useMemo } from "react";
 import ReactPlayer from "react-player";
 import Audio from "./audio.tsx";
+import List from "./List.tsx";
 import { useMyContext } from "../module/MyContext.tsx";
 
-function Player() {
+type props = {
+  listopen: boolean;
+  setListToggle: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function Player({ listopen, setListToggle }: props) {
   const { playlist, track, playState, playDispatch, playIndex, setIndex } =
     useMyContext();
   const [playData, setPlayData] = useState({
@@ -189,6 +195,7 @@ function Player() {
             }}
           />
         </div>
+        {listopen ? <List playData={playData} /> : null}
       </div>
       <Audio
         playData={playData}
@@ -197,6 +204,8 @@ function Player() {
         played={played}
         TimeLogic={TimeLogic}
         loopConnect={loopConntect}
+        setListToggle={setListToggle}
+        listopen={listopen}
         seekbar={seekbar}
         duration={duration}
         currentVideoContorl={currentVideoContorl}

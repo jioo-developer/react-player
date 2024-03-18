@@ -3,7 +3,6 @@ import "./asset/reset.css";
 import "./asset/App.scss";
 import Recommend from "./components/Recommend.tsx";
 import AddForm from "./components/AddForm.tsx";
-import { useMyContext } from "./module/MyContext.tsx";
 import Replay from "./components/Replay.tsx";
 import RandomList from "./components/RandomList.tsx";
 import Favorite from "./components/Favorite.tsx";
@@ -21,6 +20,8 @@ function App() {
 
   const [searchData, setData] = useState<commonData>(initialData);
   const [searchToggle, setToggle] = useState(false);
+  const [listopen, setListToggle] = useState(false);
+
   const [vw, setvw] = useState(0);
   function updatevW() {
     const newVW = window.innerWidth * 1;
@@ -72,14 +73,17 @@ function App() {
           {searchData.url !== "" ? (
             <SearchResult searchData={searchData} />
           ) : (
-            <>
+            <div
+              className="el_wrap"
+              style={listopen ? { display: "none" } : { display: "block" }}
+            >
               <Replay />
               <RandomList />
               <Favorite />
               <Recommend />
-            </>
+            </div>
           )}
-          <Player />
+          <Player listopen={listopen} setListToggle={setListToggle} />
         </>
       </div>
     </div>

@@ -16,6 +16,8 @@ type audioProps = {
   currentVideoContorl: (direction: string) => void;
   setConnect: React.Dispatch<React.SetStateAction<boolean>>;
   loopConnect: boolean;
+  setListToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  listopen: boolean;
 };
 
 function Audio({
@@ -31,6 +33,8 @@ function Audio({
   currentVideoContorl,
   setConnect,
   loopConnect,
+  listopen,
+  setListToggle,
 }: audioProps) {
   const { playDispatch, playState, playlist, listToggle } = useMyContext();
   const volumControl = (parmas: string) => {
@@ -159,12 +163,12 @@ function Audio({
           />
         </button>
 
-        <button>
+        <button onClick={() => setListToggle((prev) => !prev)}>
           <img
             src="/img/play-icon.png"
             alt=""
             style={
-              listToggle
+              listopen
                 ? { transform: "rotate(270deg)" }
                 : { transform: "rotate(90deg)" }
             }
