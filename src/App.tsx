@@ -12,13 +12,6 @@ import SearchResult from "./components/SearchResult.tsx";
 import Player from "./components/Player.tsx";
 
 function App() {
-  // const initialData: commonData = {
-  //   title: "괜찮아도 괜찮아 That's okay",
-  //   thumbnail: "img/cheer.jpg",
-  //   url: "",
-  //   singer: "디오",
-  // };
-
   const initialData: commonData = {
     title: "",
     thumbnail: "",

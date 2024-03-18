@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useMyContext } from "../module/MyContext.tsx";
-import { FavoriteAdd } from "../module/reducer.ts";
+import { FavoriteAdd, removeFavorite } from "../module/reducer.ts";
 import { play } from "../module/exportFunction.ts";
+import { commonData } from "../module/interfaceModule.ts";
 
 function Favorite() {
   const {
@@ -28,6 +29,21 @@ function Favorite() {
   }, []);
   // 즐겨찾기 리스트 불러오기
 
+  function favoriteDelete(DeleteData: commonData) {
+    const defaultArray = [DeleteData];
+    const result = favoriteState.filter(
+      (item: commonData) =>
+        !defaultArray.some(
+          (defaultArray) =>
+            defaultArray.id === item.id &&
+            defaultArray.url === item.url &&
+            defaultArray.title === item.title
+        )
+    );
+
+    favoriteDispatch(removeFavorite(result));
+  }
+
   return (
     <>
       {favoriteState.length > 0 ? (
@@ -39,25 +55,34 @@ function Favorite() {
             <div className="middle_album">
               {favoriteState.map((item, index) => {
                 return (
-                  <article
-                    className="favorite_albumWrap"
-                    key={index}
-                    onClick={() =>
-                      play(
-                        "unshift",
-                        track,
-                        playlist,
-                        item,
-                        trackDispatch,
-                        addDispatch,
-                        playDispatch,
-                        playState,
-                        setIndex
-                      )
-                    }
-                  >
+                  <article className="favorite_albumWrap" key={index}>
                     <figure>
-                      <button className="middle_play">
+                      <button
+                        className="middle_favorite"
+                        onClick={() => favoriteDelete(item)}
+                      >
+                        <img
+                          src="img/delete.png"
+                          alt=""
+                          style={{ filter: "invert(1)" }}
+                        />
+                      </button>
+                      <button
+                        className="middle_play"
+                        onClick={() =>
+                          play(
+                            "unshift",
+                            track,
+                            playlist,
+                            item,
+                            trackDispatch,
+                            addDispatch,
+                            playDispatch,
+                            playState,
+                            setIndex
+                          )
+                        }
+                      >
                         <img src="img/play-icon.png" alt="" />
                       </button>
                       <img

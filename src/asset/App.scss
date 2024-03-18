@@ -64,8 +64,9 @@ button {
 
 .middle_album {
   display: flex;
-  gap: 0 24px;
+  gap: 24px;
   width: 1680px;
+  flex-wrap: wrap;
   padding-bottom: 25px;
   article {
     width: 225px;
