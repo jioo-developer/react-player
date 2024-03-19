@@ -599,6 +599,22 @@ button {
   padding: 0 96px;
   box-sizing: border-box;
 
+  .right_top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 23px;
+      img {
+        width: 100%;
+        filter: invert(1);
+      }
+    }
+  }
+
   .list {
     width: 533px;
     max-width: 800px;

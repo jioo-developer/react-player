@@ -26,20 +26,6 @@ function List({ playData }: { playData: commonData }) {
   const [shuffleToggle, setShuffle] = useState(false);
   const [shuffleArray, setArray] = useState<number[] | any>([]);
 
-  // function directPlay(index: number) {
-  //   const initialArray = [...track];
-  //   const prevSlice = initialArray.splice(index, 1);
-  //   initialArray.unshift(...prevSlice);
-
-  //   const newPlayList = [...playlist];
-  //   const prevPlayList = newPlayList.splice(index, 1);
-  //   newPlayList.unshift(...prevPlayList);
-
-  //   trackDispatch(trackUpdate(initialArray));
-  //   addDispatch(ChangeList(newPlayList));
-  //   if (!playState) playDispatch(true);
-  // }
-
   function shuffleCheck(e: ChangeEvent, index: number) {
     const target = e.target as HTMLInputElement;
     if (target.checked) {
@@ -96,9 +82,34 @@ function List({ playData }: { playData: commonData }) {
   return (
     <div className="list_wrap">
       <div className="right_list">
-        <div className="now-info">
-          <h4>재생 중인 트랙</h4>
-          <h3>{playData.title}</h3>
+        <div className="right_top">
+          <div className="now-info">
+            <h4>재생 중인 트랙</h4>
+            <h3>{playData.title}</h3>
+          </div>
+          <div className="shuffle_wrap">
+            {shuffleToggle ? (
+              <>
+                <button className="album-shuffle up">
+                  <img src="img/up.png" alt="" />
+                </button>
+                <button className="album-shuffle down">
+                  <img
+                    src="img/up.png"
+                    alt=""
+                    style={{ transform: "rotate(180deg)" }}
+                  />
+                </button>
+              </>
+            ) : (
+              <button
+                className="album-shuffle"
+                onClick={() => setShuffle((prev) => !prev)}
+              >
+                <img src="img/playlist_shuffle.png" alt="" />
+              </button>
+            )}
+          </div>
         </div>
         <ul className="list">
           {playlist.length > 0 ? (
