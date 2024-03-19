@@ -1,107 +1,151 @@
-import React, { useEffect, useRef } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import {
   ChangeList,
   FavoriteAdd,
   removeFavorite,
   trackUpdate,
-} from "../module/reducer";
-import { useMyContext } from "../module/MyContext";
+} from "../module/reducer.ts";
+import { useMyContext } from "../module/MyContext.tsx";
 import { commonData } from "../module/interfaceModule";
+import { play } from "../module/exportFunction.ts";
 
-function List() {
+function List({ playData }: { playData: commonData }) {
   const {
     favoriteDispatch,
     playlist,
     favoriteState,
     track,
-    playState,
     trackDispatch,
-    playDispatch,
     addDispatch,
+    playState,
+    playDispatch,
+    playIndex,
+    setIndex,
   } = useMyContext();
 
-  const starRef = useRef<HTMLUListElement>(null);
+  const [shuffleToggle, setShuffle] = useState(false);
+  const [shuffleArray, setArray] = useState<number[] | any>([]);
 
-  function favoriteHandler(
-    e: React.ChangeEvent<HTMLInputElement>,
-    value: commonData,
-    index: number
-  ) {
-    if (starRef.current) {
-      if (e.target.checked) {
-        if (!favoriteState.includes(value)) {
-          favoriteDispatch(FavoriteAdd(value));
-          // 즐겨찾기 재생
-        }
-      } else {
-        if (favoriteState.length > 0) {
-          const deleteFavorite: commonData[] = favoriteState.filter(
-            (item) =>
-              item.title !== playlist[index].title &&
-              item.url !== playlist[index].url &&
-              item.thumbnail !== playlist[index].thumbnail
-          );
-          favoriteDispatch(removeFavorite(deleteFavorite));
-          // 즐겨찾기 삭제
-        }
-      }
+  // function directPlay(index: number) {
+  //   const initialArray = [...track];
+  //   const prevSlice = initialArray.splice(index, 1);
+  //   initialArray.unshift(...prevSlice);
+
+  //   const newPlayList = [...playlist];
+  //   const prevPlayList = newPlayList.splice(index, 1);
+  //   newPlayList.unshift(...prevPlayList);
+
+  //   trackDispatch(trackUpdate(initialArray));
+  //   addDispatch(ChangeList(newPlayList));
+  //   if (!playState) playDispatch(true);
+  // }
+
+  function shuffleCheck(e: ChangeEvent, index: number) {
+    const target = e.target as HTMLInputElement;
+    if (target.checked) {
+      setArray((prev) => [...prev, index]);
+    } else {
+      const array = shuffleArray.filter((item) => item !== index);
+      setArray(array);
     }
   }
 
-  function directPlay(index: number) {
-    const initialArray = [...track];
-    const prevSlice = initialArray.splice(index, 1);
-    initialArray.unshift(...prevSlice);
+  // function shuffleHandler(direction: string) {
+  //   const newList: commonData[] = [];
+  //   const newtrack: string[] = [];
 
-    const newPlayList = [...playlist];
-    const prevPlayList = newPlayList.splice(index, 1);
-    newPlayList.unshift(...prevPlayList);
+  //   shuffleArray.forEach((item, index) => {
+  //     const sliceList = playlist.slice(item, item + 1)[0];
+  //     const sliceTrack = track.slice(item, item + 1)[0];
+  //     newList.push(sliceList);
+  //     newtrack.push(sliceTrack);
 
-    trackUpdate(initialArray);
-    addDispatch(ChangeList(newPlayList));
-  }
+  //     if (shuffleArray.length - 1 === index) {
+  //       setting(newList, newtrack, direction, "end");
+  //     }
+  //   });
 
-  useEffect(() => {
-    if (playlist.length > 0) {
-      const arr: string[] = [];
-      playlist.forEach((item) => arr.push(item.url));
-      trackDispatch(trackUpdate(arr));
-      if (!playState) playDispatch(true);
-    }
-  }, [playlist]);
+  //   function setting(
+  //     newlist: commonData[],
+  //     newtrack: string[],
+  //     type: string,
+  //     end?: string
+  //   ) {
+  //     //
+  //     const filterList = playlist.filter((item) => !newlist.includes(item));
+  //     const filterTrack = track.filter((item) => !newtrack.includes(item));
+
+  //     if (type === "up" && end) {
+  //       const result = [...newlist, ...filterList];
+  //       const trackResult = [...newtrack, ...filterTrack];
+  //       addDispatch(ChangeList(result));
+  //       trackDispatch(trackUpdate(trackResult));
+  //     } else if (type === "down" && end) {
+  //       const result = [...filterList, ...newlist];
+  //       const trackResult = [...filterTrack, ...newtrack];
+  //       addDispatch(ChangeList(result));
+  //       trackDispatch(trackUpdate(trackResult));
+  //     }
+  //     if (end) {
+  //       setArray([]);
+  //       setShuffle(false);
+  //     }
+  //   }
+  // }
 
   return (
-    <div className="album_list">
-      <p className="playlist">플레이리스트</p>
-      <ul className="list lists" ref={starRef}>
-        {playlist.length > 0
-          ? playlist.map((value, index) => {
-              return (
-                <li className="list" key={index}>
-                  <div className="list_text" onClick={() => directPlay(index)}>
-                    {value.title ? value.title : ""}
-                  </div>
-                  <input
-                    type="checkbox"
-                    className="star"
-                    id={`star${index}`}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      favoriteHandler(e, value, index)
-                    }
-                  />
-                  <label
-                    className={
-                      favoriteState.includes(value)
-                        ? "star_label on"
-                        : "star_label"
-                    }
-                    htmlFor={`star${index}`}
-                  />
-                </li>
-              );
-            })
-          : null}
-      </ul>
+    <div className="list_wrap">
+      <div className="right_list">
+        <div className="now-info">
+          <h4>재생 중인 트랙</h4>
+          <h3>{playData.title}</h3>
+        </div>
+        <ul className="list">
+          {playlist.length > 0 ? (
+            <>
+              {playlist.map((item, index) => {
+                return (
+                  <li key={index}>
+                    <div className="small_album">
+                      <article>
+                        <figure>
+                          <button
+                            className="middle_play"
+                            onClick={() =>
+                              play(
+                                "unshift",
+                                track,
+                                playlist,
+                                item,
+                                trackDispatch,
+                                addDispatch,
+                                playDispatch,
+                                playState,
+                                setIndex
+                              )
+                            }
+                          >
+                            <img src="img/play-icon.png" alt="" />
+                          </button>
+                          <img
+                            src={item.thumbnail}
+                            alt=""
+                            className="middle-thumbnail"
+                          />
+                        </figure>
+                        <figcaption>
+                          <h3>{item.title}</h3>
+                          <span>{item.singer}</span>
+                        </figcaption>
+                      </article>
+                    </div>
+                  </li>
+                );
+              })}
+            </>
+          ) : null}
+        </ul>
+      </div>
     </div>
   );
 }

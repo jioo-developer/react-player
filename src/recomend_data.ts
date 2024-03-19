@@ -1,5 +1,12 @@
 const recomend_data = [
   {
+    id: 1,
+    url: "https://www.youtube.com/watch?v=8_XY5Z-Gdkc",
+    title: "lover earth angel",
+    singer: "Joey Stamper",
+    thumbnail: "/img/8.jpg",
+  },
+  {
     id: 2,
     url: "https://www.youtube.com/watch?v=Bwq3f5_kMfY",
     title: "Pass You By",
