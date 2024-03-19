@@ -55,34 +55,34 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        {(vw < 700 && !searchToggle) || vw > 700 ? (
-          <h1 className="logo" onClick={() => setData(initialData)}>
-            <img src="img/on_platform_logo_dark.svg" alt="" />
-          </h1>
-        ) : null}
-        <AddForm
-          setData={setData}
-          vw={vw}
-          setToggle={setToggle}
-          searchToggle={searchToggle}
-        />
-      </header>
+      {!listopen ? (
+        <header>
+          {(vw < 700 && !searchToggle) || vw > 700 ? (
+            <h1 className="logo" onClick={() => setData(initialData)}>
+              <img src="img/on_platform_logo_dark.svg" alt="" />
+            </h1>
+          ) : null}
+          <AddForm
+            setData={setData}
+            vw={vw}
+            setToggle={setToggle}
+            searchToggle={searchToggle}
+          />
+        </header>
+      ) : null}
+
       <div className="wrap area-padding">
         <>
           {searchData.url !== "" ? (
             <SearchResult searchData={searchData} />
-          ) : (
-            <div
-              className="el_wrap"
-              style={listopen ? { display: "none" } : { display: "block" }}
-            >
+          ) : !listopen ? (
+            <div className="el_wrap">
               <Replay />
               <RandomList />
               <Favorite />
               <Recommend />
             </div>
-          )}
+          ) : null}
           <Player listopen={listopen} setListToggle={setListToggle} />
         </>
       </div>

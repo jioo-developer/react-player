@@ -94,11 +94,12 @@ function List({ playData }: { playData: commonData }) {
   // }
 
   return (
-    <div className="album_list">
-      <div className="list_wrap">
-        <figure>
-          <img src={playData.thumbnail} alt="" />
-        </figure>
+    <div className="list_wrap">
+      <div className="right_list">
+        <div className="now-info">
+          <h4>재생 중인 트랙</h4>
+          <h3>{playData.title}</h3>
+        </div>
         <ul className="list">
           {playlist.length > 0 ? (
             <>

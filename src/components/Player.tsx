@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import ReactPlayer from "react-player";
 import Audio from "./audio.tsx";
 import List from "./List.tsx";
@@ -27,10 +27,13 @@ function Player({ listopen, setListToggle }: props) {
   const [seekbar, setSeekbar] = useState(0);
   // 100% 중 몇프로 진행 됐는지
   const playerRef = useRef<ReactPlayer>(null);
+  const playerWrap = useRef<HTMLDivElement | null>(null);
   const playRef: ReactPlayer = playerRef.current as ReactPlayer;
   // 스페이스 누르면 일시정지 되게 하는 함수
   const [loop, setLoop] = useState(false);
   const [loopConntect, setConnect] = useState(false);
+  const [modeCheck, setCheck] = useState("image");
+
   window.onkeyup = function (event) {
     if (event.keyCode === 32) {
       playDispatch((prev) => !prev);
@@ -157,43 +160,104 @@ function Player({ listopen, setListToggle }: props) {
   }
   // api에 나온 시점을 분 초 로 계산하는 함수
 
+  function modeChange(type?: string) {
+    if (modeCheck !== type && type) {
+      setCheck(type);
+    }
+  }
+
+  useEffect(() => {
+    if (playerWrap.current) {
+      const elArray = Array.from(playerWrap.current.children);
+
+      const styleSetting = (className: string) => {
+        elArray.forEach((item) => {
+          if (item.classList.contains(className)) {
+            item.classList.add("on");
+          } else {
+            item.classList.remove("on");
+          }
+        });
+      };
+      if (modeCheck === "image") {
+        styleSetting("ref_thumbnail");
+      } else {
+        styleSetting("player");
+      }
+    }
+  }, [modeCheck]);
+
+  useEffect(() => {
+    modeChange();
+  }, []);
+
   return (
     <>
-      <div className="play">
-        <div className="movie_box">
-          <ReactPlayer
-            ref={playerRef}
-            playing={playState}
-            loop={loop}
-            url={track[playIndex]}
-            volume={Number(`0.${volume}`)}
-            onStart={() => playSetting()}
-            onPlay={() => {
-              playSetting();
-              handleProgress();
-              handleDuration();
-              handlePlay();
-            }}
-            onDuration={handleDuration}
-            onError={handleError}
-            onProgress={handleProgress}
-            onPause={handlePause}
-            onEnded={() => {
-              if (!loopConntect) {
-                setIndex((prev) => prev + 1);
-              }
-            }}
-            className={"player"}
-            controls={true}
-            config={{
-              youtube: {
-                playerVars: {
-                  rel: 0,
-                  modestbranding: 1,
+      <div
+        className="play"
+        style={listopen ? { display: "flex" } : { display: "none" }}
+      >
+        <div className="ref_player_wrap">
+          <div className="radio_wrap">
+            <input
+              type="radio"
+              id="modechange"
+              className="videoMode"
+              name="video"
+              value="image"
+              checked={modeCheck === "image"}
+              onChange={() => modeChange("image")}
+            />
+            <label htmlFor="modechange">노래</label>
+            <input
+              type="radio"
+              id="modechange2"
+              className="videoMode"
+              name="video"
+              value="video"
+              checked={modeCheck === "video"}
+              onChange={() => modeChange("video")}
+            />
+            <label htmlFor="modechange2">동영상</label>
+          </div>
+          <div className="ref-video-wrap" ref={playerWrap}>
+            <figure className="ref_thumbnail">
+              <img src={playData.thumbnail} alt="" />
+            </figure>
+            <ReactPlayer
+              ref={playerRef}
+              playing={playState}
+              loop={loop}
+              url={track[playIndex]}
+              volume={Number(`0.${volume}`)}
+              onStart={() => playSetting()}
+              onPlay={() => {
+                playSetting();
+                handleProgress();
+                handleDuration();
+                handlePlay();
+              }}
+              onDuration={handleDuration}
+              onError={handleError}
+              onProgress={handleProgress}
+              onPause={handlePause}
+              onEnded={() => {
+                if (!loopConntect) {
+                  setIndex((prev) => prev + 1);
+                }
+              }}
+              className={"player"}
+              controls={true}
+              config={{
+                youtube: {
+                  playerVars: {
+                    rel: 0,
+                    modestbranding: 1,
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
         {listopen ? <List playData={playData} /> : null}
       </div>
