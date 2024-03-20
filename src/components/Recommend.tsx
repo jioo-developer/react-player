@@ -1,52 +1,60 @@
-import { recomend_data } from "../recomend_data";
-import { ListAdd } from "../module/reducer";
-import { useMyContext } from "../module/MyContext";
+import React from "react";
+import { recomend_data } from "../recomend_data.ts";
+import { useMyContext } from "../module/MyContext.tsx";
+import { play } from "../module/exportFunction.ts";
 function Recommend() {
-  const { playDispatch, addDispatch, playState } = useMyContext();
-
-  function recommendPlay() {
-    addDispatch(ListAdd(recomend_data));
-    if (!playState) playDispatch(true);
-  }
+  const {
+    track,
+    playlist,
+    playDispatch,
+    addDispatch,
+    playState,
+    trackDispatch,
+    setIndex,
+  } = useMyContext();
 
   return (
-    <section className="Recommend">
+    <div className="recommend_wrap">
+      <h2 className="mb30">추천 앨범</h2>
       <div className="in_wrap">
-        <div className="recommend_txt_wrap">
-          <b>
-            제작자가 추천하는
-            <br />
-            플레이리스트
-          </b>
-          <div className="total_music">
-            <figure>
-              <img src="/img/play-button.svg" alt="" />
-            </figure>
-            <figcaption>
-              <button onClick={recommendPlay}>추천곡 들어보기</button>
-            </figcaption>
-          </div>
-        </div>
-
-        <div className="recommend_album">
-          {recomend_data.map(function (item) {
+        <div className="middle_album">
+          {recomend_data.map((item, index) => {
             return (
-              <div className="album" key={item.id}>
-                <figure>
-                  <img src={`${item.thumbnail}`} alt=""></img>
+              <article key={index}>
+                <figure
+                  onClick={() =>
+                    play(
+                      "unshift",
+                      track,
+                      playlist,
+                      item,
+                      trackDispatch,
+                      addDispatch,
+                      playDispatch,
+                      playState,
+                      setIndex
+                    )
+                  }
+                >
+                  <img
+                    src={`${item.thumbnail}`}
+                    alt=""
+                    className="borderRound middle-thumbnail"
+                  />
+                  <button className="middle_play">
+                    <img src="img/play-icon.png" alt="" />
+                  </button>
                 </figure>
                 <figcaption>
                   <p>{item.title}</p>
                   <span>{item.singer}</span>
                 </figcaption>
-              </div>
+              </article>
             );
           })}
         </div>
       </div>
-      <div className="container"></div>
-      {/* // 아마 백그라운드 잘 유지되게 지탱해주는 것 같음 */}
-    </section>
+    </div>
   );
 }
 

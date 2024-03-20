@@ -1,16 +1,23 @@
 import React, { useRef } from "react";
-import { ListAdd } from "../module/reducer";
-import { useMyContext } from "../module/MyContext";
+import { commonData } from "../module/interfaceModule.ts";
 
-function AddList() {
-  const { addDispatch } = useMyContext();
+type props = {
+  setData: React.Dispatch<React.SetStateAction<commonData>>;
+  vw: number;
+  searchToggle: boolean;
+  setToggle: React.Dispatch<React.SetStateAction<boolean>>;
+};
+function AddList({ setData, vw, searchToggle, setToggle }: props) {
   const urlRef = useRef<HTMLInputElement>(null);
 
   function youtube_parser(params: string) {
-    let regExp = /^.*((youtu.be\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-    let match = params.match(regExp);
-    if (match !== null && match[4].length === 11) {
-      return match[4];
+    const regExp = /^.*(youtu.be\/.*|watch\?.*v=)([^#\&\?]*).*/;
+    const match = params.match(regExp);
+    if (match) {
+      const result = match.filter(
+        (item) => item.length === 11 || item.length === 12
+      );
+      return result[0].replace(/"/g, "");
     } else {
       console.log(`${params}는 맞지 않는 url 입니다.`);
       return false;
@@ -28,47 +35,74 @@ function AddList() {
     return response.then((res) => res.json());
   }
 
-  async function addPlayList() {
+  async function addPlayList(e: React.KeyboardEvent<HTMLInputElement>) {
     if (urlRef.current) {
       const url: string = urlRef.current.value;
-      const createParser = youtube_parser(url);
-      if (createParser) {
-        const resultURL = `https://youtube.com/watch?v=${createParser}`;
-        try {
-          const response = await geturlData(resultURL);
-          const object = {
-            title: response.title,
-            url: response.url,
-            thumbnail: response.thumbnail_url,
-          };
-          addDispatch(ListAdd(object));
-          urlRef.current.value = "";
-        } catch (error) {
-          console.log("------------------------------");
+      if (typeof e === "object" && e.key === "Enter" && url !== "") {
+        const createParser = youtube_parser(url);
+        if (createParser) {
+          const resultURL = `https://youtube.com/watch?v=${createParser}`;
+          try {
+            const response = await geturlData(resultURL);
+            console.log(response);
+            const object = {
+              title: response.title,
+              url: response.url,
+              thumbnail: response.thumbnail_url,
+              singer: response.author_name,
+            };
+            urlRef.current.value = "";
+            setData(object);
+          } catch (error) {
+            console.log("------------------------------");
+            window.alert("url 정보를 찾지 못했습니다.");
+          }
+        } else {
+          console.log(createParser);
           window.alert("url 정보를 찾지 못했습니다.");
+          console.log("---------------------------------");
         }
-      } else {
-        console.log(createParser);
-        window.alert("url 정보를 찾지 못했습니다.");
-        console.log("---------------------------------");
       }
     }
   }
 
   return (
-    <div className="input_wrap">
-      <p>곡 검색</p>
-      <div className="form">
-        <input
-          type="text"
-          placeholder="유튜브 주소를 입력해주세요"
-          className="text_input url"
-          name="url"
-          ref={urlRef}
-        ></input>
-        <button onClick={addPlayList}>추가</button>
-      </div>
-    </div>
+    <>
+      {vw > 700 || (vw < 700 && searchToggle) ? (
+        <div
+          className="input_wrap"
+          style={vw < 700 && searchToggle ? { width: "93%" } : {}}
+        >
+          <img src="img/icon-search.svg" alt="" className="input-search" />
+          <input
+            type="text"
+            placeholder="유튜브 주소를 입력해주세요 (제목X)"
+            className="text_input url"
+            name="url"
+            ref={urlRef}
+            onKeyPress={(e) => addPlayList(e)}
+            onMouseLeave={() => {
+              if (vw < 700 && searchToggle) {
+                setToggle(false);
+              }
+            }}
+          />
+        </div>
+      ) : vw < 700 && !searchToggle ? (
+        <img
+          src="img/icon-search.svg"
+          alt=""
+          className="input-search"
+          style={{
+            marginLeft: "auto",
+            marginRight: 30,
+            filter: "grayScale(1)",
+            cursor: "pointer",
+          }}
+          onClick={() => setToggle(true)}
+        />
+      ) : null}
+    </>
   );
 }
 

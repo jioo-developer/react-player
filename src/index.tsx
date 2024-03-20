@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from "./App.tsx";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { MyContextProvider } from "./module/MyContext";
+import { MyContextProvider } from "./module/MyContext.tsx";
 
 ReactDOM.render(
   <React.StrictMode>

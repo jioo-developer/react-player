@@ -14,14 +14,19 @@ const playState = "playState";
 const track = "track";
 const changeTrack = "changeTrack";
 
-export const ListAdd = (data: commonData | commonData[]) => ({
+export const ListAdd = (
+  data: commonData | commonData[],
+  direction: string
+) => ({
   type: ADDLIST,
   data,
+  direction,
 });
 
-export const trackUpdate = (data: string[]) => ({
+export const trackUpdate = (data: string | string[], direction: string) => ({
   type: track,
   data,
+  direction,
 });
 
 //앨범에 트랙 추가 함수
@@ -50,10 +55,27 @@ export const ChangeList = (data: commonData[]) => ({
 const reducer = (state: stateType, action: Action): stateType => {
   switch (action.type) {
     case ADDLIST:
-      const stateCheck: commonData[] | commonData = Array.isArray(action.data)
-        ? [...state.playlist, ...action.data]
-        : [...state.playlist, action.data];
-      const filterList = stateCheck.filter((value, idx, arr) => {
+      const addplay = () => {
+        if (Array.isArray(action.data)) {
+          if (action.direction && action.direction === "unshift") {
+            return [...action.data, ...state.playlist];
+          } else if (action.direction && action.direction === "push") {
+            return [...state.playlist, ...action.data];
+          } else {
+            return [...state.playlist, ...action.data];
+          }
+        } else {
+          if (action.direction && action.direction === "unshift") {
+            return [action.data, ...state.playlist];
+          } else if (action.direction && action.direction === "push") {
+            return [...state.playlist, action.data];
+          } else {
+            return [...state.playlist, action.data];
+          }
+        }
+      };
+
+      const filterList = addplay().filter((value, idx, arr) => {
         return (
           arr.findIndex((item) => {
             return item.url === value.url;
@@ -74,7 +96,10 @@ const reducer = (state: stateType, action: Action): stateType => {
     case track:
       return {
         ...state,
-        track: action.data,
+        track:
+          typeof action.data === "string"
+            ? [...state.track, action.data]
+            : action.data,
       };
 
     case FAVORITE:

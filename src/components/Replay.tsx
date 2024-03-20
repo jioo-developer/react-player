@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { commonData } from "../module/interfaceModule";
+import { favoriteHandler, play } from "../module/exportFunction.ts";
 import { useMyContext } from "../module/MyContext.tsx";
-import { FavoriteAdd, removeFavorite } from "../module/reducer.ts";
-import { play } from "../module/exportFunction.ts";
-import { commonData } from "../module/interfaceModule.ts";
-
-function Favorite() {
+function Replay() {
+  const loadData: commonData[] = JSON.parse(
+    localStorage.getItem("saveData") || "[]"
+  );
   const {
     track,
     playlist,
@@ -12,60 +13,28 @@ function Favorite() {
     addDispatch,
     playDispatch,
     playState,
-    favoriteDispatch,
     favoriteState,
+    favoriteDispatch,
     setIndex,
   } = useMyContext();
-
-  const parseFavorite = JSON.parse(
-    localStorage.getItem("FavoriteName") || "{}"
-  );
-
-  // 즐겨찾기 리스트 불러오기
-  useEffect(() => {
-    if (Object.entries(parseFavorite).length > 0) {
-      favoriteDispatch(FavoriteAdd(parseFavorite));
-    }
-  }, []);
-  // 즐겨찾기 리스트 불러오기
-
-  function favoriteDelete(DeleteData: commonData) {
-    const defaultArray = [DeleteData];
-    const result = favoriteState.filter(
-      (item: commonData) =>
-        !defaultArray.some(
-          (defaultArray) =>
-            defaultArray.id === item.id &&
-            defaultArray.url === item.url &&
-            defaultArray.title === item.title
-        )
-    );
-
-    favoriteDispatch(removeFavorite(result));
-  }
-
   return (
     <>
-      {favoriteState.length > 0 ? (
-        <div className="favorite">
-          <div className="favorite_header">
-            <h2>자주 듣는 노래</h2>
-          </div>
+      {loadData.length > 0 ? (
+        <div className="replay_wrap">
+          <h2 className="mb30">다시 듣기</h2>
           <div className="in_wrap">
             <div className="middle_album">
-              {favoriteState.map((item, index) => {
+              {loadData.map((item, index) => {
                 return (
-                  <article className="favorite_albumWrap" key={index}>
+                  <article className="replay_albumWrap" key={index}>
                     <figure>
                       <button
                         className="middle_favorite"
-                        onClick={() => favoriteDelete(item)}
+                        onClick={() =>
+                          favoriteHandler(item, favoriteState, favoriteDispatch)
+                        }
                       >
-                        <img
-                          src="img/delete.png"
-                          alt=""
-                          style={{ filter: "invert(1)" }}
-                        />
+                        <img src="img/heart.png" alt="" />
                       </button>
                       <button
                         className="middle_play"
@@ -106,4 +75,4 @@ function Favorite() {
   );
 }
 
-export default Favorite;
+export default Replay;

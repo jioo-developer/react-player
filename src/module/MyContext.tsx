@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import reducer, { initialState } from "./reducer";
+import reducer, { initialState } from "./reducer.ts";
 import { Action, commonData } from "./interfaceModule";
 
 export const MyContextProvider = ({ children }: { children: ReactNode }) => {
@@ -19,6 +19,8 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
   const [trackData, trackDispatch] = useReducer(reducer, initialState);
   const track = trackData.track;
   const [playState, playDispatch] = useState(false);
+  const [listToggle, setListToggle] = useState(false);
+  const [playIndex, setIndex] = useState<number>(0);
   return (
     <MyContext.Provider
       value={{
@@ -31,6 +33,10 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
         trackDispatch,
         playState,
         playDispatch,
+        listToggle,
+        setListToggle,
+        playIndex,
+        setIndex,
       }}
     >
       {children}
@@ -48,6 +54,10 @@ export interface MyContextProps {
   favoriteDispatch: React.Dispatch<Action>;
   trackDispatch: React.Dispatch<Action>;
   playDispatch: React.Dispatch<React.SetStateAction<boolean>>;
+  listToggle: boolean;
+  setListToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  playIndex: number;
+  setIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const MyContext = createContext<MyContextProps>({
@@ -60,6 +70,10 @@ const MyContext = createContext<MyContextProps>({
   trackDispatch: () => {},
   playState: false,
   playDispatch: () => {},
+  listToggle: false,
+  setListToggle: () => {},
+  playIndex: 0,
+  setIndex: () => {},
 });
 
 export const useMyContext = () => {
