@@ -643,9 +643,25 @@ button {
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       padding-bottom: 17px;
       min-width: 0 !important;
-
-      h3 {
-        font-size: 20px;
+      figure {
+        min-width: 48px;
+      }
+      figcaption {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        width: 100%;
+        display: block;
+        h3 {
+          font-size: 20px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          word-break: break-all;
+          width: 100%;
+          display: block;
+        }
       }
     }
   }
