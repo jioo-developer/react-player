@@ -57,9 +57,10 @@ function Player({ listopen, setListToggle }: props) {
       }
 
       if (playData.title !== newtitle) {
+        const singer = player.playerInfo.videoData.author;
         const newObject = {
           title: newtitle,
-          singer: player.playerInfo.videoData.author || "",
+          singer: singer ? singer : "",
           thumbnail: newthumbNail[0].thumbnail,
           url: player.playerInfo.videoUrl,
         };
@@ -149,6 +150,7 @@ function Player({ listopen, setListToggle }: props) {
 
   function loopHandler(progress) {
     if (playlist.length > 0) {
+      //progress &&
       if (loopConntect && playlist.length > 1) {
         setLoop(true);
       } else if (!loopConntect && playlist.length > 1) {

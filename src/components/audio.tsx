@@ -36,7 +36,7 @@ function Audio({
   listopen,
   setListToggle,
 }: audioProps) {
-  const { playDispatch, playState, playlist, listToggle } = useMyContext();
+  const { playDispatch, playState, playlist } = useMyContext();
   const volumControl = (parmas: string) => {
     if (parmas === "up") {
       if (volume < 9) {
@@ -130,7 +130,7 @@ function Audio({
           <>
             <figure>{thumbnailHanlder()}</figure>
             <figcaption>
-              <p>{playData.title}</p>
+              <h3>{playData.title}</h3>
               <span>{playData.singer}</span>
             </figcaption>
           </>

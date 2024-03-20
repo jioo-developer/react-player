@@ -1,19 +1,12 @@
-import React, { ChangeEvent, useRef, useState } from "react";
-import {
-  ChangeList,
-  FavoriteAdd,
-  removeFavorite,
-  trackUpdate,
-} from "../module/reducer.ts";
+import React, { ChangeEvent, useState } from "react";
+import { ChangeList, trackUpdate } from "../module/reducer.ts";
 import { useMyContext } from "../module/MyContext.tsx";
 import { commonData } from "../module/interfaceModule";
 import { play } from "../module/exportFunction.ts";
 
 function List({ playData }: { playData: commonData }) {
   const {
-    favoriteDispatch,
     playlist,
-    favoriteState,
     track,
     trackDispatch,
     addDispatch,
@@ -26,20 +19,6 @@ function List({ playData }: { playData: commonData }) {
   const [shuffleToggle, setShuffle] = useState(false);
   const [shuffleArray, setArray] = useState<number[] | any>([]);
 
-  // function directPlay(index: number) {
-  //   const initialArray = [...track];
-  //   const prevSlice = initialArray.splice(index, 1);
-  //   initialArray.unshift(...prevSlice);
-
-  //   const newPlayList = [...playlist];
-  //   const prevPlayList = newPlayList.splice(index, 1);
-  //   newPlayList.unshift(...prevPlayList);
-
-  //   trackDispatch(trackUpdate(initialArray));
-  //   addDispatch(ChangeList(newPlayList));
-  //   if (!playState) playDispatch(true);
-  // }
-
   function shuffleCheck(e: ChangeEvent, index: number) {
     const target = e.target as HTMLInputElement;
     if (target.checked) {
@@ -50,55 +29,110 @@ function List({ playData }: { playData: commonData }) {
     }
   }
 
-  // function shuffleHandler(direction: string) {
-  //   const newList: commonData[] = [];
-  //   const newtrack: string[] = [];
+  function shuffleHandler(direction: string) {
+    const newList: commonData[] = [];
+    const newtrack: string[] = [];
 
-  //   shuffleArray.forEach((item, index) => {
-  //     const sliceList = playlist.slice(item, item + 1)[0];
-  //     const sliceTrack = track.slice(item, item + 1)[0];
-  //     newList.push(sliceList);
-  //     newtrack.push(sliceTrack);
+    shuffleArray.forEach((item, index) => {
+      const sliceList = playlist.slice(item, item + 1)[0];
+      const sliceTrack = track.slice(item, item + 1)[0];
+      newList.push(sliceList);
+      newtrack.push(sliceTrack);
 
-  //     if (shuffleArray.length - 1 === index) {
-  //       setting(newList, newtrack, direction, "end");
-  //     }
-  //   });
+      if (shuffleArray.length - 1 === index) {
+        setting(newList, newtrack, direction, "end");
+      }
+    });
 
-  //   function setting(
-  //     newlist: commonData[],
-  //     newtrack: string[],
-  //     type: string,
-  //     end?: string
-  //   ) {
-  //     //
-  //     const filterList = playlist.filter((item) => !newlist.includes(item));
-  //     const filterTrack = track.filter((item) => !newtrack.includes(item));
+    function setting(
+      newlist: commonData[],
+      newtrack: string[],
+      type: string,
+      end?: string
+    ) {
+      //
+      const filterList = playlist.filter((item) => !newlist.includes(item));
+      const filterTrack = track.filter((item) => !newtrack.includes(item));
 
-  //     if (type === "up" && end) {
-  //       const result = [...newlist, ...filterList];
-  //       const trackResult = [...newtrack, ...filterTrack];
-  //       addDispatch(ChangeList(result));
-  //       trackDispatch(trackUpdate(trackResult));
-  //     } else if (type === "down" && end) {
-  //       const result = [...filterList, ...newlist];
-  //       const trackResult = [...filterTrack, ...newtrack];
-  //       addDispatch(ChangeList(result));
-  //       trackDispatch(trackUpdate(trackResult));
-  //     }
-  //     if (end) {
-  //       setArray([]);
-  //       setShuffle(false);
-  //     }
-  //   }
-  // }
+      if (type === "up" && end) {
+        const memoriseIndex = playlist.filter(
+          (item, index) => index === playIndex
+        );
+        const result = [...newlist, ...filterList];
+        const trackResult = [...newtrack, ...filterTrack];
+        const findIndex = result.indexOf(memoriseIndex[0]);
+        setIndex(findIndex);
+        addDispatch(ChangeList(result));
+        trackDispatch(trackUpdate(trackResult, "push"));
+      } else if (type === "down" && end) {
+        const memoriseIndex = playlist.filter(
+          (item, index) => index === playIndex
+        );
+        const result = [...filterList, ...newlist];
+        const trackResult = [...filterTrack, ...newtrack];
+        const findIndex = result.indexOf(memoriseIndex[0]);
+        setIndex(findIndex);
+        addDispatch(ChangeList(result));
+        trackDispatch(trackUpdate(trackResult, "push"));
+      }
+      if (end) {
+        setArray([]);
+        setShuffle(false);
+      }
+    }
+  }
+
+  function directPlay(index: number) {
+    const initialArray = [...track];
+    const prevSlice = initialArray.splice(index, 1);
+    initialArray.unshift(...prevSlice);
+
+    const newPlayList = [...playlist];
+    const prevPlayList = newPlayList.splice(index, 1);
+    newPlayList.unshift(...prevPlayList);
+    setIndex(0);
+    trackDispatch(trackUpdate(initialArray, "push"));
+    addDispatch(ChangeList(newPlayList));
+    if (!playState) playDispatch(true);
+  }
 
   return (
     <div className="list_wrap">
       <div className="right_list">
-        <div className="now-info">
-          <h4>재생 중인 트랙</h4>
-          <h3>{playData.title}</h3>
+        <div className="right_top">
+          <div className="now-info">
+            <h4>재생 중인 트랙</h4>
+            <h3>{playData.title}</h3>
+          </div>
+          <div className="shuffle_wrap">
+            {shuffleToggle ? (
+              <>
+                <button
+                  className="album-shuffle up"
+                  onClick={() => shuffleHandler("up")}
+                >
+                  <img src="img/up.png" alt="" />
+                </button>
+                <button
+                  className="album-shuffle down"
+                  onClick={() => shuffleHandler("down")}
+                >
+                  <img
+                    src="img/up.png"
+                    alt=""
+                    style={{ transform: "rotate(180deg)" }}
+                  />
+                </button>
+              </>
+            ) : (
+              <button
+                className="album-shuffle"
+                onClick={() => setShuffle((prev) => !prev)}
+              >
+                <img src="img/playlist_shuffle.png" alt="" />
+              </button>
+            )}
+          </div>
         </div>
         <ul className="list">
           {playlist.length > 0 ? (
@@ -107,7 +141,25 @@ function List({ playData }: { playData: commonData }) {
                 return (
                   <li key={index}>
                     <div className="small_album">
-                      <article>
+                      <article
+                        onClick={() => {
+                          if (!shuffleToggle) {
+                            directPlay(index);
+                          }
+                        }}
+                      >
+                        {shuffleToggle ? (
+                          <input
+                            type="checkbox"
+                            checked={shuffleArray.includes(index)}
+                            onChange={(e: ChangeEvent) =>
+                              shuffleCheck(e, index)
+                            }
+                            id={`shuffle-${index}`}
+                            style={{ marginRight: 10 }}
+                          />
+                        ) : null}
+
                         <figure>
                           <button
                             className="middle_play"
@@ -131,10 +183,19 @@ function List({ playData }: { playData: commonData }) {
                             src={item.thumbnail}
                             alt=""
                             className="middle-thumbnail"
+                            style={{ height: "100%" }}
                           />
                         </figure>
                         <figcaption>
-                          <h3>{item.title}</h3>
+                          <h3
+                            style={
+                              index === playIndex
+                                ? { color: "violet" }
+                                : { color: "#fff" }
+                            }
+                          >
+                            {item.title}
+                          </h3>
                           <span>{item.singer}</span>
                         </figcaption>
                       </article>
