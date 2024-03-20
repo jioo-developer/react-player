@@ -46,7 +46,7 @@ h2 {
 
 .in_wrap::-webkit-scrollbar {
   width: 8px;
-  height: 4px;
+  height: 8px;
   background: transparent;
   cursor: pointer;
 }
@@ -758,5 +758,11 @@ button {
 @media all and (max-width: 960px) {
   .play > div {
     width: 100% !important;
+  }
+}
+
+.recommend_wrap {
+  .middle_album {
+    flex-wrap: nowrap;
   }
 }
