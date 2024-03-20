@@ -40,24 +40,27 @@ export function play(
   const loadSaveData: commonData[] = JSON.parse(
     localStorage.getItem("saveData") || "[]"
   );
-  if (loadSaveData.length === 0) {
-    localStorage.setItem("saveData", JSON.stringify([data]));
-  } else {
-    const result = [...loadSaveData, data].filter((value, idx, arr) => {
-      // value = 각각의 값 , idx = 순서 arr = 순회대상
-      return (
-        arr.findIndex((item) => {
-          return (
-            item.title === value.title &&
-            item.thumbnail === value.thumbnail &&
-            item.url === value.url &&
-            item.singer === value.singer
-          );
-        }) === idx
-        //비교할 대상 item과 value를 뱌교
-      );
-    });
-    localStorage.setItem("saveData", JSON.stringify(result));
+  if (Array.isArray(loadSaveData)) {
+    if (loadSaveData.length === 0) {
+      localStorage.setItem("saveData", JSON.stringify([data]));
+    } else {
+      const resultArray = [...loadSaveData, data];
+      const result = resultArray.filter((value, idx, arr) => {
+        // value = 각각의 값 , idx = 순서 arr = 순회대상
+        return (
+          arr.findIndex((item) => {
+            return (
+              item.title === value.title &&
+              item.thumbnail === value.thumbnail &&
+              item.url === value.url &&
+              item.singer === value.singer
+            );
+          }) === idx
+          //비교할 대상 item과 value를 뱌교
+        );
+      });
+      localStorage.setItem("saveData", JSON.stringify(result));
+    }
   }
 
   if (!playState) playDispatch(true);

@@ -1,10 +1,5 @@
-import React, { ChangeEvent, useRef, useState } from "react";
-import {
-  ChangeList,
-  FavoriteAdd,
-  removeFavorite,
-  trackUpdate,
-} from "../module/reducer.ts";
+import React, { ChangeEvent, useState } from "react";
+import { ChangeList, trackUpdate } from "../module/reducer.ts";
 import { useMyContext } from "../module/MyContext.tsx";
 import { commonData } from "../module/interfaceModule";
 import { play } from "../module/exportFunction.ts";
@@ -60,13 +55,23 @@ function List({ playData }: { playData: commonData }) {
       const filterTrack = track.filter((item) => !newtrack.includes(item));
 
       if (type === "up" && end) {
+        const memoriseIndex = playlist.filter(
+          (item, index) => index === playIndex
+        );
         const result = [...newlist, ...filterList];
         const trackResult = [...newtrack, ...filterTrack];
+        const findIndex = result.indexOf(memoriseIndex[0]);
+        setIndex(findIndex);
         addDispatch(ChangeList(result));
         trackDispatch(trackUpdate(trackResult, "push"));
       } else if (type === "down" && end) {
+        const memoriseIndex = playlist.filter(
+          (item, index) => index === playIndex
+        );
         const result = [...filterList, ...newlist];
         const trackResult = [...filterTrack, ...newtrack];
+        const findIndex = result.indexOf(memoriseIndex[0]);
+        setIndex(findIndex);
         addDispatch(ChangeList(result));
         trackDispatch(trackUpdate(trackResult, "push"));
       }

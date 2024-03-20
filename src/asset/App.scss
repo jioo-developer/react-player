@@ -607,7 +607,6 @@ button {
     button {
       width: 30px;
       height: 30px;
-      margin-bottom: 23px;
       img {
         width: 100%;
         filter: invert(1);
@@ -633,7 +632,8 @@ button {
     display: flex;
     flex-direction: column;
     margin-bottom: 30px;
-    width: 90%;
+    min-height: 55px;
+    width: 85%;
     h3 {
       color: #fff;
     }
@@ -682,7 +682,7 @@ button {
   justify-content: space-between;
   background: #212121;
   border-radius: 16px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 
   input {
     display: none;
@@ -703,4 +703,10 @@ button {
 
 .on {
   display: block;
+}
+
+.shuffle_wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: 23px;
 }
