@@ -183,6 +183,7 @@ function List({ playData }: { playData: commonData }) {
                             src={item.thumbnail}
                             alt=""
                             className="middle-thumbnail"
+                            style={{ height: "100%" }}
                           />
                         </figure>
                         <figcaption>

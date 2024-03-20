@@ -130,7 +130,7 @@ function Audio({
           <>
             <figure>{thumbnailHanlder()}</figure>
             <figcaption>
-              <p>{playData.title}</p>
+              <h3>{playData.title}</h3>
               <span>{playData.singer}</span>
             </figcaption>
           </>
