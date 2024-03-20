@@ -82,6 +82,20 @@ function List({ playData }: { playData: commonData }) {
     }
   }
 
+  function directPlay(index: number) {
+    const initialArray = [...track];
+    const prevSlice = initialArray.splice(index, 1);
+    initialArray.unshift(...prevSlice);
+
+    const newPlayList = [...playlist];
+    const prevPlayList = newPlayList.splice(index, 1);
+    newPlayList.unshift(...prevPlayList);
+    setIndex(0);
+    trackDispatch(trackUpdate(initialArray, "push"));
+    addDispatch(ChangeList(newPlayList));
+    if (!playState) playDispatch(true);
+  }
+
   return (
     <div className="list_wrap">
       <div className="right_list">
@@ -127,7 +141,13 @@ function List({ playData }: { playData: commonData }) {
                 return (
                   <li key={index}>
                     <div className="small_album">
-                      <article>
+                      <article
+                        onClick={() => {
+                          if (!shuffleToggle) {
+                            directPlay(index);
+                          }
+                        }}
+                      >
                         {shuffleToggle ? (
                           <input
                             type="checkbox"

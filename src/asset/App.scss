@@ -603,6 +603,7 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 
     button {
       width: 30px;
@@ -632,8 +633,9 @@ button {
     display: flex;
     flex-direction: column;
     margin-bottom: 30px;
-    min-height: 55px;
-    width: 85%;
+    min-height: 100px;
+    width: 500px;
+    justify-content: center;
     h3 {
       color: #fff;
     }
@@ -708,5 +710,8 @@ button {
 .shuffle_wrap {
   display: flex;
   align-items: center;
-  margin-bottom: 23px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
