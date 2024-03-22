@@ -6,8 +6,15 @@ type props = {
   vw: number;
   searchToggle: boolean;
   setToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  setListToggle: React.Dispatch<React.SetStateAction<boolean>>;
 };
-function AddList({ setData, vw, searchToggle, setToggle }: props) {
+function AddList({
+  setData,
+  vw,
+  searchToggle,
+  setToggle,
+  setListToggle,
+}: props) {
   const urlRef = useRef<HTMLInputElement>(null);
 
   function youtube_parser(params: string) {
@@ -44,7 +51,6 @@ function AddList({ setData, vw, searchToggle, setToggle }: props) {
           const resultURL = `https://youtube.com/watch?v=${createParser}`;
           try {
             const response = await geturlData(resultURL);
-            console.log(response);
             const object = {
               title: response.title,
               url: response.url,
@@ -53,6 +59,7 @@ function AddList({ setData, vw, searchToggle, setToggle }: props) {
             };
             urlRef.current.value = "";
             setData(object);
+            setListToggle(false);
           } catch (error) {
             console.log("------------------------------");
             window.alert("url 정보를 찾지 못했습니다.");

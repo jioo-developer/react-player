@@ -6,9 +6,11 @@ import AddForm from "./components/AddForm.tsx";
 import Replay from "./components/Replay.tsx";
 import RandomList from "./components/RandomList.tsx";
 import Favorite from "./components/Favorite.tsx";
-import { commonData } from "./module/interfaceModule.ts";
+import { commonData, group } from "./module/interfaceModule.ts";
 import SearchResult from "./components/SearchResult.tsx";
 import Player from "./components/Player.tsx";
+import { play } from "./module/exportFunction.ts";
+import { useMyContext } from "./module/MyContext.tsx";
 
 function App() {
   const initialData: commonData = {
@@ -21,7 +23,9 @@ function App() {
   const [searchData, setData] = useState<commonData>(initialData);
   const [searchToggle, setToggle] = useState(false);
   const [listopen, setListToggle] = useState(false);
-
+  const loadGroupList: group[] = JSON.parse(
+    localStorage.getItem("listGroup") || "[]"
+  );
   const [vw, setvw] = useState(0);
   function updatevW() {
     const newVW = window.innerWidth * 1;
@@ -45,6 +49,34 @@ function App() {
     });
     setvw(newVW);
   }
+
+  const {
+    track,
+    playlist,
+    trackDispatch,
+    addDispatch,
+    playDispatch,
+    playState,
+    setIndex,
+  } = useMyContext();
+
+  function playGroupList(index: number) {
+    const data = loadGroupList[index].dataArr;
+    const trackArr = loadGroupList[index].dataArr.map((item) => item.url);
+    play(
+      "unshift",
+      track,
+      playlist,
+      data,
+      trackDispatch,
+      addDispatch,
+      playDispatch,
+      playState,
+      setIndex,
+      trackArr
+    );
+  }
+
   useEffect(() => {
     updatevW();
     window.addEventListener("resize", updatevW);
@@ -55,23 +87,50 @@ function App() {
 
   return (
     <div className="App">
-      {!listopen ? (
-        <header>
-          {(vw < 700 && !searchToggle) || vw > 700 ? (
-            <h1 className="logo" onClick={() => setData(initialData)}>
-              <img src="img/on_platform_logo_dark.svg" alt="" />
-            </h1>
-          ) : null}
-          <AddForm
-            setData={setData}
-            vw={vw}
-            setToggle={setToggle}
-            searchToggle={searchToggle}
-          />
-        </header>
-      ) : null}
+      <header>
+        {(vw < 700 && !searchToggle) || vw > 700 ? (
+          <h1
+            className="logo"
+            onClick={() => {
+              setData(initialData);
+              setListToggle(false);
+            }}
+          >
+            <img src="img/on_platform_logo_dark.svg" alt="" />
+          </h1>
+        ) : null}
+        <AddForm
+          setData={setData}
+          vw={vw}
+          setToggle={setToggle}
+          searchToggle={searchToggle}
+          setListToggle={setListToggle}
+        />
+      </header>
 
+      {!listopen ? (
+        <>
+          <div className="cover" />
+          <img src="img/background-image.jpg" alt="" className="back-img" />
+        </>
+      ) : null}
       <div className="wrap area-padding">
+        {!listopen ? (
+          <aside className="list_group">
+            <p>내 재생목록</p>
+            <ul>
+              {loadGroupList.length > 0
+                ? loadGroupList.map((item, index) => {
+                    return (
+                      <li onClick={() => playGroupList(index)} key={index}>
+                        {item.title}
+                      </li>
+                    );
+                  })
+                : null}
+            </ul>
+          </aside>
+        ) : null}
         <>
           {searchData.url !== "" ? (
             <SearchResult searchData={searchData} />

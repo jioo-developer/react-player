@@ -1,10 +1,11 @@
-import { Action, commonData, stateType } from "./interfaceModule";
+import { Action, commonData, group, stateType } from "./interfaceModule";
 
 export const initialState: stateType = {
   playlist: [],
   favoriteData: [],
   track: [],
   playState: false,
+  groupTrack: [],
 };
 
 const ADDLIST = "ADDLIST";
@@ -13,6 +14,7 @@ const Remove = "Remove";
 const playState = "playState";
 const track = "track";
 const changeTrack = "changeTrack";
+const groupAdd = "groupAdd";
 
 export const ListAdd = (
   data: commonData | commonData[],
@@ -29,23 +31,20 @@ export const trackUpdate = (data: string | string[], direction: string) => ({
   direction,
 });
 
-//앨범에 트랙 추가 함수
-
 export const FavoriteAdd = (data: commonData[] | commonData) => ({
   type: FAVORITE,
   data,
 });
-
-//즐겨찾기 추가 함수
 
 export const removeFavorite = (data: commonData[]) => ({
   type: Remove,
   data,
 });
 
-// 즐겨찾기 삭제 함수
-
-// 재생/일시중지 함수
+export const addGroup = (data: group[]) => ({
+  type: groupAdd,
+  data,
+});
 
 export const ChangeList = (data: commonData[]) => ({
   type: changeTrack,
@@ -96,10 +95,7 @@ const reducer = (state: stateType, action: Action): stateType => {
     case track:
       return {
         ...state,
-        track:
-          typeof action.data === "string"
-            ? [...state.track, action.data]
-            : action.data,
+        track: action.data,
       };
 
     case FAVORITE:
@@ -142,6 +138,12 @@ const reducer = (state: stateType, action: Action): stateType => {
       return {
         ...state,
         playState: action.data,
+      };
+
+    case groupAdd:
+      return {
+        ...state,
+        groupTrack: action.data,
       };
 
     default:

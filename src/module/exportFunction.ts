@@ -1,3 +1,4 @@
+import { Action } from "redux";
 import { commonData } from "./interfaceModule";
 import { FavoriteAdd, ListAdd, trackUpdate } from "./reducer.ts";
 
@@ -13,28 +14,43 @@ export function favoriteHandler(
 
 export function play(
   type: string,
-  track,
-  playlist,
-  data,
-  trackDispatch,
-  addDispatch,
-  playDispatch,
-  playState,
-  setIndex
+  track: string[],
+  playlist: commonData[],
+  data: any,
+  trackDispatch: React.Dispatch<Action>,
+  addDispatch: React.Dispatch<Action>,
+  playDispatch: React.Dispatch<React.SetStateAction<boolean>>,
+  playState: boolean,
+  setIndex: React.Dispatch<React.SetStateAction<number>>,
+  group?: string[]
 ) {
   const copyTrack = [...track];
   const copyPlayList = [...playlist];
   if (type === "unshift") {
-    copyPlayList.unshift(data);
-    copyTrack.unshift(data.url);
-    trackDispatch(trackUpdate(copyTrack, "unshift"));
-    addDispatch(ListAdd(copyPlayList, "unshift"));
+    if (group && group.length > 0) {
+      const groupTrack = [...track, ...group];
+      const groupList = [...playlist, ...data];
+      trackDispatch(trackUpdate(groupTrack, "unshift"));
+      addDispatch(ListAdd(groupList, "unshift"));
+    } else {
+      copyPlayList.unshift(data);
+      copyTrack.unshift(data.url);
+      trackDispatch(trackUpdate(copyTrack, "unshift"));
+      addDispatch(ListAdd(copyPlayList, "unshift"));
+    }
     setIndex(0);
   } else {
-    copyPlayList.push(data);
-    copyTrack.push(data.url);
-    trackDispatch(trackUpdate(copyTrack, "push"));
-    addDispatch(ListAdd(copyPlayList, "push"));
+    if (group && group.length > 0) {
+      const groupTrack = [...track, ...data];
+      const groupList = [...playlist, ...data];
+      trackDispatch(trackUpdate(groupTrack, "push"));
+      addDispatch(ListAdd(groupList, "push"));
+    } else {
+      copyPlayList.push(data);
+      copyTrack.push(data.url);
+      trackDispatch(trackUpdate(copyTrack, "push"));
+      addDispatch(ListAdd(copyPlayList, "push"));
+    }
   }
 
   const loadSaveData: commonData[] = JSON.parse(

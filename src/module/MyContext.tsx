@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import reducer, { initialState } from "./reducer.ts";
-import { Action, commonData } from "./interfaceModule";
+import { Action, commonData, group } from "./interfaceModule";
 
 export const MyContextProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
@@ -21,6 +21,9 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
   const [playState, playDispatch] = useState(false);
   const [listToggle, setListToggle] = useState(false);
   const [playIndex, setIndex] = useState<number>(0);
+  const [groupTitle, setGroupTitle] = useState("");
+  const [groupTrack, groupTrackDispatch] = useReducer(reducer, initialState);
+  const groupList = groupTrack.groupTrack;
   return (
     <MyContext.Provider
       value={{
@@ -37,6 +40,10 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
         setListToggle,
         playIndex,
         setIndex,
+        groupTitle,
+        setGroupTitle,
+        groupList,
+        groupTrackDispatch,
       }}
     >
       {children}
@@ -58,6 +65,10 @@ export interface MyContextProps {
   setListToggle: React.Dispatch<React.SetStateAction<boolean>>;
   playIndex: number;
   setIndex: React.Dispatch<React.SetStateAction<number>>;
+  groupTitle: string;
+  setGroupTitle: React.Dispatch<React.SetStateAction<string>>;
+  groupList: group[];
+  groupTrackDispatch: React.Dispatch<Action>;
 }
 
 const MyContext = createContext<MyContextProps>({
@@ -74,6 +85,10 @@ const MyContext = createContext<MyContextProps>({
   setListToggle: () => {},
   playIndex: 0,
   setIndex: () => {},
+  groupTitle: "",
+  setGroupTitle: () => {},
+  groupList: initialState.groupTrack,
+  groupTrackDispatch: () => {},
 });
 
 export const useMyContext = () => {
