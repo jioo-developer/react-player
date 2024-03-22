@@ -110,6 +110,7 @@ function List({ playData }: { playData: commonData }) {
       const copyArr = [...groupList];
       copyArr.push(object);
       groupTrackDispatch(addGroup(copyArr));
+      localStorage.setItem("listGroup", JSON.stringify(copyArr));
       setName(false);
     }
   }

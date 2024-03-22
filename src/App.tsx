@@ -6,10 +6,9 @@ import AddForm from "./components/AddForm.tsx";
 import Replay from "./components/Replay.tsx";
 import RandomList from "./components/RandomList.tsx";
 import Favorite from "./components/Favorite.tsx";
-import { commonData } from "./module/interfaceModule.ts";
+import { commonData, group } from "./module/interfaceModule.ts";
 import SearchResult from "./components/SearchResult.tsx";
 import Player from "./components/Player.tsx";
-import { useMyContext } from "./module/MyContext.tsx";
 
 function App() {
   const initialData: commonData = {
@@ -22,7 +21,9 @@ function App() {
   const [searchData, setData] = useState<commonData>(initialData);
   const [searchToggle, setToggle] = useState(false);
   const [listopen, setListToggle] = useState(false);
-  const { groupList } = useMyContext();
+  const loadGroupList: group[] = JSON.parse(
+    localStorage.getItem("listGroup") || "[]"
+  );
   const [vw, setvw] = useState(0);
   function updatevW() {
     const newVW = window.innerWidth * 1;
@@ -46,6 +47,7 @@ function App() {
     });
     setvw(newVW);
   }
+
   useEffect(() => {
     updatevW();
     window.addEventListener("resize", updatevW);
@@ -88,8 +90,8 @@ function App() {
           <aside className="list_group">
             <p>내 재생목록</p>
             <ul>
-              {groupList.length > 0
-                ? groupList.map((item, index) => {
+              {loadGroupList.length > 0
+                ? loadGroupList.map((item, index) => {
                     return (
                       <>
                         <li>{item.title}</li>
