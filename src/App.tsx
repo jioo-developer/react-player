@@ -9,6 +9,7 @@ import Favorite from "./components/Favorite.tsx";
 import { commonData } from "./module/interfaceModule.ts";
 import SearchResult from "./components/SearchResult.tsx";
 import Player from "./components/Player.tsx";
+import { useMyContext } from "./module/MyContext.tsx";
 
 function App() {
   const initialData: commonData = {
@@ -21,7 +22,7 @@ function App() {
   const [searchData, setData] = useState<commonData>(initialData);
   const [searchToggle, setToggle] = useState(false);
   const [listopen, setListToggle] = useState(false);
-
+  const { groupList } = useMyContext();
   const [vw, setvw] = useState(0);
   function updatevW() {
     const newVW = window.innerWidth * 1;
@@ -55,23 +56,50 @@ function App() {
 
   return (
     <div className="App">
-      {!listopen ? (
-        <header>
-          {(vw < 700 && !searchToggle) || vw > 700 ? (
-            <h1 className="logo" onClick={() => setData(initialData)}>
-              <img src="img/on_platform_logo_dark.svg" alt="" />
-            </h1>
-          ) : null}
-          <AddForm
-            setData={setData}
-            vw={vw}
-            setToggle={setToggle}
-            searchToggle={searchToggle}
-          />
-        </header>
-      ) : null}
+      <header>
+        {(vw < 700 && !searchToggle) || vw > 700 ? (
+          <h1
+            className="logo"
+            onClick={() => {
+              setData(initialData);
+              setListToggle(false);
+            }}
+          >
+            <img src="img/on_platform_logo_dark.svg" alt="" />
+          </h1>
+        ) : null}
+        <AddForm
+          setData={setData}
+          vw={vw}
+          setToggle={setToggle}
+          searchToggle={searchToggle}
+          setListToggle={setListToggle}
+        />
+      </header>
 
+      {!listopen ? (
+        <>
+          <div className="cover" />
+          <img src="img/background-image.jpg" alt="" className="back-img" />
+        </>
+      ) : null}
       <div className="wrap area-padding">
+        {!listopen ? (
+          <aside className="list_group">
+            <p>내 재생목록</p>
+            <ul>
+              {groupList.length > 0
+                ? groupList.map((item, index) => {
+                    return (
+                      <>
+                        <li>{item.title}</li>
+                      </>
+                    );
+                  })
+                : null}
+            </ul>
+          </aside>
+        ) : null}
         <>
           {searchData.url !== "" ? (
             <SearchResult searchData={searchData} />
