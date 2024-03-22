@@ -51,7 +51,6 @@ function AddList({
           const resultURL = `https://youtube.com/watch?v=${createParser}`;
           try {
             const response = await geturlData(resultURL);
-            console.log(response);
             const object = {
               title: response.title,
               url: response.url,

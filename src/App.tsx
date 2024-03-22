@@ -9,6 +9,8 @@ import Favorite from "./components/Favorite.tsx";
 import { commonData, group } from "./module/interfaceModule.ts";
 import SearchResult from "./components/SearchResult.tsx";
 import Player from "./components/Player.tsx";
+import { play } from "./module/exportFunction.ts";
+import { useMyContext } from "./module/MyContext.tsx";
 
 function App() {
   const initialData: commonData = {
@@ -46,6 +48,33 @@ function App() {
       }
     });
     setvw(newVW);
+  }
+
+  const {
+    track,
+    playlist,
+    trackDispatch,
+    addDispatch,
+    playDispatch,
+    playState,
+    setIndex,
+  } = useMyContext();
+
+  function playGroupList(index: number) {
+    const data = loadGroupList[index].dataArr;
+    const trackArr = loadGroupList[index].dataArr.map((item) => item.url);
+    play(
+      "unshift",
+      track,
+      playlist,
+      data,
+      trackDispatch,
+      addDispatch,
+      playDispatch,
+      playState,
+      setIndex,
+      trackArr
+    );
   }
 
   useEffect(() => {
@@ -93,9 +122,9 @@ function App() {
               {loadGroupList.length > 0
                 ? loadGroupList.map((item, index) => {
                     return (
-                      <>
-                        <li>{item.title}</li>
-                      </>
+                      <li onClick={() => playGroupList(index)} key={index}>
+                        {item.title}
+                      </li>
                     );
                   })
                 : null}

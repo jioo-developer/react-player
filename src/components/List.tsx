@@ -115,11 +115,14 @@ function List({ playData }: { playData: commonData }) {
     }
   }
 
-  function deleteHandler(url: string) {
+  function deleteHandler(url: string, index: number) {
     const newList = playlist.filter((item) => item.url !== url);
     const newTrack = track.filter((item) => item !== url);
     addDispatch(ChangeList(newList));
     trackDispatch(trackUpdate(newTrack, "push"));
+    if (index === track.length - 1) {
+      setIndex(0);
+    }
   }
 
   return (
@@ -259,7 +262,7 @@ function List({ playData }: { playData: commonData }) {
                         </button>
                         <div
                           className="delete-more"
-                          onClick={() => deleteHandler(item.url)}
+                          onClick={() => deleteHandler(item.url, index)}
                         >
                           현재 재생목록에서 삭제
                         </div>

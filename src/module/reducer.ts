@@ -95,10 +95,7 @@ const reducer = (state: stateType, action: Action): stateType => {
     case track:
       return {
         ...state,
-        track:
-          typeof action.data === "string"
-            ? [...state.track, action.data]
-            : action.data,
+        track: action.data,
       };
 
     case FAVORITE:
