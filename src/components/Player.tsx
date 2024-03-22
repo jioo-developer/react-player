@@ -58,13 +58,15 @@ function Player({ listopen, setListToggle }: props) {
 
       if (playData.title !== newtitle) {
         const singer = player.playerInfo.videoData.author;
-        const newObject = {
-          title: newtitle,
-          singer: singer ? singer : "",
-          thumbnail: newthumbNail[0].thumbnail,
-          url: player.playerInfo.videoUrl,
-        };
-        setPlayData(newObject);
+        if (singer) {
+          const newObject = {
+            title: newtitle,
+            singer: singer ? singer : "",
+            thumbnail: newthumbNail[0].thumbnail,
+            url: player.playerInfo.videoUrl,
+          };
+          setPlayData(newObject);
+        }
       }
     }
   }

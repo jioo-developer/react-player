@@ -48,7 +48,7 @@ function Favorite() {
     <>
       {favoriteState.length > 0 ? (
         <div className="favorite">
-          <div className="favorite_header">
+          <div className="favorite_header mb30">
             <h2>자주 듣는 노래</h2>
           </div>
           <div className="in_wrap">
