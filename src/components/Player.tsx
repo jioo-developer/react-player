@@ -197,7 +197,7 @@ function Player({ listopen, setListToggle }: props) {
 
   return (
     <>
-      <div
+      <section
         className="play"
         style={listopen ? { display: "flex" } : { display: "none" }}
       >
@@ -264,7 +264,7 @@ function Player({ listopen, setListToggle }: props) {
           </div>
         </div>
         {listopen ? <List playData={playData} /> : null}
-      </div>
+      </section>
       <Audio
         playData={playData}
         volume={volume}

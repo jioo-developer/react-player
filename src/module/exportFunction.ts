@@ -24,6 +24,7 @@ export function play(
   setIndex: React.Dispatch<React.SetStateAction<number>>,
   group?: string[]
 ) {
+  console.log(data);
   const copyTrack = [...track];
   const copyPlayList = [...playlist];
   if (type === "unshift") {
@@ -58,9 +59,18 @@ export function play(
   );
   if (Array.isArray(loadSaveData)) {
     if (loadSaveData.length === 0) {
-      localStorage.setItem("saveData", JSON.stringify([data]));
+      if (group) {
+        localStorage.setItem("saveData", JSON.stringify(data));
+      } else {
+        localStorage.setItem("saveData", JSON.stringify([data]));
+      }
     } else {
-      const resultArray = [...loadSaveData, data];
+      let resultArray;
+      if (group) {
+        resultArray = [...loadSaveData, ...data];
+      } else {
+        resultArray = [...loadSaveData, data];
+      }
       const result = resultArray.filter((value, idx, arr) => {
         // value = 각각의 값 , idx = 순서 arr = 순회대상
         return (

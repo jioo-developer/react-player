@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { commonData } from "../module/interfaceModule";
 import { useMyContext } from "../module/MyContext.tsx";
 import { favoriteHandler, play } from "../module/exportFunction.ts";
@@ -14,6 +14,7 @@ const SearchResult = ({ searchData }: { searchData: commonData }) => {
     favoriteDispatch,
     playDispatch,
     setIndex,
+    navigate,
   } = useMyContext();
 
   function playConnecter(type: string) {
@@ -29,6 +30,12 @@ const SearchResult = ({ searchData }: { searchData: commonData }) => {
       setIndex
     );
   }
+
+  useEffect(() => {
+    if (searchData.title === "") {
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div className="search-result-wrap">

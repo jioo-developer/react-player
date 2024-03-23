@@ -20,7 +20,7 @@ function Replay() {
   return (
     <>
       {loadData.length > 0 ? (
-        <div className="replay_wrap">
+        <section className="replay_wrap">
           <h2 className="mb30">다시 듣기</h2>
           <div className="in_wrap">
             <div className="middle_album">
@@ -69,7 +69,7 @@ function Replay() {
               })}
             </div>
           </div>
-        </div>
+        </section>
       ) : null}
     </>
   );
