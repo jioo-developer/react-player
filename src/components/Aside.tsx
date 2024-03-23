@@ -55,25 +55,27 @@ function Aside({
   return (
     <aside>
       {(vw < 700 && !searchToggle) || vw > 700 ? (
-        <h1
-          className="logo"
-          style={
-            listopen
-              ? {
-                  borderBottom: "1px solid rgba(255,255,255,0.12)",
-                }
-              : {
-                  borderRight: "1px solid rgba(255,255,255,0.12)",
-                }
-          }
-          onClick={() => {
-            setData(initialData);
-            setListToggle(false);
-            navigate("/");
-          }}
-        >
-          <img src="img/on_platform_logo_dark.svg" alt="" />
-        </h1>
+        <header>
+          <h1
+            className="logo"
+            style={
+              listopen
+                ? {
+                    borderBottom: "1px solid rgba(255,255,255,0.12)",
+                  }
+                : {
+                    borderRight: "1px solid rgba(255,255,255,0.12)",
+                  }
+            }
+            onClick={() => {
+              setData(initialData);
+              setListToggle(false);
+              navigate("/");
+            }}
+          >
+            <img src="img/on_platform_logo_dark.svg" alt="" />
+          </h1>
+        </header>
       ) : null}
       <div className="aside_inwrap">
         <p>내 재생목록</p>

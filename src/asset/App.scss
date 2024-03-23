@@ -32,11 +32,11 @@ main > div:not(.play, .control_out_wrap, .addform-wrap, .background-cover) {
   margin-left: 6.06%;
 }
 
-.home > div:not(.play, .control_out_wrap, .background-cover) {
+.home > section:not(.play, .control_out_wrap, .background-cover) {
   padding-top: 57px;
 }
 
-.home > div:first-child {
+.home > section:first-child {
   padding-top: 90px;
 }
 

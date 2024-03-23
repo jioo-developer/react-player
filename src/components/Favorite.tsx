@@ -47,7 +47,7 @@ function Favorite() {
   return (
     <>
       {favoriteState.length > 0 ? (
-        <div className="favorite">
+        <section className="favorite">
           <div className="favorite_header mb30">
             <h2>자주 듣는 노래</h2>
           </div>
@@ -100,7 +100,7 @@ function Favorite() {
               })}
             </div>
           </div>
-        </div>
+        </section>
       ) : null}
     </>
   );

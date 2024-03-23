@@ -14,7 +14,7 @@ function Recommend() {
   } = useMyContext();
 
   return (
-    <div className="recommend_wrap">
+    <section className="recommend_wrap">
       <h2 className="mb30">추천 앨범</h2>
       <div className="in_wrap">
         <div className="middle_album">
@@ -54,7 +54,7 @@ function Recommend() {
           })}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
