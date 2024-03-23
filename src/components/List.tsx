@@ -155,8 +155,8 @@ function List({ playData }: { playData: commonData }) {
       <div className="right_list">
         <div className="right_top">
           <div className="now-info">
-            <h4>재생 중인 트랙</h4>
-            <h3>{playData.title}</h3>
+            <p>재생 중인 트랙</p>
+            <p>{playData.title}</p>
             <div className="now-info-btn-wrap">
               <button className="nowlistSave" onClick={() => setName(true)}>
                 <img src="img/listadd.jpg" alt="" />
@@ -255,7 +255,7 @@ function List({ playData }: { playData: commonData }) {
                           >
                             {item.title}
                           </h3>
-                          <span>{item.singer}</span>
+                          <p>{item.singer}</p>
                         </figcaption>
                         <button className="list_more">
                           <img src="img/more-option.png" alt="" />
