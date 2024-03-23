@@ -99,7 +99,7 @@ main > div:not(.play, .control_out_wrap, .addform-wrap, .background-cover) {
   overflow: hidden;
   @media all and (max-width: 960px) {
     padding-bottom: 200px;
-    max-height: none;
+    max-height: none !important;
   }
 }
 
