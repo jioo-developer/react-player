@@ -729,6 +729,9 @@ button {
     flex-direction: column;
     padding: 0;
     border-top: 0 !important;
+    justify-content: flex-start;
+    height: auto;
+    margin-top: 85px;
   }
 
   .ref_player_wrap {
