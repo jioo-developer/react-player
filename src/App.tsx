@@ -42,6 +42,7 @@ function App() {
             searchToggle={searchToggle}
             setListToggle={setListToggle}
             listopen={listopen}
+            initialData={initialData}
           />
           {!listopen ? (
             <div className="background-cover">

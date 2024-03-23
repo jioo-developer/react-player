@@ -9,6 +9,7 @@ type props = {
   setToggle: React.Dispatch<React.SetStateAction<boolean>>;
   setListToggle: React.Dispatch<React.SetStateAction<boolean>>;
   listopen: boolean;
+  initialData: commonData;
 };
 function AddList({
   setData,
@@ -17,6 +18,7 @@ function AddList({
   setToggle,
   setListToggle,
   listopen,
+  initialData,
 }: props) {
   const urlRef = useRef<HTMLInputElement>(null);
 
@@ -86,41 +88,41 @@ function AddList({
 
   return (
     <div className="addform-wrap">
-      {vw > 700 || (vw < 700 && searchToggle) ? (
-        <div
-          className="input_wrap"
-          style={vw < 700 && searchToggle ? { width: "93%" } : {}}
-        >
-          <img src="img/icon-search.svg" alt="" className="input-search" />
-          <input
-            type="text"
-            placeholder="유튜브 주소를 입력해주세요."
-            className="text_input url"
-            name="url"
-            ref={urlRef}
-            onKeyPress={(e) => addPlayList(e)}
-            onMouseLeave={() => {
-              if (vw < 700 && searchToggle) {
-                setToggle(false);
+      <h1
+        className="logo"
+        style={
+          listopen
+            ? {
+                borderBottom: "1px solid rgba(255,255,255,0.12)",
               }
-            }}
-          />
-        </div>
-      ) : vw < 700 && !searchToggle ? (
-        <button onClick={() => setToggle(true)}>
-          <img
-            src="img/icon-search.svg"
-            alt=""
-            className="input-search"
-            style={{
-              marginLeft: "auto",
-              marginRight: 30,
-              filter: "grayScale(1)",
-              cursor: "pointer",
-            }}
-          />
-        </button>
-      ) : null}
+            : {
+                borderRight: "1px solid rgba(255,255,255,0.12)",
+              }
+        }
+        onClick={() => {
+          setData(initialData);
+          setListToggle(false);
+          navigate("/");
+        }}
+      >
+        <img src="img/on_platform_logo_dark.svg" alt="" />
+      </h1>
+      <div className="input_wrap">
+        <img src="img/icon-search.svg" alt="" className="input-search" />
+        <input
+          type="text"
+          placeholder="유튜브 주소를 입력해주세요."
+          className="text_input url"
+          name="url"
+          ref={urlRef}
+          onKeyPress={(e) => addPlayList(e)}
+          onMouseLeave={() => {
+            if (vw < 700 && searchToggle) {
+              setToggle(false);
+            }
+          }}
+        />
+      </div>
     </div>
   );
 }
