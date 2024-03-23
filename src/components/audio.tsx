@@ -107,11 +107,11 @@ function Audio({
             <img src="/img/skip_next_black_24dp.svg" alt="" />
           </button>
         </div>
-        <div className="time_wrap">
-          <p className="load_time">{TimeLogic(played)}</p>
-          <p style={{ margin: "0 5px" }}>/</p>
-          <p className="full_time">{TimeLogic(duration)}</p>
-        </div>
+      </div>
+      <div className="time_wrap">
+        <p className="load_time">{TimeLogic(played)}</p>
+        <p style={{ margin: "0 5px" }}>/</p>
+        <p className="full_time">{TimeLogic(duration)}</p>
       </div>
       <input
         type="range"
