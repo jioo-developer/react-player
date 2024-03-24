@@ -4,7 +4,12 @@ import { useMyContext } from "../module/MyContext.tsx";
 import { commonData } from "../module/interfaceModule";
 import { play } from "../module/exportFunction.ts";
 
-function List({ playData }: { playData: commonData }) {
+type props = {
+  playData: commonData;
+  setListToggle: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function List({ playData, setListToggle }: props) {
   const {
     playlist,
     track,
@@ -122,6 +127,9 @@ function List({ playData }: { playData: commonData }) {
     trackDispatch(trackUpdate(newTrack, "push"));
     if (index === track.length - 1) {
       setIndex(0);
+    }
+    if (newTrack.length === 0) {
+      setListToggle(false);
     }
   }
 
@@ -257,14 +265,16 @@ function List({ playData }: { playData: commonData }) {
                           </h3>
                           <p>{item.singer}</p>
                         </figcaption>
-                        <button className="list_more">
-                          <img src="img/more-option.png" alt="" />
-                        </button>
-                        <div
-                          className="delete-more"
-                          onClick={() => deleteHandler(item.url, index)}
-                        >
-                          현재 재생목록에서 삭제
+                        <div className="list-more-btns">
+                          <button className="list_more">
+                            <img src="img/more-option.png" alt="" />
+                          </button>
+                          <button
+                            className="delete-more"
+                            onClick={() => deleteHandler(item.url, index)}
+                          >
+                            현재 재생목록에서 삭제
+                          </button>
                         </div>
                       </article>
                     </div>

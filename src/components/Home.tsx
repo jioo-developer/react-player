@@ -15,21 +15,23 @@ function Home({ vw, setvw, listopen }: props) {
     const parentWidth = Array.from(
       document.querySelectorAll(".in_wrap")
     ) as HTMLElement[];
-    parentWidth.forEach((item) => {
-      if (item.classList.contains("small")) {
-        if (newVW < 1000) {
-          item.style.overflowX = "scroll";
+    if (parentWidth && parentWidth.length > 0) {
+      parentWidth.forEach((item) => {
+        if (item.classList.contains("small")) {
+          if (newVW < 1000) {
+            item.style.overflowX = "scroll";
+          } else {
+            item.style.overflowX = "visible";
+          }
         } else {
-          item.style.overflowX = "visible";
+          if (newVW < 1600) {
+            item.style.overflowX = "scroll";
+          } else {
+            item.style.overflowX = "visible";
+          }
         }
-      } else {
-        if (newVW < 1600) {
-          item.style.overflowX = "scroll";
-        } else {
-          item.style.overflowX = "visible";
-        }
-      }
-    });
+      });
+    }
     setvw(newVW);
   }
 

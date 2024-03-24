@@ -116,11 +116,6 @@ function AddList({
           name="url"
           ref={urlRef}
           onKeyPress={(e) => addPlayList(e)}
-          onMouseLeave={() => {
-            if (vw < 700 && searchToggle) {
-              setToggle(false);
-            }
-          }}
         />
       </div>
     </div>

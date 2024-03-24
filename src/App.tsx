@@ -22,10 +22,23 @@ function App() {
   const [searchToggle, setToggle] = useState(false);
   const [listopen, setListToggle] = useState(false);
   const [vw, setvw] = useState(0);
+  const [playData, setPlayData] = useState({
+    title: "",
+    singer: "",
+    thumbnail: "",
+    url: "",
+  });
+
+  function goToControl() {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  }
 
   return (
     <div className="App">
-      <div className="wrap" style={listopen ? { maxHeight: "100vh" } : {}}>
+      <div className="wrap">
         <Aside
           vw={vw}
           searchToggle={searchToggle}
@@ -58,10 +71,29 @@ function App() {
 
             <Route
               path="/search"
-              element={<SearchResult searchData={searchData} />}
+              element={
+                <SearchResult searchData={searchData} listopen={listopen} />
+              }
             ></Route>
           </Routes>
-          <Player listopen={listopen} setListToggle={setListToggle} />
+          <Player
+            listopen={listopen}
+            setListToggle={setListToggle}
+            playData={playData}
+            setPlayData={setPlayData}
+          />
+
+          {!listopen ? (
+            <button
+              className="now-player borderRound"
+              title={playData.title}
+              onClick={() => goToControl()}
+            >
+              {playData.thumbnail ? (
+                <img src={playData.thumbnail} alt="" />
+              ) : null}
+            </button>
+          ) : null}
         </main>
       </div>
     </div>
