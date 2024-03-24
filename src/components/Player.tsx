@@ -226,7 +226,9 @@ function Player({ listopen, setListToggle }: props) {
           </div>
           <div className="ref-video-wrap" ref={playerWrap}>
             <figure className="ref_thumbnail">
-              <img src={playData.thumbnail} alt="" />
+              {playData.thumbnail ? (
+                <img src={playData.thumbnail} alt="" />
+              ) : null}
             </figure>
             <ReactPlayer
               ref={playerRef}

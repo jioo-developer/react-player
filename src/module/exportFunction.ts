@@ -24,7 +24,6 @@ export function play(
   setIndex: React.Dispatch<React.SetStateAction<number>>,
   group?: string[]
 ) {
-  console.log(data);
   const copyTrack = [...track];
   const copyPlayList = [...playlist];
   if (type === "unshift") {

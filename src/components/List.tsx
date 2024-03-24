@@ -128,7 +128,7 @@ function List({ playData, setListToggle }: props) {
     if (index === track.length - 1) {
       setIndex(0);
     }
-    if (track.length === 0) {
+    if (newTrack.length === 0) {
       setListToggle(false);
     }
   }
