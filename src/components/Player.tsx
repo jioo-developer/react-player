@@ -263,7 +263,9 @@ function Player({ listopen, setListToggle }: props) {
             />
           </div>
         </div>
-        {listopen ? <List playData={playData} /> : null}
+        {listopen ? (
+          <List playData={playData} setListToggle={setListToggle} />
+        ) : null}
       </section>
       <Audio
         playData={playData}

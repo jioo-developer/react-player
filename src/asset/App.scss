@@ -1005,9 +1005,13 @@ button {
   }
 }
 
+.list-more-btns:hover .delete-more {
+  display: flex;
+}
+
 .delete-more {
-  display: none;
   position: absolute;
+  display: none;
   justify-content: center;
   align-items: center;
   top: 0;
@@ -1015,4 +1019,5 @@ button {
   width: 200px;
   height: 40px;
   background: #1d1d1d;
+  color: #fff;
 }
