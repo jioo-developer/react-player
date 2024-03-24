@@ -3,21 +3,26 @@ import ReactPlayer from "react-player";
 import Audio from "./audio.tsx";
 import List from "./List.tsx";
 import { useMyContext } from "../module/MyContext.tsx";
+import { commonData } from "../module/interfaceModule.ts";
 
 type props = {
   listopen: boolean;
   setListToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  playData: commonData;
+  setPlayData: React.Dispatch<
+    React.SetStateAction<{
+      title: string;
+      singer: string;
+      thumbnail: string;
+      url: string;
+    }>
+  >;
 };
 
-function Player({ listopen, setListToggle }: props) {
+function Player({ listopen, setListToggle, playData, setPlayData }: props) {
   const { playlist, track, playState, playDispatch, playIndex, setIndex } =
     useMyContext();
-  const [playData, setPlayData] = useState({
-    title: "",
-    singer: "",
-    thumbnail: "",
-    url: "",
-  });
+
   const [volume, setVolume] = useState(4);
   const [played, setPlayed] = useState(0);
 

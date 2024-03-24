@@ -22,6 +22,19 @@ function App() {
   const [searchToggle, setToggle] = useState(false);
   const [listopen, setListToggle] = useState(false);
   const [vw, setvw] = useState(0);
+  const [playData, setPlayData] = useState({
+    title: "",
+    singer: "",
+    thumbnail: "",
+    url: "",
+  });
+
+  function goToControl() {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  }
 
   return (
     <div className="App">
@@ -63,7 +76,23 @@ function App() {
               }
             ></Route>
           </Routes>
-          <Player listopen={listopen} setListToggle={setListToggle} />
+          <Player
+            listopen={listopen}
+            setListToggle={setListToggle}
+            playData={playData}
+            setPlayData={setPlayData}
+          />
+
+          {!listopen ? (
+            <button
+              className="now-player borderRound"
+              onClick={() => goToControl()}
+            >
+              {playData.thumbnail ? (
+                <img src={playData.thumbnail} alt="" />
+              ) : null}
+            </button>
+          ) : null}
         </main>
       </div>
     </div>

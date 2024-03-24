@@ -3,7 +3,6 @@ aside {
   flex-direction: column;
   align-items: center;
   min-width: 240px;
-  min-height: 100vh;
   z-index: 400;
   @media all and (max-width: 960px) {
     display: none;

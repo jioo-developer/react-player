@@ -13,7 +13,7 @@
   background: #030303;
   .wrap {
     display: flex;
-    padding-bottom: 100px;
+    padding-bottom: 75px;
     overflow: hidden;
     box-sizing: border-box;
     @media all and (max-width: 960px) {
@@ -58,6 +58,26 @@
     }
     main > div:not(.play, .control_out_wrap, .addform-wrap, .background-cover) {
       padding-left: 6.06%;
+    }
+
+    .now-player {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      z-index: 1000;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-sizing: border-box;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+
+      @media all and (max-width: 960px) {
+        display: block;
+      }
+      img {
+        width: 100%;
+      }
     }
 
     .favorite {
