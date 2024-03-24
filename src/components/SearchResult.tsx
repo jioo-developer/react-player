@@ -3,7 +3,13 @@ import { commonData } from "../module/interfaceModule";
 import { useMyContext } from "../module/MyContext.tsx";
 import { favoriteHandler, play } from "../module/exportFunction.ts";
 
-const SearchResult = ({ searchData }: { searchData: commonData }) => {
+const SearchResult = ({
+  searchData,
+  listopen,
+}: {
+  searchData: commonData;
+  listopen: boolean;
+}) => {
   const {
     track,
     playlist,
@@ -38,7 +44,10 @@ const SearchResult = ({ searchData }: { searchData: commonData }) => {
   }, []);
 
   return (
-    <div className="search-result-wrap">
+    <div
+      className="search-result-wrap"
+      style={listopen ? { display: "none" } : { display: "block" }}
+    >
       <div className="search_in_wrap">
         <figure>
           <img src={searchData.thumbnail} alt={searchData.title} />
