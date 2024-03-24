@@ -86,6 +86,7 @@ function App() {
           {!listopen ? (
             <button
               className="now-player borderRound"
+              title={playData.title}
               onClick={() => goToControl()}
             >
               {playData.thumbnail ? (
