@@ -25,7 +25,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className="wrap" style={listopen ? { maxHeight: "100vh" } : {maxHeight:"none"}}>
+      <div className="wrap">
         <Aside
           vw={vw}
           searchToggle={searchToggle}
@@ -58,7 +58,9 @@ function App() {
 
             <Route
               path="/search"
-              element={<SearchResult searchData={searchData} />}
+              element={
+                <SearchResult searchData={searchData} listopen={listopen} />
+              }
             ></Route>
           </Routes>
           <Player listopen={listopen} setListToggle={setListToggle} />
