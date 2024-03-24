@@ -25,7 +25,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className="wrap" style={listopen ? { maxHeight: "100vh" } : {}}>
+      <div className="wrap" style={listopen ? { maxHeight: "100vh" } : {maxHeight:"none"}}>
         <Aside
           vw={vw}
           searchToggle={searchToggle}
