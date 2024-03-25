@@ -80,7 +80,7 @@ const result = [...newList,...원본배열] 로 배열을 조작
 
 #### 트랙배열 index 컨트롤
 
-<img src="/public/img/track.PNG">
+<img src="/public/img/track.jpg">
 track[playIndex]에 들어가는 playIndex의 state를 컨트롤
 <hr />
 
