@@ -56,7 +56,7 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 
 #### 곡 셔플 & 원하는 곡 바로 재생
 
-- shuffleHandler 함수 (곡 셔플)
+> shuffleHandler 함수 (곡 셔플)
 
 곡셔플에 사용될 체크박스에 체크 할시 배열에 순차적으로 저장 (배열엔 index가 담김)
 
@@ -65,9 +65,10 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 플레이리스트와 트랙 배열에서 newList 배열에 있는 요소들을 제거 하고
 const result = [...newList,...원본배열] 로 배열을 조작
 
-- <p>directPlay 함수(바로재생)</p>
-  클릭한 index를 splice로 추출한 후 다시 배열에 넣으면 됨
+> <p>directPlay 함수(바로재생)</p>
+>   클릭한 index를 splice로 추출한 후 다시 배열에 넣으면 됨
 
+<hr />
 #### 플레이어 컨트롤
 
 <img src="/public/img/play-function.jpg">
