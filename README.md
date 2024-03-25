@@ -67,9 +67,9 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 플레이리스트와 트랙 배열에서 newList 배열에 있는 요소들을 제거 하고
 const result = [...newList,...원본배열] 로 배열을 조작
 
-- directPlay 함수
-클릭한 index를 splice로 추출한 후 다시 배열에 넣으면 됨
-<hr />
+- <p>directPlay 함수</p>
+  클릭한 index를 splice로 추출한 후 다시 배열에 넣으면 됨
+  <hr />
 
 #### 플레이어 컨트롤
 
