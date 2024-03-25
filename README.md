@@ -57,7 +57,7 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 #### 곡 셔플 & 원하는 곡 바로 재생
 
 - shuffleHandler 함수 (곡 셔플)
-- > directPlay 함수(바로재생)
+- directPlay 함수(바로재생)
 
 저장된 배열에서 forEach문으로 돌려 index부터 index +1 까지 splice 한 객체를 newList 배열에 저장
 
