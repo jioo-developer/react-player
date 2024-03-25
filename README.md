@@ -47,7 +47,7 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 1. form에 입력된 주소 중 "youtube"와 "watch"가 포함 되어 있는 지 체크 후 watch 뒤 동영상 ID 추출
 2. 그렇게 추출 된 동영상 ID를 URLSearchParams를 이용하여 json 형식으로 해당 주소의 데이터를 가져옴
 3. 가져온 데이터 중 필요한 데이터를 객체로 생성하여 state안에 넣고 결과를 검색결과 페이지에 노출
-4. 검색결과 페이지에 노출된 데이터로 재생/즐겨찾기 추가/플레이 리스트를 구성할 수 있다.
+4. 검색결과 페이지에 노출된 데이터로 재생/즐겨찾기 추가/플레이리스트를 구성할 수 있다.
 <hr />
 
 #### 곡 저장 로직
@@ -56,7 +56,7 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 
 #### 곡 셔플 & 원하는 곡 바로 재생
 
-- shuffleHandler 함수
+- shuffleHandler 함수 (곡 셔플)
 
 곡셔플에 사용될 체크박스에 체크 할시 배열에 순차적으로 저장 (배열엔 index가 담김)
 
@@ -65,7 +65,7 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 플레이리스트와 트랙 배열에서 newList 배열에 있는 요소들을 제거 하고
 const result = [...newList,...원본배열] 로 배열을 조작
 
-- <p>directPlay 함수</p>
+- <p>directPlay 함수(바로재생)</p>
   클릭한 index를 splice로 추출한 후 다시 배열에 넣으면 됨
 
 #### 플레이어 컨트롤
