@@ -20,9 +20,9 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 
 ## Preview
 
-  <img src="./public/img/main.jpg" alt="" />
-  <img src="./public/img/search.jpg" alt="" />
-  <img src="./public/img/player.jpg" alt="" />
+  <img src="./public/img/main.png" alt="" />
+  <img src="./public/img/search.png" alt="" />
+  <img src="./public/img/player.png" alt="" />
 
 ### 📌 주요기능
 
