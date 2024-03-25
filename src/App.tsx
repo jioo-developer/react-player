@@ -9,6 +9,7 @@ import { commonData } from "./module/interfaceModule.ts";
 import Home from "./components/Home.tsx";
 import Aside from "./components/Aside.tsx";
 import { Route, Routes } from "react-router-dom";
+import { useMyContext } from "./module/MyContext.tsx";
 
 function App() {
   const initialData: commonData = {
@@ -28,6 +29,8 @@ function App() {
     thumbnail: "",
     url: "",
   });
+
+  const { track } = useMyContext();
 
   function goToControl() {
     window.scrollTo({
@@ -83,7 +86,7 @@ function App() {
             setPlayData={setPlayData}
           />
 
-          {!listopen ? (
+          {!listopen && track.length > 0 ? (
             <button
               className="now-player borderRound"
               title={playData.title}
