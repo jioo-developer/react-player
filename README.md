@@ -69,7 +69,6 @@ const result = [...newList,...원본배열] 로 배열을 조작
 
 - <p>directPlay 함수</p>
   클릭한 index를 splice로 추출한 후 다시 배열에 넣으면 됨
-  <hr />
 
 #### 플레이어 컨트롤
 
