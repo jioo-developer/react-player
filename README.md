@@ -52,7 +52,7 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 
 #### 곡 저장 로직
 
-다시듣기,앨범 즐겨찾기,빠른선곡 모두 재생 또는 클릭시 localstorage에 데이터를 저장하여 랜더링시 데이터를 불러옴
+- 다시듣기,앨범 즐겨찾기,빠른선곡 모두 재생 또는 클릭시 localstorage에 데이터를 저장하여 랜더링시 데이터를 불러옴
 
 <hr />
 
@@ -82,7 +82,7 @@ const result = [...newList,...원본배열] 로 배열을 조작
 
 <img src="/public/img/track.jpg">
 <br />
-track[playIndex]에 들어가는 playIndex의 state를 컨트롤
+- track[playIndex]에 들어가는 playIndex의 state를 컨트롤
 <hr />
 
 #### 오디오 컨트롤러
