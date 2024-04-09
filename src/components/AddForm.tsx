@@ -4,22 +4,11 @@ import { useMyContext } from "../module/MyContext.tsx";
 
 type props = {
   setData: React.Dispatch<React.SetStateAction<commonData>>;
-  vw: number;
-  searchToggle: boolean;
-  setToggle: React.Dispatch<React.SetStateAction<boolean>>;
   setListToggle: React.Dispatch<React.SetStateAction<boolean>>;
   listopen: boolean;
   initialData: commonData;
 };
-function AddList({
-  setData,
-  vw,
-  searchToggle,
-  setToggle,
-  setListToggle,
-  listopen,
-  initialData,
-}: props) {
+function AddList({ setData, setListToggle, listopen, initialData }: props) {
   const urlRef = useRef<HTMLInputElement>(null);
 
   const { navigate } = useMyContext();

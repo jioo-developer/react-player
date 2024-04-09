@@ -4,12 +4,11 @@ import RandomList from "../components/RandomList.tsx";
 import Favorite from "../components/Favorite.tsx";
 import Recommend from "../components/Recommend.tsx";
 type props = {
-  vw: number;
   setvw: React.Dispatch<React.SetStateAction<number>>;
   listopen: boolean;
 };
 
-function Home({ vw, setvw, listopen }: props) {
+function Home({ setvw, listopen }: props) {
   function updatevW() {
     const newVW = window.innerWidth * 1;
     const parentWidth = Array.from(
