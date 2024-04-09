@@ -20,7 +20,6 @@ function App() {
   };
 
   const [searchData, setData] = useState<commonData>(initialData);
-  const [searchToggle, setToggle] = useState(false);
   const [listopen, setListToggle] = useState(false);
   const [vw, setvw] = useState(0);
   const [playData, setPlayData] = useState({
@@ -43,8 +42,6 @@ function App() {
     <div className="App">
       <div className="wrap">
         <Aside
-          vw={vw}
-          searchToggle={searchToggle}
           setData={setData}
           setListToggle={setListToggle}
           initialData={initialData}
@@ -53,9 +50,6 @@ function App() {
         <main>
           <AddForm
             setData={setData}
-            vw={vw}
-            setToggle={setToggle}
-            searchToggle={searchToggle}
             setListToggle={setListToggle}
             listopen={listopen}
             initialData={initialData}
@@ -69,7 +63,7 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<Home vw={vw} setvw={setvw} listopen={listopen} />}
+              element={<Home setvw={setvw} listopen={listopen} />}
             ></Route>
 
             <Route
