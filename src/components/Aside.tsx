@@ -4,22 +4,13 @@ import { useMyContext } from "../module/MyContext.tsx";
 import { play } from "../module/exportFunction.ts";
 
 type props = {
-  vw: number;
-  searchToggle: boolean;
   setData: React.Dispatch<React.SetStateAction<commonData>>;
   setListToggle: React.Dispatch<React.SetStateAction<boolean>>;
   initialData: commonData;
   listopen: boolean;
 };
 
-function Aside({
-  vw,
-  searchToggle,
-  setData,
-  setListToggle,
-  initialData,
-  listopen,
-}: props) {
+function Aside({ setData, setListToggle, initialData, listopen }: props) {
   const loadGroupList: group[] = JSON.parse(
     localStorage.getItem("listGroup") || "[]"
   );

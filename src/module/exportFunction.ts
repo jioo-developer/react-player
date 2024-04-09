@@ -12,6 +12,8 @@ export function favoriteHandler(
   }
 }
 
+const location = window.location.pathname;
+
 export function play(
   type: string,
   track: string[],
@@ -89,4 +91,12 @@ export function play(
   }
 
   if (!playState) playDispatch(true);
+  if (location === "/") {
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    }, 3000);
+  }
 }
