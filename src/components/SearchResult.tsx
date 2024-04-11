@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { commonData } from "../module/interfaceModule";
 import { useMyContext } from "../module/MyContext.tsx";
-import { favoriteHandler, play } from "../module/exportFunction.ts";
+import { favoriteHandler } from "../module/exportFunction.ts";
 
 const SearchResult = ({
   searchData,
@@ -10,31 +10,11 @@ const SearchResult = ({
   searchData: commonData;
   listopen: boolean;
 }) => {
-  const {
-    track,
-    playlist,
-    trackDispatch,
-    addDispatch,
-    playState,
-    favoriteState,
-    favoriteDispatch,
-    playDispatch,
-    setIndex,
-    navigate,
-  } = useMyContext();
+  const { playlist, play, favoriteState, favoriteDispatch, navigate } =
+    useMyContext();
 
   function playConnecter(type: string) {
-    play(
-      type,
-      track,
-      playlist,
-      searchData,
-      trackDispatch,
-      addDispatch,
-      playDispatch,
-      playState,
-      setIndex
-    );
+    play(searchData, type);
   }
 
   useEffect(() => {

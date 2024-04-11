@@ -2,7 +2,6 @@ import React, { ChangeEvent, useState } from "react";
 import { ChangeList, addGroup, trackUpdate } from "../module/reducer.ts";
 import { useMyContext } from "../module/MyContext.tsx";
 import { commonData } from "../module/interfaceModule";
-import { play } from "../module/exportFunction.ts";
 
 type props = {
   playData: commonData;
@@ -11,6 +10,7 @@ type props = {
 
 function List({ playData, setListToggle }: props) {
   const {
+    play,
     playlist,
     track,
     trackDispatch,
@@ -224,19 +224,7 @@ function List({ playData, setListToggle }: props) {
                         <figure>
                           <button
                             className="middle_play"
-                            onClick={() =>
-                              play(
-                                "unshift",
-                                track,
-                                playlist,
-                                item,
-                                trackDispatch,
-                                addDispatch,
-                                playDispatch,
-                                playState,
-                                setIndex
-                              )
-                            }
+                            onClick={() => play(item, "unshift")}
                           >
                             <img src="img/play-icon.png" alt="" />
                           </button>

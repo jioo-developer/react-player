@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { useMyContext } from "../module/MyContext.tsx";
 import ReactPlayer from "react-player";
 import { commonData } from "../module/interfaceModule.ts";
@@ -58,20 +58,6 @@ function Audio({
     }
   };
 
-  const thumbnailHanlder = useCallback(() => {
-    if (playData.title !== "" && playlist.length > 0) {
-      return (
-        <img
-          src={playData.thumbnail}
-          alt=""
-          onError={(e) =>
-            ((e.target as HTMLImageElement).src = "/img/defaultImg.png")
-          }
-        />
-      );
-    } else return null;
-  }, [playData]);
-
   return (
     <div
       className="control_out_wrap"
@@ -128,7 +114,17 @@ function Audio({
       <div className="control-info">
         {playData.title !== "" ? (
           <>
-            <figure>{thumbnailHanlder()}</figure>
+            <figure>
+              {playData.title !== "" && playlist.length > 0 ? (
+                <img
+                  src={playData.thumbnail}
+                  alt=""
+                  onError={(e) =>
+                    ((e.target as HTMLImageElement).src = "/img/defaultImg.png")
+                  }
+                />
+              ) : null}
+            </figure>
             <figcaption>
               <h3>{playData.title}</h3>
               <span>{playData.singer}</span>
