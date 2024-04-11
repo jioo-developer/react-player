@@ -5,7 +5,7 @@
 개인 사이드 프로젝트
 <br />
 <br />
-🖥️ using project : https://youtubemusic-clone-jioo.netlify.app
+🖥️ using project : https://yotubemugic-clones.netlify.app
 <br />
 
 ## 📃 using lang
