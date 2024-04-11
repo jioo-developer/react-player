@@ -1,16 +1,10 @@
-import { useEffect } from "react";
-import { useMyContext } from "../module/MyContext";
-import { FavoriteAdd, ListAdd, removeFavorite } from "../module/reducer";
-import { commonData } from "../module/interfaceModule";
+import React, { useEffect } from "react";
+import { useMyContext } from "../module/MyContext.tsx";
+import { FavoriteAdd, removeFavorite } from "../module/reducer.ts";
+import { commonData } from "../module/interfaceModule.ts";
 
 function Favorite() {
-  const {
-    favoriteDispatch,
-    addDispatch,
-    playDispatch,
-    favoriteState,
-    playState,
-  } = useMyContext();
+  const { favoriteDispatch, favoriteState, play } = useMyContext();
 
   const parseFavorite = JSON.parse(
     localStorage.getItem("FavoriteName") || "{}"
@@ -24,9 +18,7 @@ function Favorite() {
   }, []);
   // 즐겨찾기 리스트 불러오기
 
-  // 즐겨찾기 삭제 함수
-
-  function handler(DeleteData: commonData) {
+  function favoriteDelete(DeleteData: commonData) {
     const defaultArray = [DeleteData];
     const result = favoriteState.filter(
       (item: commonData) =>
@@ -41,53 +33,49 @@ function Favorite() {
     favoriteDispatch(removeFavorite(result));
   }
 
-  // 즐겨찾기 삭제 함수
-
   return (
     <>
       {favoriteState.length > 0 ? (
-        <section className="Recently">
-          <div className="recently_header">
-            <p className="recently_title">자주 듣는 노래</p>
+        <section className="favorite">
+          <div className="favorite_header mb30">
+            <h2>자주 듣는 노래</h2>
           </div>
-          <div className="recently_wrap">
-            {favoriteState.map((value, index) => {
-              return (
-                <article className="recently_music" key={index}>
-                  <figure>
-                    <img
-                      src={value.thumbnail}
-                      alt=""
-                      style={{ width: 185, height: 140 }}
-                    />
-                  </figure>
-                  <div className="data-title">{value.title}</div>
-                  {value.singer ? (
-                    <figcaption>{value.singer}</figcaption>
-                  ) : (
-                    <figcaption>가수 정보 없음</figcaption>
-                  )}
-                  <input type="checkbox" id="CheckBtn" />
-                  <label htmlFor="CheckBtn" className="check">
-                    <ul>
-                      <li>
-                        <button
-                          onClick={() => {
-                            addDispatch(ListAdd(value));
-                            if (!playState) playDispatch(true);
-                          }}
-                        >
-                          재생
-                        </button>
-                      </li>
-                      <li>
-                        <button onClick={() => handler(value)}>삭제</button>
-                      </li>
-                    </ul>
-                  </label>
-                </article>
-              );
-            })}
+          <div className="in_wrap">
+            <div className="middle_album">
+              {favoriteState.map((item, index) => {
+                return (
+                  <article className="favorite_albumWrap" key={index}>
+                    <figure>
+                      <button
+                        className="middle_favorite"
+                        onClick={() => favoriteDelete(item)}
+                      >
+                        <img
+                          src="img/delete.png"
+                          alt=""
+                          style={{ filter: "invert(1)" }}
+                        />
+                      </button>
+                      <button
+                        className="middle_play"
+                        onClick={() => play(item, "unshift")}
+                      >
+                        <img src="img/play-icon.png" alt="" />
+                      </button>
+                      <img
+                        src={`${item.thumbnail}`}
+                        alt=""
+                        className="middle-thumbnail"
+                      />
+                    </figure>
+                    <figcaption>
+                      <p>{item.title}</p>
+                      <span>{item.singer}</span>
+                    </figcaption>
+                  </article>
+                );
+              })}
+            </div>
           </div>
         </section>
       ) : null}

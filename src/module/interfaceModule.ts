@@ -9,13 +9,20 @@ export type commonData = {
 export interface Action {
   type: string;
   data?: any;
+  direction?: string;
 }
+
+export type group = {
+  title: string;
+  dataArr: commonData[];
+};
 
 export type stateType = {
   playlist: commonData[];
   favoriteData: commonData[];
   track: string[];
   playState: boolean;
+  groupTrack: group[];
 };
 
 export interface loadContextProps {

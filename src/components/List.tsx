@@ -1,49 +1,93 @@
-import React, { useEffect, useRef } from "react";
-import {
-  ChangeList,
-  FavoriteAdd,
-  removeFavorite,
-  trackUpdate,
-} from "../module/reducer";
-import { useMyContext } from "../module/MyContext";
+import React, { ChangeEvent, useState } from "react";
+import { ChangeList, addGroup, trackUpdate } from "../module/reducer.ts";
+import { useMyContext } from "../module/MyContext.tsx";
 import { commonData } from "../module/interfaceModule";
 
-function List() {
+type props = {
+  playData: commonData;
+  setListToggle: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+function List({ playData, setListToggle }: props) {
   const {
-    favoriteDispatch,
+    play,
     playlist,
-    favoriteState,
     track,
-    playState,
     trackDispatch,
-    playDispatch,
     addDispatch,
+    playState,
+    playDispatch,
+    playIndex,
+    setIndex,
+    groupTitle,
+    setGroupTitle,
+    groupList,
+    groupTrackDispatch,
   } = useMyContext();
 
-  const starRef = useRef<HTMLUListElement>(null);
+  const [shuffleToggle, setShuffle] = useState(false);
+  const [shuffleArray, setArray] = useState<number[] | any>([]);
+  const [listName, setName] = useState(false);
 
-  function favoriteHandler(
-    e: React.ChangeEvent<HTMLInputElement>,
-    value: commonData,
-    index: number
-  ) {
-    if (starRef.current) {
-      if (e.target.checked) {
-        if (!favoriteState.includes(value)) {
-          favoriteDispatch(FavoriteAdd(value));
-          // 즐겨찾기 재생
-        }
-      } else {
-        if (favoriteState.length > 0) {
-          const deleteFavorite: commonData[] = favoriteState.filter(
-            (item) =>
-              item.title !== playlist[index].title &&
-              item.url !== playlist[index].url &&
-              item.thumbnail !== playlist[index].thumbnail
-          );
-          favoriteDispatch(removeFavorite(deleteFavorite));
-          // 즐겨찾기 삭제
-        }
+  function shuffleCheck(e: ChangeEvent, index: number) {
+    const target = e.target as HTMLInputElement;
+    if (target.checked) {
+      setArray((prev) => [...prev, index]);
+    } else {
+      const array = shuffleArray.filter((item) => item !== index);
+      setArray(array);
+    }
+  }
+
+  function shuffleHandler(direction: string) {
+    const newList: commonData[] = [];
+    const newtrack: string[] = [];
+
+    shuffleArray.forEach((item, index) => {
+      const sliceList = playlist.slice(item, item + 1)[0];
+      const sliceTrack = track.slice(item, item + 1)[0];
+      newList.push(sliceList);
+      newtrack.push(sliceTrack);
+
+      if (shuffleArray.length - 1 === index) {
+        setting(newList, newtrack, direction, "end");
+      }
+    });
+
+    function setting(
+      newlist: commonData[],
+      newtrack: string[],
+      type: string,
+      end?: string
+    ) {
+      //
+      const filterList = playlist.filter((item) => !newlist.includes(item));
+      const filterTrack = track.filter((item) => !newtrack.includes(item));
+
+      if (type === "up" && end) {
+        const memoriseIndex = playlist.filter(
+          (item, index) => index === playIndex
+        );
+        const result = [...newlist, ...filterList];
+        const trackResult = [...newtrack, ...filterTrack];
+        const findIndex = result.indexOf(memoriseIndex[0]);
+        setIndex(findIndex);
+        addDispatch(ChangeList(result));
+        trackDispatch(trackUpdate(trackResult, "push"));
+      } else if (type === "down" && end) {
+        const memoriseIndex = playlist.filter(
+          (item, index) => index === playIndex
+        );
+        const result = [...filterList, ...newlist];
+        const trackResult = [...filterTrack, ...newtrack];
+        const findIndex = result.indexOf(memoriseIndex[0]);
+        setIndex(findIndex);
+        addDispatch(ChangeList(result));
+        trackDispatch(trackUpdate(trackResult, "push"));
+      }
+      if (end) {
+        setArray([]);
+        setShuffle(false);
       }
     }
   }
@@ -56,52 +100,179 @@ function List() {
     const newPlayList = [...playlist];
     const prevPlayList = newPlayList.splice(index, 1);
     newPlayList.unshift(...prevPlayList);
-
-    trackUpdate(initialArray);
+    setIndex(0);
+    trackDispatch(trackUpdate(initialArray, "push"));
     addDispatch(ChangeList(newPlayList));
+    if (!playState) playDispatch(true);
   }
 
-  useEffect(() => {
-    if (playlist.length > 0) {
-      const arr: string[] = [];
-      playlist.forEach((item) => arr.push(item.url));
-      trackDispatch(trackUpdate(arr));
-      if (!playState) playDispatch(true);
+  function listGroupHandler() {
+    if (groupTitle !== "") {
+      const object = {
+        title: groupTitle,
+        dataArr: playlist,
+      };
+      const copyArr = [...groupList];
+      copyArr.push(object);
+      groupTrackDispatch(addGroup(copyArr));
+      localStorage.setItem("listGroup", JSON.stringify(copyArr));
+      setName(false);
     }
-  }, [playlist]);
+  }
+
+  function deleteHandler(url: string, index: number) {
+    const newList = playlist.filter((item) => item.url !== url);
+    const newTrack = track.filter((item) => item !== url);
+    addDispatch(ChangeList(newList));
+    trackDispatch(trackUpdate(newTrack, "push"));
+    if (index === track.length - 1) {
+      setIndex(0);
+    }
+    if (newTrack.length === 0) {
+      setListToggle(false);
+    }
+  }
 
   return (
-    <div className="album_list">
-      <p className="playlist">플레이리스트</p>
-      <ul className="list lists" ref={starRef}>
-        {playlist.length > 0
-          ? playlist.map((value, index) => {
-              return (
-                <li className="list" key={index}>
-                  <div className="list_text" onClick={() => directPlay(index)}>
-                    {value.title ? value.title : ""}
-                  </div>
-                  <input
-                    type="checkbox"
-                    className="star"
-                    id={`star${index}`}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      favoriteHandler(e, value, index)
-                    }
-                  />
-                  <label
-                    className={
-                      favoriteState.includes(value)
-                        ? "star_label on"
-                        : "star_label"
-                    }
-                    htmlFor={`star${index}`}
-                  />
-                </li>
-              );
-            })
-          : null}
-      </ul>
+    <div className="list_wrap">
+      {listName ? (
+        <div className="find-form">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="현재 리스트명을 지정해주세요."
+            required
+            onChange={(e) => setGroupTitle(e.target.value)}
+          />
+          <div className="btn_wrap">
+            <button
+              className="btn"
+              onClick={() => {
+                setGroupTitle("");
+                setName(false);
+              }}
+            >
+              취소
+            </button>
+            <button className="btn" onClick={() => listGroupHandler()}>
+              완료
+            </button>
+          </div>
+        </div>
+      ) : null}
+      <div className="right_list">
+        <div className="right_top">
+          <div className="now-info">
+            <p>재생 중인 트랙</p>
+            <p>{playData.title}</p>
+            <div className="now-info-btn-wrap">
+              <button className="nowlistSave" onClick={() => setName(true)}>
+                <img src="img/listadd.jpg" alt="" />
+              </button>
+              <div className="shuffle_wrap">
+                {shuffleToggle ? (
+                  <>
+                    <button
+                      className="album-shuffle up"
+                      onClick={() => shuffleHandler("up")}
+                    >
+                      <img src="img/up.png" alt="" />
+                    </button>
+                    <button
+                      className="album-shuffle down"
+                      onClick={() => shuffleHandler("down")}
+                    >
+                      <img
+                        src="img/up.png"
+                        alt=""
+                        style={{ transform: "rotate(180deg)" }}
+                      />
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    className="album-shuffle"
+                    onClick={() => setShuffle((prev) => !prev)}
+                  >
+                    <img src="img/playlist_shuffle.png" alt="" />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul className="list">
+          {playlist.length > 0 ? (
+            <>
+              {playlist.map((item, index) => {
+                return (
+                  <li key={index}>
+                    <div className="small_album">
+                      <article>
+                        {shuffleToggle ? (
+                          <input
+                            type="checkbox"
+                            checked={shuffleArray.includes(index)}
+                            onChange={(e: ChangeEvent) =>
+                              shuffleCheck(e, index)
+                            }
+                            id={`shuffle-${index}`}
+                            style={{ marginRight: 10 }}
+                          />
+                        ) : null}
+
+                        <figure>
+                          <button
+                            className="middle_play"
+                            onClick={() => play(item, "unshift")}
+                          >
+                            <img src="img/play-icon.png" alt="" />
+                          </button>
+                          <img
+                            src={item.thumbnail}
+                            alt=""
+                            className="middle-thumbnail"
+                            style={{ height: "100%" }}
+                          />
+                        </figure>
+                        <figcaption
+                          onClick={() => {
+                            if (!shuffleToggle) {
+                              directPlay(index);
+                            }
+                          }}
+                        >
+                          <h3
+                            style={
+                              index === playIndex
+                                ? { color: "violet" }
+                                : { color: "#fff" }
+                            }
+                          >
+                            {item.title}
+                          </h3>
+                          <p>{item.singer}</p>
+                        </figcaption>
+                        <div className="list-more-btns">
+                          <button className="list_more">
+                            <img src="img/more-option.png" alt="" />
+                          </button>
+                          <button
+                            className="delete-more"
+                            onClick={() => deleteHandler(item.url, index)}
+                          >
+                            현재 재생목록에서 삭제
+                          </button>
+                        </div>
+                      </article>
+                    </div>
+                  </li>
+                );
+              })}
+            </>
+          ) : null}
+        </ul>
+      </div>
     </div>
   );
 }

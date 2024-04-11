@@ -1,10 +1,11 @@
-import { Action, commonData, stateType } from "./interfaceModule";
+import { Action, commonData, group, stateType } from "./interfaceModule";
 
 export const initialState: stateType = {
   playlist: [],
   favoriteData: [],
   track: [],
   playState: false,
+  groupTrack: [],
 };
 
 const ADDLIST = "ADDLIST";
@@ -13,34 +14,37 @@ const Remove = "Remove";
 const playState = "playState";
 const track = "track";
 const changeTrack = "changeTrack";
+const groupAdd = "groupAdd";
 
-export const ListAdd = (data: commonData | commonData[]) => ({
+export const ListAdd = (
+  data: commonData | commonData[],
+  direction: string
+) => ({
   type: ADDLIST,
   data,
+  direction,
 });
 
-export const trackUpdate = (data: string[]) => ({
+export const trackUpdate = (data: string | string[], direction: string) => ({
   type: track,
   data,
+  direction,
 });
-
-//앨범에 트랙 추가 함수
 
 export const FavoriteAdd = (data: commonData[] | commonData) => ({
   type: FAVORITE,
   data,
 });
 
-//즐겨찾기 추가 함수
-
 export const removeFavorite = (data: commonData[]) => ({
   type: Remove,
   data,
 });
 
-// 즐겨찾기 삭제 함수
-
-// 재생/일시중지 함수
+export const addGroup = (data: group[]) => ({
+  type: groupAdd,
+  data,
+});
 
 export const ChangeList = (data: commonData[]) => ({
   type: changeTrack,
@@ -50,10 +54,27 @@ export const ChangeList = (data: commonData[]) => ({
 const reducer = (state: stateType, action: Action): stateType => {
   switch (action.type) {
     case ADDLIST:
-      const stateCheck: commonData[] | commonData = Array.isArray(action.data)
-        ? [...state.playlist, ...action.data]
-        : [...state.playlist, action.data];
-      const filterList = stateCheck.filter((value, idx, arr) => {
+      const addplay = () => {
+        if (Array.isArray(action.data)) {
+          if (action.direction && action.direction === "unshift") {
+            return [...action.data, ...state.playlist];
+          } else if (action.direction && action.direction === "push") {
+            return [...state.playlist, ...action.data];
+          } else {
+            return [...state.playlist, ...action.data];
+          }
+        } else {
+          if (action.direction && action.direction === "unshift") {
+            return [action.data, ...state.playlist];
+          } else if (action.direction && action.direction === "push") {
+            return [...state.playlist, action.data];
+          } else {
+            return [...state.playlist, action.data];
+          }
+        }
+      };
+
+      const filterList = addplay().filter((value, idx, arr) => {
         return (
           arr.findIndex((item) => {
             return item.url === value.url;
@@ -117,6 +138,12 @@ const reducer = (state: stateType, action: Action): stateType => {
       return {
         ...state,
         playState: action.data,
+      };
+
+    case groupAdd:
+      return {
+        ...state,
+        groupTrack: action.data,
       };
 
     default:
