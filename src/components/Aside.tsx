@@ -1,7 +1,6 @@
 import React from "react";
 import { commonData, group } from "../module/interfaceModule.ts";
 import { useMyContext } from "../module/MyContext.tsx";
-import { play } from "../module/exportFunction.ts";
 
 type props = {
   setData: React.Dispatch<React.SetStateAction<commonData>>;
@@ -15,32 +14,12 @@ function Aside({ setData, setListToggle, initialData, listopen }: props) {
     localStorage.getItem("listGroup") || "[]"
   );
 
-  const {
-    track,
-    playlist,
-    trackDispatch,
-    addDispatch,
-    playDispatch,
-    playState,
-    setIndex,
-    navigate,
-  } = useMyContext();
+  const { navigate, play } = useMyContext();
 
   function playGroupList(index: number) {
     const data = loadGroupList[index].dataArr;
     const trackArr = loadGroupList[index].dataArr.map((item) => item.url);
-    play(
-      "unshift",
-      track,
-      playlist,
-      data,
-      trackDispatch,
-      addDispatch,
-      playDispatch,
-      playState,
-      setIndex,
-      trackArr
-    );
+    play(data, "unshift", trackArr);
   }
 
   return (

@@ -21,7 +21,6 @@ function App() {
 
   const [searchData, setData] = useState<commonData>(initialData);
   const [listopen, setListToggle] = useState(false);
-  const [vw, setvw] = useState(0);
   const [playData, setPlayData] = useState({
     title: "",
     singer: "",
@@ -61,10 +60,7 @@ function App() {
             </div>
           ) : null}
           <Routes>
-            <Route
-              path="/"
-              element={<Home setvw={setvw} listopen={listopen} />}
-            ></Route>
+            <Route path="/" element={<Home listopen={listopen} />}></Route>
 
             <Route
               path="/search"

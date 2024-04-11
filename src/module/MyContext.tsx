@@ -8,7 +8,9 @@ import React, {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import reducer, { initialState } from "./reducer.ts";
-import { Action, commonData, group } from "./interfaceModule";
+import { Action, commonData, group } from "./interfaceModule.ts";
+import { miniPlayer, saveDataHandler } from "./exportFunction.ts";
+import { ListAdd, trackUpdate } from "./reducer.ts";
 
 export const MyContextProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
@@ -24,6 +26,33 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
   const [groupTitle, setGroupTitle] = useState("");
   const [groupTrack, groupTrackDispatch] = useReducer(reducer, initialState);
   const groupList = groupTrack.groupTrack;
+
+  function play(data, type, group?: string[]) {
+    const copyTrack = [...track];
+    const copyPlayList = [...playlist];
+
+    if (group && group.length > 0) {
+      const groupTrack = [...track, ...group];
+      const groupList = [...playlist, ...data];
+      trackDispatch(trackUpdate(groupTrack, type));
+      addDispatch(ListAdd(groupList, type));
+    } else {
+      if (type === "unshift") {
+        copyPlayList.unshift(data);
+        copyTrack.unshift(data.url);
+      } else {
+        copyPlayList.push(data);
+        copyTrack.push(data.url);
+      }
+      trackDispatch(trackUpdate(copyTrack, type));
+      addDispatch(ListAdd(copyPlayList, type));
+      if (type === "unshift") setIndex(0);
+    }
+
+    if (!playState) playDispatch(true);
+    saveDataHandler(data, group);
+    miniPlayer();
+  }
   return (
     <MyContext.Provider
       value={{
@@ -44,6 +73,7 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
         setGroupTitle,
         groupList,
         groupTrackDispatch,
+        play,
       }}
     >
       {children}
@@ -69,6 +99,7 @@ export interface MyContextProps {
   setGroupTitle: React.Dispatch<React.SetStateAction<string>>;
   groupList: group[];
   groupTrackDispatch: React.Dispatch<Action>;
+  play: (data: any, type: string, group?: string[]) => void;
 }
 
 const MyContext = createContext<MyContextProps>({
@@ -89,6 +120,7 @@ const MyContext = createContext<MyContextProps>({
   setGroupTitle: () => {},
   groupList: initialState.groupTrack,
   groupTrackDispatch: () => {},
+  play: (data, type, group?) => {},
 });
 
 export const useMyContext = () => {

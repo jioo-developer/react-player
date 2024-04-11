@@ -1,6 +1,5 @@
-import { Action } from "redux";
 import { commonData } from "./interfaceModule";
-import { FavoriteAdd, ListAdd, trackUpdate } from "./reducer.ts";
+import { FavoriteAdd } from "./reducer.ts";
 
 export function favoriteHandler(
   data: commonData,
@@ -12,49 +11,20 @@ export function favoriteHandler(
   }
 }
 
-const location = window.location.pathname;
+export function miniPlayer() {
+  const location = window.location.pathname;
 
-export function play(
-  type: string,
-  track: string[],
-  playlist: commonData[],
-  data: any,
-  trackDispatch: React.Dispatch<Action>,
-  addDispatch: React.Dispatch<Action>,
-  playDispatch: React.Dispatch<React.SetStateAction<boolean>>,
-  playState: boolean,
-  setIndex: React.Dispatch<React.SetStateAction<number>>,
-  group?: string[]
-) {
-  const copyTrack = [...track];
-  const copyPlayList = [...playlist];
-  if (type === "unshift") {
-    if (group && group.length > 0) {
-      const groupTrack = [...track, ...group];
-      const groupList = [...playlist, ...data];
-      trackDispatch(trackUpdate(groupTrack, "unshift"));
-      addDispatch(ListAdd(groupList, "unshift"));
-    } else {
-      copyPlayList.unshift(data);
-      copyTrack.unshift(data.url);
-      trackDispatch(trackUpdate(copyTrack, "unshift"));
-      addDispatch(ListAdd(copyPlayList, "unshift"));
-    }
-    setIndex(0);
-  } else {
-    if (group && group.length > 0) {
-      const groupTrack = [...track, ...data];
-      const groupList = [...playlist, ...data];
-      trackDispatch(trackUpdate(groupTrack, "push"));
-      addDispatch(ListAdd(groupList, "push"));
-    } else {
-      copyPlayList.push(data);
-      copyTrack.push(data.url);
-      trackDispatch(trackUpdate(copyTrack, "push"));
-      addDispatch(ListAdd(copyPlayList, "push"));
-    }
+  if (location === "/") {
+    setTimeout(() => {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    }, 3000);
   }
+}
 
+export function saveDataHandler(data: any, group?: string[]) {
   const loadSaveData: commonData[] = JSON.parse(
     localStorage.getItem("saveData") || "[]"
   );
@@ -88,15 +58,5 @@ export function play(
       });
       localStorage.setItem("saveData", JSON.stringify(result));
     }
-  }
-
-  if (!playState) playDispatch(true);
-  if (location === "/") {
-    setTimeout(() => {
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth",
-      });
-    }, 3000);
   }
 }

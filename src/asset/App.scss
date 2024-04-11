@@ -11,9 +11,9 @@
 
 .App {
   background: #030303;
+  min-height: 100vh;
   .wrap {
     display: flex;
-    padding-bottom: 75px;
     overflow: hidden;
     min-height: 100vh;
     box-sizing: border-box;
@@ -55,6 +55,7 @@
       .home {
         position: relative;
         z-index: 200;
+        padding-bottom: 75px;
       }
     }
     main > div:not(.play, .control_out_wrap, .addform-wrap, .background-cover) {
@@ -100,5 +101,17 @@
       position: relative;
       z-index: 200;
     }
+  }
+}
+
+@media all and (max-width: 1600px) {
+  .in_wrap {
+    overflow-x: scroll;
+  }
+}
+
+@media all and (max-width: 1000px) {
+  .in_wrap.small {
+    overflow-x: scroll;
   }
 }

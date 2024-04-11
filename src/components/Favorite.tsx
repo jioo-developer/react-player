@@ -1,21 +1,10 @@
 import React, { useEffect } from "react";
 import { useMyContext } from "../module/MyContext.tsx";
 import { FavoriteAdd, removeFavorite } from "../module/reducer.ts";
-import { play } from "../module/exportFunction.ts";
 import { commonData } from "../module/interfaceModule.ts";
 
 function Favorite() {
-  const {
-    track,
-    playlist,
-    trackDispatch,
-    addDispatch,
-    playDispatch,
-    playState,
-    favoriteDispatch,
-    favoriteState,
-    setIndex,
-  } = useMyContext();
+  const { favoriteDispatch, favoriteState, play } = useMyContext();
 
   const parseFavorite = JSON.parse(
     localStorage.getItem("FavoriteName") || "{}"
@@ -69,19 +58,7 @@ function Favorite() {
                       </button>
                       <button
                         className="middle_play"
-                        onClick={() =>
-                          play(
-                            "unshift",
-                            track,
-                            playlist,
-                            item,
-                            trackDispatch,
-                            addDispatch,
-                            playDispatch,
-                            playState,
-                            setIndex
-                          )
-                        }
+                        onClick={() => play(item, "unshift")}
                       >
                         <img src="img/play-icon.png" alt="" />
                       </button>

@@ -1,17 +1,8 @@
 import React from "react";
 import { recomend_data } from "../recomend_data.ts";
 import { useMyContext } from "../module/MyContext.tsx";
-import { play } from "../module/exportFunction.ts";
 function Recommend() {
-  const {
-    track,
-    playlist,
-    playDispatch,
-    addDispatch,
-    playState,
-    trackDispatch,
-    setIndex,
-  } = useMyContext();
+  const { play } = useMyContext();
 
   return (
     <section className="recommend_wrap">
@@ -21,21 +12,7 @@ function Recommend() {
           {recomend_data.map((item, index) => {
             return (
               <article key={index}>
-                <figure
-                  onClick={() =>
-                    play(
-                      "unshift",
-                      track,
-                      playlist,
-                      item,
-                      trackDispatch,
-                      addDispatch,
-                      playDispatch,
-                      playState,
-                      setIndex
-                    )
-                  }
-                >
+                <figure onClick={() => play(item, "unshift")}>
                   <img
                     src={`${item.thumbnail}`}
                     alt=""
