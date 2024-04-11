@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./asset/reset.css";
 import "./asset/App.scss";
 import AddForm from "./components/AddForm.tsx";
-
 import SearchResult from "./components/SearchResult.tsx";
 import Player from "./components/Player.tsx";
 import { commonData } from "./module/interfaceModule.ts";

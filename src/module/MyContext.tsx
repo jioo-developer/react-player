@@ -51,7 +51,7 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
 
     if (!playState) playDispatch(true);
     saveDataHandler(data, group);
-    miniPlayer();
+    miniPlayer(playlist.length);
   }
   return (
     <MyContext.Provider

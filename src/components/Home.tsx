@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Replay from "../components/Replay.tsx";
 import RandomList from "../components/RandomList.tsx";
 import Favorite from "../components/Favorite.tsx";

@@ -11,10 +11,9 @@ export function favoriteHandler(
   }
 }
 
-export function miniPlayer() {
+export function miniPlayer(num: number) {
   const location = window.location.pathname;
-
-  if (location === "/") {
+  if (location === "/" && num === 0) {
     setTimeout(() => {
       window.scrollTo({
         top: document.body.scrollHeight,

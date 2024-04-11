@@ -52,9 +52,9 @@ function Player({ listopen, setListToggle, playData, setPlayData }: props) {
     const player = playRef.getInternalPlayer();
     if (playRef && player) {
       const newtitle = player.videoTitle;
-
+      const nowAlbum = player.playerInfo.videoData.video_id;
       const newthumbNail = playlist.filter((item) => {
-        return item.url.includes(player.playerInfo.videoData.video_id);
+        return item.url.includes(nowAlbum);
       });
       const index = playlist.indexOf(newthumbNail[0]);
       if (playIndex !== index) {
