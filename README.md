@@ -99,3 +99,5 @@ track의 index를 state로 해놓으면 track의 구성이 바뀌어도 현재�
 1. 때에 따라 현재 플레이되는 곡의 정보와 playIndex의 값이 다를 경우 다시 setIndex를 해준다
 2. track의 구성이 다를 때 index을 0으로 바꾸거나 구성에 맞는 index로 바꿔준다.
 3. 곡 셔플 기능을 사용 할 시 플레이리스트에서 index를 먼저 기억 시켜놓고 셔플 한 후 다시 기억된 index를 찾아서 setIndex 해줌
+   <img src="/public/img/error1.jpg">
+   <img src="/public/img/error2.jpg">
