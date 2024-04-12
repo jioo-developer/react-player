@@ -76,23 +76,18 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 <img src="/public/img/track.jpg">
 <br />
 - track[playIndex]에 들어가는 playIndex의 state를 컨트롤
-<hr />
-
-#### 오디오 컨트롤러
-
-- 재생/일시정지 / 볼륨조절 audio.tsx 참조
 
 ### 🧑🏻‍💻 트러블 슈팅
 
-#### 문제발견 : 플레이어는 track 배열의 순서대로 실행하고 있는데 곡 셔플이라던가 지금 재생을 실행 하게 되면 track의 구성이 바뀌면서 index 들도 바뀌게 된다.
+문제발견 : 플레이어는 track 배열의 순서대로 실행하고 있는데 곡 셔플이라던가 지금 재생을 실행 하게 되면 track의 구성이 바뀌면서 index 들도 바뀌게 된다.
 
-#### 문제인식 : 그래서 track을 제어하게 되면 새 곡이 재생되거나, 현재 플레이곡이 끝났을때 현재 플레이중인 곡의 index + 1이 되야하는데,
+문제인식 : 그래서 track을 제어하게 되면 새 곡이 재생되거나, 현재 플레이곡이 끝났을때 현재 플레이중인 곡의 index + 1이 되야하는데,
 
 원래 track 순서의 index +1이 되서 플레이 순서가 이상해진다.
 
-#### 문제 판단 : track의 index를 state로 해놓으면 track의 구성이 바뀌어도 현재곡의 정보가 바뀌지 않는다
+문제 판단 : track의 index를 state로 해놓으면 track의 구성이 바뀌어도 현재곡의 정보가 바뀌지 않는다
 
-#### 해결법 : 일단 playIndex의 원리와 setPlayIndex가 언제 작동 하는 지 알 필요가 있다.
+해결법 : 일단 playIndex의 원리와 setPlayIndex가 언제 작동 하는 지 알 필요가 있다.
 
 playIndex의 작동 원리는 곡이 끝날 때 playIndex + 1이 됨
 
