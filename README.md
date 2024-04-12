@@ -69,14 +69,14 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 <img src="/public/img/play-function.jpg">
 <br />
 - start / play / error 등의 이벤트가 일어 났을 시 콜백함수를 생성하여 실행 (player.tsx 41줄 ~ 94줄 까지 참조)
-<hr />
+
 
 #### 트랙배열 index 컨트롤
 
 <img src="/public/img/track.jpg">
 <br />
 - track[playIndex]에 들어가는 playIndex의 state를 컨트롤
-
+<hr />
 ### 🧑🏻‍💻 트러블 슈팅
 
 #### 문제발견
