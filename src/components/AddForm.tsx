@@ -47,7 +47,6 @@ function AddList({ setData, setListToggle, listopen, initialData }: props) {
       const url: string = urlRef.current.value;
       if (typeof e === "object" && e.key === "Enter" && url !== "") {
         const createParser = youtube_parser(url);
-        console.log(createParser);
         if (createParser) {
           const resultURL = `https://youtube.com/watch?v=${createParser}`;
           try {

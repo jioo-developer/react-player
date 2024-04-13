@@ -50,45 +50,34 @@ function List({ playData, setListToggle }: props) {
       newtrack.push(sliceTrack);
 
       if (shuffleArray.length - 1 === index) {
-        setting(newList, newtrack, direction, "end");
+        setting(newList, newtrack, direction);
       }
     });
 
-    function setting(
-      newlist: commonData[],
-      newtrack: string[],
-      type: string,
-      end?: string
-    ) {
-      //
+    function setting(newlist: commonData[], newtrack: string[], type: string) {
       const filterList = playlist.filter((item) => !newlist.includes(item));
       const filterTrack = track.filter((item) => !newtrack.includes(item));
 
-      if (type === "up" && end) {
-        const memoriseIndex = playlist.filter(
-          (item, index) => index === playIndex
-        );
-        const result = [...newlist, ...filterList];
-        const trackResult = [...newtrack, ...filterTrack];
-        const findIndex = result.indexOf(memoriseIndex[0]);
-        setIndex(findIndex);
-        addDispatch(ChangeList(result));
-        trackDispatch(trackUpdate(trackResult, "push"));
-      } else if (type === "down" && end) {
-        const memoriseIndex = playlist.filter(
-          (item, index) => index === playIndex
-        );
-        const result = [...filterList, ...newlist];
-        const trackResult = [...filterTrack, ...newtrack];
-        const findIndex = result.indexOf(memoriseIndex[0]);
-        setIndex(findIndex);
-        addDispatch(ChangeList(result));
-        trackDispatch(trackUpdate(trackResult, "push"));
+      const memoriseIndex = playlist.filter(
+        (item, index) => index === playIndex
+      );
+
+      let result: commonData[] = [];
+      let trackResult: string[] = [];
+
+      if (type === "up") {
+        result = [...newlist, ...filterList];
+        trackResult = [...newtrack, ...filterTrack];
+      } else if (type === "down") {
+        result = [...filterList, ...newlist];
+        trackResult = [...filterTrack, ...newtrack];
       }
-      if (end) {
-        setArray([]);
-        setShuffle(false);
-      }
+      const findIndex = result.indexOf(memoriseIndex[0]);
+      setIndex(findIndex);
+      addDispatch(ChangeList(result));
+      trackDispatch(trackUpdate(trackResult, "push"));
+      setArray([]);
+      setShuffle(false);
     }
   }
 
