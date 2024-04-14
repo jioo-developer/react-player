@@ -53,6 +53,7 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
     saveDataHandler(data, group);
     miniPlayer(playlist.length);
   }
+
   return (
     <MyContext.Provider
       value={{

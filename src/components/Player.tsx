@@ -62,16 +62,15 @@ function Player({ listopen, setListToggle, playData, setPlayData }: props) {
       }
 
       if (playData.title !== newtitle) {
-        const singer = player.playerInfo.videoData.author;
-        if (singer) {
-          const newObject = {
-            title: newtitle,
-            singer: singer ? singer : "",
-            thumbnail: newthumbNail[0].thumbnail,
-            url: player.playerInfo.videoUrl,
-          };
-          setPlayData(newObject);
-        }
+        const newObject = {
+          title: newtitle,
+          singer: player.playerInfo.videoData.author
+            ? player.playerInfo.videoData.author
+            : "",
+          thumbnail: newthumbNail[0].thumbnail,
+          url: player.playerInfo.videoUrl,
+        };
+        setPlayData(newObject);
       }
     }
   }
@@ -81,7 +80,7 @@ function Player({ listopen, setListToggle, playData, setPlayData }: props) {
   // 곡의 분/초에 관한 함수
 
   function handleProgress() {
-    if (playRef) {
+    if (playRef && playlist.length > 0) {
       const playerCurrentTime = playRef.getCurrentTime(); // 현재 재생 중인 비디오의 시간
       setPlayed(Math.floor(playerCurrentTime)); // 현재 시간을 업데이트
       const progress = playerCurrentTime / playRef.getDuration(); // 진행 상황을 계산
@@ -156,15 +155,12 @@ function Player({ listopen, setListToggle, playData, setPlayData }: props) {
   }
 
   function loopHandler(progress) {
-    if (playlist.length > 0) {
-      //progress &&
-      if (loopConntect && playlist.length > 1) {
-        setLoop(true);
-      } else if (!loopConntect && playlist.length > 1) {
-        setLoop(false);
-      } else {
-        setLoop(true);
-      }
+    if (playlist.length === 1) {
+      setLoop(true);
+    } else if (loopConntect && playlist.length > 1) {
+      setLoop(true);
+    } else if (!loopConntect && playlist.length > 1) {
+      setLoop(false);
     }
   }
   // api에 나온 시점을 분 초 로 계산하는 함수
@@ -195,10 +191,6 @@ function Player({ listopen, setListToggle, playData, setPlayData }: props) {
       }
     }
   }, [modeCheck]);
-
-  useEffect(() => {
-    modeChange();
-  }, []);
 
   return (
     <>

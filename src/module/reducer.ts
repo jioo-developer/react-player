@@ -54,33 +54,26 @@ export const ChangeList = (data: commonData[]) => ({
 const reducer = (state: stateType, action: Action): stateType => {
   switch (action.type) {
     case ADDLIST:
-      const addplay = () => {
-        if (Array.isArray(action.data)) {
-          if (action.direction && action.direction === "unshift") {
-            return [...action.data, ...state.playlist];
-          } else if (action.direction && action.direction === "push") {
-            return [...state.playlist, ...action.data];
-          } else {
-            return [...state.playlist, ...action.data];
-          }
+      let updatedPlaylist;
+      if (Array.isArray(action.data)) {
+        if (action.direction === "unshift") {
+          updatedPlaylist = [...action.data, ...state.playlist];
         } else {
-          if (action.direction && action.direction === "unshift") {
-            return [action.data, ...state.playlist];
-          } else if (action.direction && action.direction === "push") {
-            return [...state.playlist, action.data];
-          } else {
-            return [...state.playlist, action.data];
-          }
+          updatedPlaylist = [...state.playlist, ...action.data];
         }
-      };
+      } else {
+        if (action.direction === "unshift") {
+          updatedPlaylist = [action.data, ...state.playlist];
+        } else {
+          updatedPlaylist = [...state.playlist, action.data];
+        }
+      }
 
-      const filterList = addplay().filter((value, idx, arr) => {
-        return (
-          arr.findIndex((item) => {
-            return item.url === value.url;
-          }) === idx
-        );
-      });
+      const filterList = updatedPlaylist.filter(
+        (value, idx, arr) =>
+          arr.findIndex((item) => item.url === value.url) === idx
+      );
+
       return {
         ...state,
         playlist: filterList,
