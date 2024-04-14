@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { recomend_data } from "../recomend_data.ts";
 import { commonData } from "../module/interfaceModule.ts";
-import { useMyContext } from "../module/MyContext.tsx";
+import SmallAlbum from "./albumComponent/Small.tsx";
 function RandomList() {
   const loadData: commonData[] = JSON.parse(
     localStorage.getItem("saveData") || "[]"
@@ -25,28 +25,13 @@ function RandomList() {
       //비교할 대상 item과 value를 뱌교
     );
   });
-  const { play } = useMyContext();
   return (
     <>
       {loadData.length > 5 ? (
         <div className="random_wrap">
           <h2 className="mb30">빠른 선곡</h2>
           <div className="in_wrap small">
-            <div className="small_album">
-              {randomArray.map((item, index) => {
-                return (
-                  <article key={index} onClick={() => play(item, "unshift")}>
-                    <figure>
-                      <img src={`${item.thumbnail}`} alt="" />
-                    </figure>
-                    <figcaption>
-                      <p>{item.title}</p>
-                      <span>{item.singer}</span>
-                    </figcaption>
-                  </article>
-                );
-              })}
-            </div>
+            <SmallAlbum dataArr={randomArray} />
           </div>
         </div>
       ) : null}

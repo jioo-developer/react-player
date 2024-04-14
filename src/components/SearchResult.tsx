@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { commonData } from "../module/interfaceModule";
 import { useMyContext } from "../module/MyContext.tsx";
 import { favoriteHandler } from "../module/exportFunction.ts";
+import SmallAlbum from "./albumComponent/Small.tsx";
 
 const SearchResult = ({
   searchData,
@@ -53,26 +54,10 @@ const SearchResult = ({
           </div>
         </div>
       </div>
-      <div className="small_album">
-        {playlist.length > 0 ? (
-          <h2 style={{ fontSize: 35, marginBottom: 10 }}>플레이리스트</h2>
-        ) : null}
-        {playlist.length > 0
-          ? playlist.map((item, index) => {
-              return (
-                <article key={index}>
-                  <figure>
-                    <img src={`${item.thumbnail}`} alt="" />
-                  </figure>
-                  <figcaption>
-                    <p>{item.title}</p>
-                    <span>{item.singer}</span>
-                  </figcaption>
-                </article>
-              );
-            })
-          : null}
-      </div>
+      {playlist.length > 0 ? (
+        <h2 style={{ fontSize: 35, marginBottom: 10 }}>플레이리스트</h2>
+      ) : null}
+      <SmallAlbum dataArr={playlist} />
     </div>
   );
 };

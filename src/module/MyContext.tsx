@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import reducer, { initialState } from "./reducer.ts";
+import reducer, { initialState, removeFavorite } from "./reducer.ts";
 import { Action, commonData, group } from "./interfaceModule.ts";
 import { miniPlayer, saveDataHandler } from "./exportFunction.ts";
 import { ListAdd, trackUpdate } from "./reducer.ts";
@@ -54,6 +54,21 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
     miniPlayer(playlist.length);
   }
 
+  function favoriteDelete(DeleteData: commonData) {
+    const defaultArray = [DeleteData];
+    const result = favoriteState.filter(
+      (item: commonData) =>
+        !defaultArray.some(
+          (defaultArray) =>
+            defaultArray.id === item.id &&
+            defaultArray.url === item.url &&
+            defaultArray.title === item.title
+        )
+    );
+
+    favoriteDispatch(removeFavorite(result));
+  }
+
   return (
     <MyContext.Provider
       value={{
@@ -75,6 +90,7 @@ export const MyContextProvider = ({ children }: { children: ReactNode }) => {
         groupList,
         groupTrackDispatch,
         play,
+        favoriteDelete,
       }}
     >
       {children}
@@ -101,6 +117,7 @@ export interface MyContextProps {
   groupList: group[];
   groupTrackDispatch: React.Dispatch<Action>;
   play: (data: any, type: string, group?: string[]) => void;
+  favoriteDelete: (DeleteData: commonData) => void;
 }
 
 const MyContext = createContext<MyContextProps>({
@@ -122,6 +139,7 @@ const MyContext = createContext<MyContextProps>({
   groupList: initialState.groupTrack,
   groupTrackDispatch: () => {},
   play: (data, type, group?) => {},
+  favoriteDelete: (DeleteData) => {},
 });
 
 export const useMyContext = () => {

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useMyContext } from "../module/MyContext.tsx";
-import { FavoriteAdd, removeFavorite } from "../module/reducer.ts";
-import { commonData } from "../module/interfaceModule.ts";
+import { FavoriteAdd } from "../module/reducer.ts";
+import MiddleAlbum from "./albumComponent/Middle.tsx";
 
 function Favorite() {
-  const { favoriteDispatch, favoriteState, play } = useMyContext();
+  const { favoriteDispatch, favoriteState } = useMyContext();
 
   const parseFavorite = JSON.parse(
     localStorage.getItem("FavoriteName") || "{}"
@@ -18,21 +18,6 @@ function Favorite() {
   }, []);
   // 즐겨찾기 리스트 불러오기
 
-  function favoriteDelete(DeleteData: commonData) {
-    const defaultArray = [DeleteData];
-    const result = favoriteState.filter(
-      (item: commonData) =>
-        !defaultArray.some(
-          (defaultArray) =>
-            defaultArray.id === item.id &&
-            defaultArray.url === item.url &&
-            defaultArray.title === item.title
-        )
-    );
-
-    favoriteDispatch(removeFavorite(result));
-  }
-
   return (
     <>
       {favoriteState.length > 0 ? (
@@ -40,43 +25,7 @@ function Favorite() {
           <div className="favorite_header mb30">
             <h2>자주 듣는 노래</h2>
           </div>
-          <div className="in_wrap">
-            <div className="middle_album">
-              {favoriteState.map((item, index) => {
-                return (
-                  <article className="favorite_albumWrap" key={index}>
-                    <figure>
-                      <button
-                        className="middle_favorite"
-                        onClick={() => favoriteDelete(item)}
-                      >
-                        <img
-                          src="img/delete.png"
-                          alt=""
-                          style={{ filter: "invert(1)" }}
-                        />
-                      </button>
-                      <button
-                        className="middle_play"
-                        onClick={() => play(item, "unshift")}
-                      >
-                        <img src="img/play-icon.png" alt="" />
-                      </button>
-                      <img
-                        src={`${item.thumbnail}`}
-                        alt=""
-                        className="middle-thumbnail"
-                      />
-                    </figure>
-                    <figcaption>
-                      <p>{item.title}</p>
-                      <span>{item.singer}</span>
-                    </figcaption>
-                  </article>
-                );
-              })}
-            </div>
-          </div>
+          <MiddleAlbum dataArr={favoriteState} isFavorite={true} />
         </section>
       ) : null}
     </>
