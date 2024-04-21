@@ -81,11 +81,11 @@ TypeScript,React,ReactPlayer,ContextAPI,SCSS
 
 #### 문제발견
 
-플레이어는 track 배열의 순서대로 실행하고 있는데 곡 셔플이라던가 지금 재생을 실행 하게 되면 track의 구성이 바뀌면서<br />index 들도 바뀌게 된다.
+플레이어는 track 배열의 순서대로 실행하고 있는데 곡 셔플이라던가 지금 재생을 실행 하게 되면 track의 구성이 바뀌면서 index 들도 바뀌게 된다.
 
 #### 문제인식
 
-그래서 track을 제어하게 되면 새 곡이 재생되거나, 현재 플레이곡이 끝났을때 현재 플레이중인 곡의 index + 1이 되야하는데,<br />
+그래서 track을 제어하게 되면 새 곡이 재생되거나, 현재 플레이곡이 끝났을때 현재 플레이중인 곡의 index + 1이 되야하는데,
 원래 track 순서의 index +1이 되서 플레이 순서가 이상해진다.
 
 #### 문제 판단
@@ -98,5 +98,5 @@ track의 index를 state로 해놓으면 track의 구성이 바뀌어도 현재�
 
 1. 때에 따라 현재 플레이되는 곡의 정보와 playIndex의 값이 다를 경우 다시 setIndex를 해준다
 2. track의 구성이 다를 때 index을 0으로 바꾸거나 구성에 맞는 index로 바꿔준다.
-3. 곡 셔플 기능을 사용 할 시 플레이리스트에서 index를 먼저 기억 시켜놓고 셔플 한 후 다시 기억된 index를 찾아서 setIndex 해줌
+3. 곡 셔플 기능을 사용 할 시 플레이리스트에서 index를 먼저 기억 시켜놓고 셔플 한 후 다시 기억된<br /> index를 찾아서 setIndex 해줌
    <img src="/public/img/error1.jpg">
