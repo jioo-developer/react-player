@@ -7,16 +7,27 @@ import {
   Text,
   BackHandler,
   TouchableOpacity,
+  ViewStyle,
+  TextStyle,
 } from "react-native";
 import { WebView } from "react-native-webview";
 
-export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const webViewRef = useRef(null);
+interface Styles {
+  container: ViewStyle;
+  webview: ViewStyle;
+  loadingContainer: ViewStyle;
+  errorContainer: ViewStyle;
+  errorText: TextStyle;
+  button: ViewStyle;
+  buttonText: TextStyle;
+}
 
-  // Handle back button press
-  const handleBackPress = () => {
+export default function App(): JSX.Element {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const webViewRef = useRef<WebView | null>(null);
+
+  const handleBackPress = (): boolean => {
     if (webViewRef.current) {
       webViewRef.current.goBack();
       return true;
@@ -31,7 +42,7 @@ export default function App() {
     };
   }, []);
 
-  const handleRefresh = () => {
+  const handleRefresh = (): void => {
     if (webViewRef.current) {
       webViewRef.current.reload();
     }
@@ -62,7 +73,6 @@ export default function App() {
           const { nativeEvent } = syntheticEvent;
           setError(nativeEvent.description);
         }}
-        // 보안 설정
         javaScriptEnabled={true}
         domStorageEnabled={true}
         startInLoadingState={true}
@@ -79,7 +89,7 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create<Styles>({
   container: {
     flex: 1,
     backgroundColor: "#fff",
