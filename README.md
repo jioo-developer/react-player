@@ -10,7 +10,7 @@
 
 ## 📃 using lang
 
-TypeScript,React,ReactPlayer,ContextAPI,SCSS
+TypeScript,React,ReactPlayer,ContextAPI,SCSS,(ReactNative 웹뷰)
 <br />
 <br />
 
